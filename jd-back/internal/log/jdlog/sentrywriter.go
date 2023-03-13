@@ -3,7 +3,6 @@ package jdlog
 import (
 	"errors"
 	"github.com/getsentry/sentry-go"
-	"jd-back/internal/consts/appconst"
 )
 
 type SentryLoggerOut struct {
@@ -15,7 +14,7 @@ func (t SentryLoggerOut) Write(p []byte) (n int, err error) {
 	payload.JsonToScruct(p)
 
 	sentry.WithScope(func(scope *sentry.Scope) {
-		scope.SetLevel(appconst.PecLogZapToSentryLevelsMapping[payload.Level])
+		scope.SetLevel(LogZapToSentryLevelsMapping[payload.Level])
 
 		if payload.Tag != nil {
 			scope.SetTag("tag", string(*payload.Tag))

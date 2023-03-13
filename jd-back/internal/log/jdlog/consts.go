@@ -1,4 +1,4 @@
-package appconst
+package jdlog
 
 import (
 	"github.com/getsentry/sentry-go"
@@ -18,8 +18,8 @@ const (
 	LoggerLevelFatal  LoggerLevelType = "fatal"
 )
 
-// PecLogEnvToZapLevelsMapping converte string para o tipo de nível de log da biblioteca Zap.
-var PecLogEnvToZapLevelsMapping = map[string]zapcore.Level{
+// LogEnvToZapLevelsMapping converte string para o tipo de nível de log da biblioteca Zap.
+var LogEnvToZapLevelsMapping = map[string]zapcore.Level{
 	"debug":  zapcore.DebugLevel,
 	"info":   zapcore.InfoLevel,
 	"warn":   zapcore.WarnLevel,
@@ -29,8 +29,8 @@ var PecLogEnvToZapLevelsMapping = map[string]zapcore.Level{
 	"fatal":  zapcore.FatalLevel,
 }
 
-// PecLogZapToSentryLevelsMapping converte LoggerLevelType para o tipo de nível de log da biblioteca Sentry.
-var PecLogZapToSentryLevelsMapping = map[LoggerLevelType]sentry.Level{
+// LogZapToSentryLevelsMapping converte LoggerLevelType para o tipo de nível de log da biblioteca Sentry.
+var LogZapToSentryLevelsMapping = map[LoggerLevelType]sentry.Level{
 	LoggerLevelDebug:  sentry.LevelDebug,
 	LoggerLevelInfo:   sentry.LevelInfo,
 	LoggerLevelWarn:   sentry.LevelWarning,
@@ -44,5 +44,6 @@ var PecLogZapToSentryLevelsMapping = map[LoggerLevelType]sentry.Level{
 type LoggerTagType string
 
 const (
-	LoggerTagRecovery LoggerTagType = "recovery"
+	LoggerTagRecovery  LoggerTagType = "recovery"
+	LoggerTagMigration LoggerTagType = "migration"
 )

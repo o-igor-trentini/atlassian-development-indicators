@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"jd-back/internal/consts/appconst"
 	"jd-back/internal/consts/envconst"
 	"jd-back/internal/pkg/jdutils"
 	"log"
@@ -13,11 +12,11 @@ import (
 )
 
 type LoggerPayload struct {
-	Level      appconst.LoggerLevelType `json:"level"`
-	Tag        *appconst.LoggerTagType  `json:"tag"`
-	Message    string                   `json:"message"`
-	Function   string                   `json:"function"`
-	StackTrace string                   `json:"stackTrace"`
+	Level      LoggerLevelType `json:"level"`
+	Tag        *LoggerTagType  `json:"tag"`
+	Message    string          `json:"message"`
+	Function   string          `json:"function"`
+	StackTrace string          `json:"stackTrace"`
 }
 
 func (l *LoggerPayload) JsonToScruct(p []byte) {
@@ -31,7 +30,7 @@ func Init() {
 	var envLogLevel = os.Getenv(envconst.LogLevel)
 	var logLevel zapcore.Level
 
-	if v, ok := appconst.PecLogEnvToZapLevelsMapping[envLogLevel]; ok {
+	if v, ok := LogEnvToZapLevelsMapping[envLogLevel]; ok {
 		logLevel = v
 	} else {
 		log.Fatalf(
@@ -41,7 +40,7 @@ func Init() {
 	}
 
 	customWriterKey := "sentry"
-	customWriterPath := customWriterKey + ":pecemails"
+	customWriterPath := customWriterKey + ":jdsentrylog"
 
 	cfg := zap.Config{
 		Level:             zap.NewAtomicLevelAt(logLevel),
