@@ -3,8 +3,8 @@ package migration
 import (
 	"gorm.io/gorm"
 	"jd-back/internal/consts/envconst"
-	"jd-back/internal/database/migration/models"
 	"jd-back/internal/log/jdlog"
+	"jd-go-models/pkg/models"
 	"os"
 )
 
