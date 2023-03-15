@@ -1,8 +1,8 @@
-package jdsentry
+package adisentry
 
 import (
+	"adi-back/internal/consts/envconst"
 	"github.com/getsentry/sentry-go"
-	"jd-back/internal/consts/envconst"
 	"os"
 	"time"
 )

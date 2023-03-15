@@ -1,7 +1,7 @@
-package jdutils
+package adiutils
 
 import (
-	"jd-back/internal/consts/envconst"
+	"adi-back/internal/consts/envconst"
 	"os"
 )
 

@@ -1,4 +1,4 @@
-package jdlog
+package adilog
 
 import (
 	"github.com/getsentry/sentry-go"

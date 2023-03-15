@@ -1,12 +1,12 @@
 package setup
 
 import (
+	"adi-back/internal/consts/envconst"
+	"adi-back/internal/log/adilog"
+	"adi-back/internal/pkg/routes"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"jd-back/internal/consts/envconst"
-	"jd-back/internal/log/jdlog"
-	"jd-back/internal/pkg/routes"
 	"os"
 )
 
@@ -22,6 +22,6 @@ func OpenServer(db *gorm.DB) {
 	address := fmt.Sprintf("%s:%s", os.Getenv(envconst.GinHost), os.Getenv(envconst.GinPort))
 
 	if err := r.Run(address); err != nil {
-		jdlog.Logger.Fatal("erro ao inicializar o servidor; erro: " + err.Error())
+		adilog.Logger.Fatal("erro ao inicializar o servidor; erro: " + err.Error())
 	}
 }

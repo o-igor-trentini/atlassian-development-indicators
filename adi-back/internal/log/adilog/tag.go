@@ -1,4 +1,4 @@
-package jdlog
+package adilog
 
 import "go.uber.org/zap"
 

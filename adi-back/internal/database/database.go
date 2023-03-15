@@ -1,13 +1,13 @@
 package database
 
 import (
+	"adi-back/internal/consts/envconst"
+	"adi-back/internal/log/adilog"
+	"adi-back/internal/pkg/adiutils"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"jd-back/internal/consts/envconst"
-	"jd-back/internal/log/jdlog"
-	"jd-back/internal/pkg/jdutils"
 	"log"
 	"os"
 	"time"
@@ -39,7 +39,7 @@ func OpenDatabase() *gorm.DB {
 		getDatabaseConfig(),
 	)
 	if err != nil {
-		jdlog.Logger.Fatal("Erro ao conectar no banco de dados principal; erro: " + err.Error())
+		adilog.Logger.Fatal("Erro ao conectar no banco de dados principal; erro: " + err.Error())
 	}
 
 	DB = db
@@ -51,7 +51,7 @@ func OpenDatabase() *gorm.DB {
 func getDatabaseConfig() *gorm.Config {
 	var config gorm.Config
 
-	if jdutils.IsProductionMode() {
+	if adiutils.IsProductionMode() {
 		return &config
 	}
 

@@ -1,11 +1,11 @@
-package jdlog
+package adilog
 
 import (
+	"adi-back/internal/consts/envconst"
+	"adi-back/internal/pkg/adiutils"
 	"encoding/json"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"jd-back/internal/consts/envconst"
-	"jd-back/internal/pkg/jdutils"
 	"log"
 	"net/url"
 	"os"
@@ -40,7 +40,7 @@ func Init() {
 	}
 
 	customWriterKey := "sentry"
-	customWriterPath := customWriterKey + ":jdsentrylog"
+	customWriterPath := customWriterKey + ":customLogger"
 
 	cfg := zap.Config{
 		Level:             zap.NewAtomicLevelAt(logLevel),
@@ -70,7 +70,7 @@ func Init() {
 
 // applyDevelopmentConfig aplica as particularidades do ambiente de desenvolvimento.
 func applyDevelopmentConfig(cfg *zap.Config) {
-	if jdutils.IsDevMode() {
+	if adiutils.IsDevMode() {
 		cfg.Development = true
 		cfg.DisableStacktrace = false
 	}

@@ -1,9 +1,9 @@
 package setup
 
 import (
+	"adi-back/internal/log/adilog"
+	"adi-back/internal/log/adisentry"
 	"github.com/joho/godotenv"
-	"jd-back/internal/log/jdlog"
-	"jd-back/internal/log/jdsentry"
 	"log"
 )
 
@@ -11,11 +11,11 @@ import (
 func Setup() {
 	initEnv("./config/.env")
 
-	if err := jdsentry.Init(); err != nil {
+	if err := adisentry.Init(); err != nil {
 		log.Printf("erro ao inicializar o Sentry; erro: %s\n", err)
 	}
 
-	jdlog.Init()
+	adilog.Init()
 }
 
 // initEnv inicializa o arquivo de variáveis de ambiente.

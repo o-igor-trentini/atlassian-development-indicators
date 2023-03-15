@@ -1,10 +1,10 @@
 package main
 
 import (
-	"jd-back/internal/database"
-	"jd-back/internal/database/migration"
-	"jd-back/internal/pkg/jdutils"
-	"jd-back/setup"
+	"adi-back/internal/database"
+	"adi-back/internal/database/migration"
+	"adi-back/internal/pkg/adiutils"
+	"adi-back/setup"
 	"os"
 )
 
@@ -34,7 +34,7 @@ func run() {
 			migration.ExecMigrations(db)
 
 		case "-mr", "--migrate-and-run":
-			if jdutils.IsProductionMode() {
+			if adiutils.IsProductionMode() {
 				migration.ExecMigrations(db)
 			}
 

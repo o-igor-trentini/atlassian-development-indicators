@@ -1,4 +1,4 @@
-package jdutils
+package adiutils
 
 import (
 	"errors"

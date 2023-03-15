@@ -1,11 +1,11 @@
 package migration
 
 import (
+	"adi-back/internal/log/adilog"
+	"adi-back/internal/pkg/adiutils"
+	"adi-go-models/pkg/models"
 	"fmt"
 	"gorm.io/gorm"
-	"jd-back/internal/database/migration/models"
-	"jd-back/internal/log/jdlog"
-	"jd-back/internal/pkg/jdutils"
 	"os"
 	"reflect"
 	"time"
@@ -31,20 +31,20 @@ func ExecMigrations(db *gorm.DB) {
 			Name: function.Name,
 		}
 
-		if err := db.Where("mi_name", current.Name).First(&current).Error; err != nil && !jdutils.IsGormNotFoundError(err) {
+		if err := db.Where("mi_name", current.Name).First(&current).Error; err != nil && !adiutils.IsGormNotFoundError(err) {
 			tx.Rollback()
-			jdlog.Logger.DPanic("Erro ao executar migration ["+current.Name+"]", jdlog.MigrationTag())
+			adilog.Logger.DPanic("Erro ao executar migration ["+current.Name+"]", adilog.MigrationTag())
 			return
 		}
 
 		if current.ID > 0 {
-			jdlog.Logger.Info("Migration ["+current.Name+"] já executada\n", jdlog.MigrationTag())
+			adilog.Logger.Info("Migration ["+current.Name+"] já executada\n", adilog.MigrationTag())
 			continue
 		}
 
 		if err := function.Run(db); err != nil {
 			tx.Rollback()
-			jdlog.Logger.DPanic("Erro ao executar migration ["+current.Name+"]", jdlog.MigrationTag())
+			adilog.Logger.DPanic("Erro ao executar migration ["+current.Name+"]", adilog.MigrationTag())
 			return
 		}
 
@@ -77,6 +77,6 @@ func %s() MigrationExecute {
 	))
 
 	if err := os.WriteFile("./internal/database/migration/migrations/"+fileName+".go", fileContent, 0644); err != nil {
-		jdlog.Logger.Fatal("Não foi possível criar o arquivo de migração", jdlog.MigrationTag())
+		adilog.Logger.Fatal("Não foi possível criar o arquivo de migração", adilog.MigrationTag())
 	}
 }

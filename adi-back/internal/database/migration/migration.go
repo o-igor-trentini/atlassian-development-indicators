@@ -1,10 +1,10 @@
 package migration
 
 import (
+	"adi-back/internal/consts/envconst"
+	"adi-back/internal/log/adilog"
+	"adi-go-models/pkg/models"
 	"gorm.io/gorm"
-	"jd-back/internal/consts/envconst"
-	"jd-back/internal/log/jdlog"
-	"jd-go-models/pkg/models"
 	"os"
 )
 
@@ -13,7 +13,7 @@ func CreateDatabaseStructure(db *gorm.DB) {
 	handleStepError := func(tx *gorm.DB, message string, err error) {
 		if err != nil {
 			tx.Rollback()
-			jdlog.Logger.Fatal(message+"; erro: "+err.Error(), jdlog.MigrationTag())
+			adilog.Logger.Fatal(message+"; erro: "+err.Error(), adilog.MigrationTag())
 		}
 	}
 
