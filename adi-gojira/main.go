@@ -20,7 +20,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("Authorization", "Basic aWdvci50cmVudGluaUByYXN0ZXJnci5jb20uYnI6QVRBVFQzeEZmR0YwOUM5Z1Q3anh4dnpPVlZYbGpDYmgweTY4MnBUbkxzQ1prMEhxVGRCTmYzcU1tdHg4SkdrcHZJVWVmZnlRaUVtLUlqTXVodGVGTk5sU0F5OEF0N0dWWENUY3RNR2szbjVyd001dDZISFJ6YV9adlVZcUVsWnpCVWZQSXBIM1NxMkFMYWk3bVlvWllRNzdzNVZxTmRCVXVTbUFsSkItNnRwLU8wSE94Y1Nld0pBPUI4NjJBMTU5")
+	req.Header.Add("Authorization", "") // add auth
 
 	res, err := client.Do(req)
 	if err != nil {
