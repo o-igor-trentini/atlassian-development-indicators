@@ -3,17 +3,16 @@ module adi-back
 go 1.20
 
 require (
+	adi-go-models v1.0.0
 	github.com/getsentry/sentry-go v0.19.0
 	github.com/gin-gonic/gin v1.9.0
 	github.com/joho/godotenv v1.5.1
 	go.uber.org/zap v1.24.0
 	gorm.io/driver/postgres v1.5.0
 	gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
-	adi-go-models v1.0.0
 )
 
 replace adi-go-models v1.0.0 => ../adi-go-models
-
 
 require (
 	github.com/bytedance/sonic v1.8.0 // indirect
