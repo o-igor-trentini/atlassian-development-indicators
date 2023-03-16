@@ -3,7 +3,8 @@ module adi-back
 go 1.20
 
 require (
-	adi-go-models v1.0.0
+	adi-gomodels v1.0.0
+	adi-gojira v1.0.0
 	github.com/getsentry/sentry-go v0.19.0
 	github.com/gin-gonic/gin v1.9.0
 	github.com/joho/godotenv v1.5.1
@@ -12,7 +13,8 @@ require (
 	gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
 )
 
-replace adi-go-models v1.0.0 => ../adi-go-models
+replace adi-gomodels v1.0.0 => ../adi-gomodels
+replace adi-gojira v1.0.0 => ../adi-gojira
 
 require (
 	github.com/bytedance/sonic v1.8.0 // indirect

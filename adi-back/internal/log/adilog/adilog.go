@@ -34,7 +34,7 @@ func Init() {
 		logLevel = v
 	} else {
 		log.Fatalf(
-			"erro ao inicializar serviço de loggin devido ao nível de log inválido; envLogLevel: %s\n",
+			"erro ao inicializar serviço de loggin devido ao nível de log inválido; envLogLevel: %s",
 			envLogLevel,
 		)
 	}

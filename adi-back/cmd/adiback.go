@@ -3,7 +3,6 @@ package main
 import (
 	"adi-back/internal/database"
 	"adi-back/internal/database/migration"
-	"adi-back/internal/pkg/adiutils"
 	"adi-back/setup"
 	"os"
 )
@@ -34,10 +33,7 @@ func run() {
 			migration.ExecMigrations(db)
 
 		case "-mr", "--migrate-and-run":
-			if adiutils.IsProductionMode() {
-				migration.ExecMigrations(db)
-			}
-
+			migration.ExecMigrations(db)
 			setup.OpenServer(db)
 		}
 	}

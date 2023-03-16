@@ -3,7 +3,7 @@ package migration
 import (
 	"adi-back/internal/log/adilog"
 	"adi-back/internal/pkg/adiutils"
-	"adi-go-models/pkg/models"
+	"adi-gomodels/pkg/models"
 	"fmt"
 	"gorm.io/gorm"
 	"os"
@@ -38,7 +38,7 @@ func ExecMigrations(db *gorm.DB) {
 		}
 
 		if current.ID > 0 {
-			adilog.Logger.Info("Migration ["+current.Name+"] já executada\n", adilog.MigrationTag())
+			adilog.Logger.Info("Migration ["+current.Name+"] já executada", adilog.MigrationTag())
 			continue
 		}
 

@@ -12,7 +12,7 @@ func Setup() {
 	initEnv("./config/.env")
 
 	if err := adisentry.Init(); err != nil {
-		log.Printf("erro ao inicializar o Sentry; erro: %s\n", err)
+		log.Printf("erro ao inicializar o Sentry; erro: %s", err)
 	}
 
 	adilog.Init()

@@ -3,7 +3,7 @@ package migration
 import (
 	"adi-back/internal/consts/envconst"
 	"adi-back/internal/log/adilog"
-	"adi-go-models/pkg/models"
+	"adi-gomodels/pkg/models"
 	"gorm.io/gorm"
 	"os"
 )
