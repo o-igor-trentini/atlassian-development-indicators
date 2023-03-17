@@ -1,40 +1,63 @@
 package gjmodels
 
-type issueFields struct {
-	StatusCategoryChangedate      string       `json:"statuscategorychangedate"`
-	FixVersions                   []string     `json:"fixVersions"`
-	Resolution                    interface{}  `json:"resolution"` // objeto
-	LastViewed                    string       `json:"lastViewed"`
-	Priority                      interface{}  `json:"priority"` // objeto
-	Labels                        []string     `json:"labels"`
-	TimeEstimate                  *interface{} `json:"timeestimate"`
-	AggregateTimeOriginalEstimate *interface{} `json:"aggregatetimeoriginalestimate"`
-	Versions                      []string     `json:"versions"`
-	IssueLinks                    []string     `json:"issuelinks"`
-	Assignee                      *interface{} `json:"assignee"`
-	Status                        interface{}  `json:"status"`             // objeto
-	Components                    interface{}  `json:"components"`         // array
-	Creator                       interface{}  `json:"creator"`            // objeto
-	SubTasks                      interface{}  `json:"subtasks"`           // objeto array
-	Reporter                      interface{}  `json:"reporter"`           // objeto
-	AggregateProgress             interface{}  `json:"aggregateprogress"`  // objeto
-	Progress                      interface{}  `json:"progress"`           // objeto
-	Votes                         interface{}  `json:"votes"`              // objeto
-	IssueType                     interface{}  `json:"issuetype"`          // objeto
-	TimeSpent                     *interface{} `json:"timespent"`          // objeto
-	Project                       interface{}  `json:"project"`            // objeto
-	AggregateTimeSpent            *interface{} `json:"aggregatetimespent"` // objeto
-	ResolutionDate                *string      `json:"resolutiondate"`
-	WorkRatio                     int          `json:"workratio"`
-	Watches                       interface{}  `json:"watches"` // objeto
-	Created                       string       `json:"created"`
-	Updated                       string       `json:"updated"`
-	TimeOriginalEstimate          *interface{} `json:"timeoriginalestimate"`
-	Description                   interface{}  `json:"description"` // objeto
-	Security                      *interface{} `json:"security"`
-	Summary                       string       `json:"summary"`
-	Environment                   *interface{} `json:"environment"`
-	DueDate                       *interface{} `json:"duedate"`
+type IssueStatusCategory struct {
+	ID        uint64 `json:"id"`
+	Key       string `json:"key"`
+	Self      string `json:"self"`
+	Name      string `json:"name"`
+	ColorName string `json:"colorName"`
+}
+
+type IssueStatus struct {
+	ID             string              `json:"id"`
+	Self           string              `json:"self"`
+	Name           string              `json:"name"`
+	Description    string              `json:"description"`
+	IconURL        string              `json:"iconUrl"`
+	StatusCategory IssueStatusCategory `json:"statusCategory"`
+}
+
+type IssueType struct {
+	ID             string `json:"id"`
+	Self           string `json:"self"`
+	Name           string `json:"name"`
+	Description    string `json:"description"`
+	IconURL        string `json:"iconUrl"`
+	Subtask        bool   `json:"subtask"`
+	AvatarID       int    `json:"avatarId"`
+	EntityIdd      string `json:"entityId"`
+	HierarchyLevel int    `json:"hierarchyLevel"`
+}
+
+type IssuePriority struct {
+	ID      string `json:"id"`
+	Self    string `json:"self"`
+	Name    string `json:"name"`
+	IconURL string `json:"iconUrl"`
+}
+
+type SubTasks struct {
+	ID        string        `json:"id"`
+	Key       string        `json:"key"`
+	Self      string        `json:"self"`
+	Summary   string        `json:"summary"`
+	IssueType IssueType     `json:"issuetype"`
+	Priority  IssuePriority `json:"priority"`
+	Status    IssueStatus   `json:"status"`
+}
+
+type IssueFields struct {
+	Created   string        `json:"created"`
+	Updated   string        `json:"updated"`
+	SubTasks  []SubTasks    `json:"subtasks"`
+	Priority  IssuePriority `json:"priority"`
+	IssueType IssueType     `json:"issuetype"`
+	Summary   string        `json:"summary"`
+	Status    IssueStatus   `json:"status"`
+	Project   Project       `json:"project"`
+	Creator   User          `json:"creator"`
+	Reporter  User          `json:"reporter"`
+	Assignee  *User         `json:"assignee"`
 }
 
 type Issue struct {
@@ -42,5 +65,5 @@ type Issue struct {
 	ID     string      `json:"id"`
 	Key    string      `json:"key"`
 	Self   string      `json:"self"`
-	Fields issueFields `json:"fields"`
+	Fields IssueFields `json:"fields"`
 }

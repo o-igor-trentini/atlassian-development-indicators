@@ -1,7 +1,7 @@
 package gjservice
 
 import (
-	"adi-gojira/pkg/gjutils"
+	"adi-gojira/internal/gjutils"
 	"fmt"
 	"net/http"
 )
@@ -12,6 +12,7 @@ type Client struct {
 	httpClient http.Client
 }
 
+// NewClient instância o cliente que realiza as requisições para a API do Jira Software.
 func NewClient(baseURL, jiraUsername, jiraToken string, httpClient http.Client) *Client {
 	return &Client{
 		baseURL:    baseURL + "/rest/api/3/",

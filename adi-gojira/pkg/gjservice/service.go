@@ -1,9 +1,10 @@
 package gjservice
 
 import (
+	"adi-gojira/internal/gjutils"
 	"adi-gojira/pkg/gjmodels"
-	"encoding/json"
-	"io"
+	"fmt"
+	"net/url"
 )
 
 type SearchByJQLPayload struct {
@@ -12,18 +13,14 @@ type SearchByJQLPayload struct {
 }
 
 func (c Client) SearchByJQL(query string) (SearchByJQLPayload, error) {
+	// TODO: Receber map com parâmetros
+
 	data := SearchByJQLPayload{}
 
-	param := "?" + query
-	res, _ := c.get("search" + param)
-
-	body, err := io.ReadAll(res.Body)
+	res, err := c.get("search?" + url.QueryEscape(query))
 	if err != nil {
-		return data, err
+		return data, fmt.Errorf("não foi possível buscar por JQL [erro: %s]", err)
 	}
-	defer res.Body.Close()
 
-	json.Unmarshal(body, &data)
-
-	return data, nil
+	return data, gjutils.ResBodyToStruct(res, &data)
 }
