@@ -12,12 +12,22 @@ type SearchByJQLPayload struct {
 	Issues []gjmodels.Issue `json:"issues"`
 }
 
-func (c Client) SearchByJQL(query string) (SearchByJQLPayload, error) {
-	// TODO: Receber map com parâmetros
+func (c Client) SearchByJQL(queryParams map[string]string) (SearchByJQLPayload, error) {
+	var params string
+
+	if len(queryParams) > 0 {
+		params += "?"
+
+		for k, v := range queryParams {
+			params += k + "=" + url.QueryEscape(v) + "&"
+		}
+
+		params = params[:len(params)-1]
+	}
 
 	data := SearchByJQLPayload{}
 
-	res, err := c.get("search?" + url.QueryEscape(query))
+	res, err := c.get("search" + params)
 	if err != nil {
 		return data, fmt.Errorf("não foi possível buscar por JQL [erro: %s]", err)
 	}

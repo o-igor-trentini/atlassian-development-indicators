@@ -47,17 +47,18 @@ type SubTasks struct {
 }
 
 type IssueFields struct {
-	Created   string        `json:"created"`
-	Updated   string        `json:"updated"`
-	SubTasks  []SubTasks    `json:"subtasks"`
-	Priority  IssuePriority `json:"priority"`
-	IssueType IssueType     `json:"issuetype"`
-	Summary   string        `json:"summary"`
-	Status    IssueStatus   `json:"status"`
-	Project   Project       `json:"project"`
-	Creator   User          `json:"creator"`
-	Reporter  User          `json:"reporter"`
-	Assignee  *User         `json:"assignee"`
+	Created        string        `json:"created"`
+	Updated        string        `json:"updated"`
+	ResolutionDate *string       `json:"resolutiondate"`
+	SubTasks       []SubTasks    `json:"subtasks"`
+	Priority       IssuePriority `json:"priority"`
+	IssueType      IssueType     `json:"issuetype"`
+	Summary        string        `json:"summary"`
+	Status         IssueStatus   `json:"status"`
+	Project        Project       `json:"project"`
+	Creator        User          `json:"creator"`
+	Reporter       User          `json:"reporter"`
+	Assignee       *User         `json:"assignee"`
 }
 
 type Issue struct {
