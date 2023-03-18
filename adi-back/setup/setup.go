@@ -1,8 +1,10 @@
 package setup
 
 import (
+	"adi-back/internal/consts/envconst"
 	"adi-back/internal/log/adilog"
 	"adi-back/internal/log/adisentry"
+	"adi-back/internal/pkg/adiutils/uenv"
 	"github.com/joho/godotenv"
 	"log"
 )
@@ -20,10 +22,50 @@ func Setup() {
 
 // initEnv inicializa o arquivo de variáveis de ambiente.
 func initEnv(path string) {
-
-	// TODO: Teste de envs
-
 	if err := godotenv.Load(path); err != nil {
 		log.Fatalf("erro ao carregar o arquivo de variáveis de ambiente [erro: %s]", err)
+	}
+
+	list := []uenv.CheckEnvTable{
+		{
+			Name:          envconst.AppMode,
+			ExpetedValues: []string{"development", "production"},
+		},
+
+		{
+			Name:          envconst.GinMode,
+			ExpetedValues: []string{"debug", "test", "release"},
+		},
+		{Name: envconst.GinHost},
+		{Name: envconst.GinPort},
+
+		{Name: envconst.DatabaseHost},
+		{
+			Name:          envconst.DatabasePort,
+			ExpetedValues: []string{"5432"},
+		},
+		{Name: envconst.DatabaseUser},
+		{Name: envconst.DatabasePassword},
+		{Name: envconst.DatabaseName},
+		{Name: envconst.DatabaseSchema},
+
+		{
+			Name:          envconst.LogLevel,
+			ExpetedValues: []string{"debug", "info", "warn", "error", "panic", "dpanic", "fatal"},
+		},
+
+		{Name: envconst.SentryDSN},
+		{
+			Name:          envconst.SentryEnvironment,
+			ExpetedValues: []string{"development", "staging", "production"},
+		},
+
+		{Name: envconst.JiraApiBaseUrl},
+		{Name: envconst.JiraApiUsername},
+		{Name: envconst.JiraApiToken},
+	}
+
+	if err := uenv.CheckEnvs(list); err != nil {
+		log.Fatalf(err.Error())
 	}
 }
