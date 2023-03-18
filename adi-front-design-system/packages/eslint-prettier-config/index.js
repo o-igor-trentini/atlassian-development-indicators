@@ -5,45 +5,49 @@ module.exports = {
     node: true,
   },
   extends: [
-    "next/core-web-vitals",
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:@next/eslint-plugin-next/recommended",
+    'next/core-web-vitals',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@next/eslint-plugin-next/recommended',
   ],
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ['react', '@typescript-eslint'],
   rules: {
-    "prettier/prettier": [
-      "error",
+    'prettier/prettier': [
+      'error',
       {
         semi: true,
         singleQuote: true,
         tabWidth: 4,
         printWidth: 120,
-        trailingComma: "all",
-        arrowParens: "always",
-        endOfLine: "auto",
+        trailingComma: 'all',
+        arrowParens: 'always',
+        endOfLine: 'auto',
       },
     ],
-    indent: ["error", 4],
-    "linebreak-style": ["error", "unix"],
-    quotes: ["error", "single"],
-    semi: ["error", "always"],
-    "react/react-in-jsx-scope": "off",
+    indent: ['error', 4],
+    'linebreak-style': ['error', 'unix'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'always'],
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
   },
   settings: {
     react: {
-      version: "detect",
+      version: 'detect',
     },
-  },
+    'import/parsers': {
+      [require.resolve('@typescript-eslint/parser')]: ['.ts', '.tsx', '.d.ts'],
+    },
+  }
 };
