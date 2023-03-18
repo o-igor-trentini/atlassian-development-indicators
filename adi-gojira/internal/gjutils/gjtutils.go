@@ -16,10 +16,6 @@ func BasicAuth(username, password string) string {
 
 // ResBodyToStruct recebe a resposta de uma requisição e converte o body em struct.
 func ResBodyToStruct[T any](res *http.Response, dst *T) error {
-
-	// TODO: Avaliar se está funcionando corretamente
-	// especialmente a parte de baixo
-
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return fmt.Errorf("não foi possível ler o corpo da resposta [erro: %w]", err)

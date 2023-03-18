@@ -25,15 +25,13 @@ func (co demandsImpl) Get(c *gin.Context) {
 	// irá ser recebido por parâmetro
 	queryParams := gojira.BuildJQLParams{
 		Projects: []string{"PEC"},
-		Period: &gojira.Period{
+		Period: gojira.Period{
 			PeriodRange: []time.Time{time.Now().AddDate(0, -2, 0), time.Now()},
 			PeriodType:  gojira.CreatedPeriodType,
 		},
 	}
 
-	// TODO: Alterar para buscar as demais com paginação e dar append
-
-	dataCreated, jqlCreated, err := co.gojiraService.GetCreated(queryParams)
+	dataCreated, jqlCreated, err := co.gojiraService.GetIssues(queryParams)
 	if err != nil {
 		c.JSON(400, gin.H{"erro": err})
 		return
@@ -47,13 +45,27 @@ func (co demandsImpl) Get(c *gin.Context) {
 
 	queryParams.Period.PeriodType = gojira.ResolvedPeriodType
 
-	dataResolved, jqlResolved, err := co.gojiraService.GetResolved(queryParams)
+	dataResolved, jqlResolved, err := co.gojiraService.GetIssues(queryParams)
 	if err != nil {
 		c.JSON(400, gin.H{"erro": err})
 		return
 	}
 
 	resultResolved, totalResolved, err := handle(dataResolved, gojira.ResolvedPeriodType)
+	if err != nil {
+		c.JSON(400, gin.H{"erro": err})
+		return
+	}
+
+	queryParams.Period.PeriodType = gojira.PendentPeriodType
+
+	dataPendent, jqlPendent, err := co.gojiraService.GetIssues(queryParams)
+	if err != nil {
+		c.JSON(400, gin.H{"erro": err})
+		return
+	}
+
+	resultPendent, totalPendent, err := handle(dataPendent, gojira.PendentPeriodType)
 	if err != nil {
 		c.JSON(400, gin.H{"erro": err})
 		return
@@ -69,6 +81,11 @@ func (co demandsImpl) Get(c *gin.Context) {
 			"JQL":    jqlResolved,
 			"total":  totalResolved,
 			"months": resultResolved,
+		},
+		"pendents": gin.H{
+			"JQL":    jqlPendent,
+			"total":  totalPendent,
+			"months": resultPendent,
 		},
 	})
 }

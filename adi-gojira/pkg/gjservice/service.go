@@ -12,22 +12,23 @@ type SearchByJQLPayload struct {
 	Issues []gjmodels.Issue `json:"issues"`
 }
 
+// SearchByJQL busca de forma paginada as tarefas de acordo com o JQL (SQL do Jira).
 func (c Client) SearchByJQL(queryParams map[string]string) (SearchByJQLPayload, error) {
-	var params string
+	var qParams string
 
 	if len(queryParams) > 0 {
-		params += "?"
+		qParams += "?"
 
 		for k, v := range queryParams {
-			params += k + "=" + url.QueryEscape(v) + "&"
+			qParams += k + "=" + url.QueryEscape(v) + "&"
 		}
 
-		params = params[:len(params)-1]
+		qParams = qParams[:len(qParams)-1]
 	}
 
 	data := SearchByJQLPayload{}
 
-	res, err := c.get("search" + params)
+	res, err := c.get("search" + qParams)
 	if err != nil {
 		return data, fmt.Errorf("não foi possível buscar por JQL [erro: %s]", err)
 	}

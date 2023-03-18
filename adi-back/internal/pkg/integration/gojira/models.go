@@ -10,6 +10,8 @@ const (
 	CreatedPeriodType PeriodType = "created"
 	// ResolvedPeriodType período de tempo "resolvida em"
 	ResolvedPeriodType PeriodType = "resolved"
+	// PendentPeriodType período de tempo "criada em" e sem "resolvida em"
+	PendentPeriodType PeriodType = "pendent"
 )
 
 type Period struct {
@@ -20,5 +22,5 @@ type Period struct {
 // BuildJQLParams são os parâmetros passados para gerar uma JQL.
 type BuildJQLParams struct {
 	Projects []string
-	Period   *Period
+	Period   Period
 }

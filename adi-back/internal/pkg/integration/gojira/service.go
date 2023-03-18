@@ -10,11 +10,8 @@ import (
 )
 
 type Service interface {
-	// GetCreated busca as issues criadas em determinado período.
-	GetCreated(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error)
-
-	// GetResolved busca as issues resolvidas em determinado período.
-	GetResolved(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error)
+	// GetIssues busca as issues pelos parâmetros passados.
+	GetIssues(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error)
 }
 
 type serviceImpl struct {
@@ -35,7 +32,7 @@ func NewService() Service {
 	return &serviceImpl{gjService}
 }
 
-func (s serviceImpl) GetCreated(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error) {
+func (s serviceImpl) GetIssues(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error) {
 	JQL = buildJQL(parameters)
 
 	queryParameters := map[string]string{
@@ -45,19 +42,8 @@ func (s serviceImpl) GetCreated(parameters BuildJQLParams) (data gjservice.Searc
 		"startAt":    "0",
 	}
 
-	data, err = s.helpGetByPeriodType(queryParameters)
-
-	return
-}
-
-func (s serviceImpl) GetResolved(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error) {
-	JQL = buildJQL(parameters)
-
-	queryParameters := map[string]string{
-		"jql":        JQL,
-		"fields":     "resolutiondate",
-		"maxResults": "100",
-		"startAt":    "0",
+	if parameters.Period.PeriodType == ResolvedPeriodType {
+		queryParameters["fields"] = "resolutiondate"
 	}
 
 	data, err = s.helpGetByPeriodType(queryParameters)

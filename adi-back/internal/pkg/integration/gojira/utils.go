@@ -6,6 +6,7 @@ import "strings"
 func buildJQL(params BuildJQLParams) string {
 	var query []string
 
+	// projetos
 	if len(params.Projects) > 0 {
 		item := "project"
 
@@ -18,29 +19,34 @@ func buildJQL(params BuildJQLParams) string {
 		query = append(query, item)
 	}
 
-	if params.Period != nil {
-		var item string
-		field := string(params.Period.PeriodType)
+	// período
+	var item string
+	field := string(params.Period.PeriodType)
 
-		for k, v := range params.Period.PeriodRange {
-			switch k {
-			// from
-			case 0:
-				item += field + " >= " + v.Format("2006-01-02")
-				continue
+	for k, v := range params.Period.PeriodRange {
+		switch k {
+		// from
+		case 0:
+			item += field + " >= " + v.Format("2006-01-02")
+			continue
 
-			// until
-			case 1:
-				item += " AND " + field + " <= " + v.Format("2006-01-02")
-				continue
+		// until
+		case 1:
+			item += " AND " + field + " <= " + v.Format("2006-01-02")
+			continue
 
-			default:
-				break
-			}
+		default:
+			break
 		}
-
-		query = append(query, item)
 	}
+
+	if params.Period.PeriodType == PendentPeriodType {
+		item = strings.ReplaceAll(item, field, string(CreatedPeriodType))
+
+		item += " AND resolved = NULL"
+	}
+
+	query = append(query, item)
 
 	return strings.Join(query, " AND ")
 }
