@@ -103,6 +103,7 @@ func (co demandsImpl) getAsync(c chan Response, queryParameters gojira.BuildJQLP
 			Data:  ResponseSubType{},
 			Error: err.Error(),
 		}
+		return
 	}
 
 	c <- Response{
