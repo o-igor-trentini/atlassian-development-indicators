@@ -1,0 +1,22 @@
+{
+  "name": "@adi/react-charts",
+  "version": "1.0.0",
+  "description": "Biblioteca de gráficos para ReactJS",
+  "keywords": [],
+  "author": "Igor Luís Casanova Trentini",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "lint": "eslint src/**/*.ts* --fix"
+  },
+  "devDependencies": {
+    "@adi/ts-config": "*",
+    "@adi/eslint-prettier-config": "*",
+    "tsup": "^6.6.3",
+    "typescript": "^4.9.5"
+  }
+}
