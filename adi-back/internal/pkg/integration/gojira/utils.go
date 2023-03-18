@@ -21,9 +21,9 @@ func buildJQL(params BuildJQLParams) string {
 
 	// período
 	var item string
-	field := string(params.Period.PeriodType)
+	field := string(params.Period.Type)
 
-	for k, v := range params.Period.PeriodRange {
+	for k, v := range params.Period.Range {
 		switch k {
 		// from
 		case 0:
@@ -40,7 +40,7 @@ func buildJQL(params BuildJQLParams) string {
 		}
 	}
 
-	if params.Period.PeriodType == PendentPeriodType {
+	if params.Period.Type == PendentPeriodType {
 		item = strings.ReplaceAll(item, field, string(CreatedPeriodType))
 
 		item += " AND resolved = NULL"

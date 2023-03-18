@@ -15,12 +15,12 @@ const (
 )
 
 type Period struct {
-	PeriodRange []time.Time
-	PeriodType  PeriodType
+	Range []time.Time `form:"range"`
+	Type  PeriodType  `form:"-"`
 }
 
 // BuildJQLParams são os parâmetros passados para gerar uma JQL.
 type BuildJQLParams struct {
-	Projects []string
-	Period   Period
+	Projects []string `form:"projects"`
+	Period   Period   `form:"period"`
 }

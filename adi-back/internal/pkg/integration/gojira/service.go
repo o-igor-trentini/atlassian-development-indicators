@@ -42,7 +42,7 @@ func (s serviceImpl) GetIssues(parameters BuildJQLParams) (data gjservice.Search
 		"startAt":    "0",
 	}
 
-	if parameters.Period.PeriodType == ResolvedPeriodType {
+	if parameters.Period.Type == ResolvedPeriodType {
 		queryParameters["fields"] = "resolutiondate"
 	}
 
