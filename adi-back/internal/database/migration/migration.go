@@ -43,3 +43,46 @@ func createTables(db *gorm.DB) error {
 		&models.Migration{},
 	)
 }
+
+type migrationRun struct {
+	Name string
+	Run  func(*gorm.DB) error
+}
+
+// ExecMigrations busca os arquivos em "internal/database/migration/migrations/*" e os executa.
+func ExecMigrations(db *gorm.DB) {
+	var migrations []interface{}
+
+	tx := db.Begin()
+
+	for _, migration := range migrations {
+		f := reflect.ValueOf(migration)
+		result := f.Call(nil)
+		function := result[0].Interface().(migrationRun)
+
+		current := models.Migration{
+			Name: function.Name,
+		}
+
+		if err := db.Where("mi_name", current.Name).First(&current).Error; err != nil && !adiutils.IsGormNotFoundError(err) {
+			tx.Rollback()
+			adilog.Logger.DPanic("Erro ao executar migration ["+current.Name+"]", adilog.MigrationTag())
+			return
+		}
+
+		if current.ID > 0 {
+			adilog.Logger.Info("Migration ["+current.Name+"] já executada", adilog.MigrationTag())
+			continue
+		}
+
+		if err := function.Run(db); err != nil {
+			tx.Rollback()
+			adilog.Logger.DPanic("Erro ao executar migration ["+current.Name+"]", adilog.MigrationTag())
+			return
+		}
+
+		db.Create(&current)
+	}
+
+	tx.Commit()
+}
