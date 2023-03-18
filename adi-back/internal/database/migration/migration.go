@@ -3,9 +3,11 @@ package migration
 import (
 	"adi-back/internal/consts/envconst"
 	"adi-back/internal/log/adilog"
+	"adi-back/internal/pkg/adiutils"
 	"adi-gomodels/pkg/models"
 	"gorm.io/gorm"
 	"os"
+	"reflect"
 )
 
 // CreateDatabaseStructure cria a estrutura do banco.
