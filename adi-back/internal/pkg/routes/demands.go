@@ -2,15 +2,16 @@ package routes
 
 import (
 	"adi-back/internal/pkg/controllers"
-	"adi-back/internal/pkg/integration/gojira"
+	"adi-back/internal/pkg/servicerepository/demands"
 	"github.com/gin-gonic/gin"
 )
 
-func demands(r *gin.Engine, gojiraService gojira.Service) {
-	co := controllers.NewDemands(gojiraService)
+// newDemands cria os endpoints das demandas.
+func newDemands(r *gin.Engine, demandsService demands.Service) {
+	co := controllers.NewDemands(demandsService)
 
 	base := r.Group("/demands")
 	{
-		base.GET("", co.Get)
+		base.GET("", co.GetCreatedVersusResolved)
 	}
 }

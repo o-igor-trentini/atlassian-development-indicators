@@ -10,8 +10,8 @@ const (
 	CreatedPeriodType PeriodType = "created"
 	// ResolvedPeriodType período de tempo "resolvida em"
 	ResolvedPeriodType PeriodType = "resolved"
-	// PendentPeriodType período de tempo "criada em" e sem "resolvida em"
-	PendentPeriodType PeriodType = "pendent"
+	// PendingPeriodType período de tempo "criada em" e sem "resolvida em"
+	PendingPeriodType PeriodType = "pending"
 )
 
 type Period struct {

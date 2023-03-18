@@ -3,6 +3,7 @@ package routes
 import (
 	"adi-back/internal/pkg/integration/gojira"
 	"adi-back/internal/pkg/middlewares"
+	"adi-back/internal/pkg/servicerepository/demands"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -15,6 +16,7 @@ func Init(r *gin.Engine, db *gorm.DB) {
 	r.Group("", md.Cors)
 
 	gojiraService := gojira.NewService()
+	demandsService := demands.NewService(gojiraService)
 
-	demands(r, gojiraService)
+	newDemands(r, demandsService)
 }

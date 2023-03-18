@@ -40,7 +40,7 @@ func buildJQL(params BuildJQLParams) string {
 		}
 	}
 
-	if params.Period.Type == PendentPeriodType {
+	if params.Period.Type == PendingPeriodType {
 		item = strings.ReplaceAll(item, field, string(CreatedPeriodType))
 
 		item += " AND resolved = NULL"
