@@ -83,7 +83,7 @@ func registerCustomWriterKey(customWriterKey string) {
 	}
 
 	if err := zap.RegisterSink(customWriterKey, func(u *url.URL) (zap.Sink, error) { return SentryLoggerOut{}, nil }); err != nil {
-		log.Fatalf("erro ao registrar chave personalizada de log; erro: %s", err)
+		log.Fatalf("erro ao registrar chave personalizada de log [erro: %s]", err)
 	}
 }
 
@@ -91,7 +91,7 @@ func registerCustomWriterKey(customWriterKey string) {
 func buildLogger(cfg zap.Config) *zap.Logger {
 	logger, err := cfg.Build()
 	if err != nil {
-		log.Fatalf("erro ao inicializar o serviço de logging; erro: %s", err)
+		log.Fatalf("erro ao inicializar o serviço de logging [erro: %s]", err)
 	}
 
 	return logger

@@ -39,7 +39,7 @@ func OpenDatabase() *gorm.DB {
 		getDatabaseConfig(),
 	)
 	if err != nil {
-		adilog.Logger.Fatal("Erro ao conectar no banco de dados principal; erro: " + err.Error())
+		adilog.Logger.Fatal("Erro ao conectar no banco de dados principal [erro: " + err.Error() + "]")
 	}
 
 	DB = db

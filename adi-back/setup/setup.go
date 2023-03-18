@@ -12,7 +12,7 @@ func Setup() {
 	initEnv("./config/.env")
 
 	if err := adisentry.Init(); err != nil {
-		log.Printf("erro ao inicializar o Sentry; erro: %s", err)
+		log.Printf("erro ao inicializar o Sentry [erro: %s]", err)
 	}
 
 	adilog.Init()
@@ -24,6 +24,6 @@ func initEnv(path string) {
 	// TODO: Teste de envs
 
 	if err := godotenv.Load(path); err != nil {
-		log.Fatalf("erro ao carregar o arquivo de variáveis de ambiente; erro: %s", err)
+		log.Fatalf("erro ao carregar o arquivo de variáveis de ambiente [erro: %s]", err)
 	}
 }

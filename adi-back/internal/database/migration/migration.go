@@ -13,7 +13,7 @@ func CreateDatabaseStructure(db *gorm.DB) {
 	handleStepError := func(tx *gorm.DB, message string, err error) {
 		if err != nil {
 			tx.Rollback()
-			adilog.Logger.Fatal(message+"; erro: "+err.Error(), adilog.MigrationTag())
+			adilog.Logger.Fatal(message+" [erro: "+err.Error()+"]", adilog.MigrationTag())
 		}
 	}
 

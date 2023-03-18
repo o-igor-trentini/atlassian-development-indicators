@@ -5,9 +5,6 @@ const (
 )
 
 const (
-	// AppModeTypeDevevelopment é a variante de ambiente que indica estar em desenvolvimento.
 	AppModeTypeDevevelopment string = "development"
-
-	// AppModeTypeProduction é a variante de ambiente que indica estar em produção
-	AppModeTypeProduction string = "production"
+	AppModeTypeProduction    string = "production"
 )

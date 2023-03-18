@@ -22,6 +22,6 @@ func OpenServer(db *gorm.DB) {
 	address := fmt.Sprintf("%s:%s", os.Getenv(envconst.GinHost), os.Getenv(envconst.GinPort))
 
 	if err := r.Run(address); err != nil {
-		adilog.Logger.Fatal("erro ao inicializar o servidor; erro: " + err.Error())
+		adilog.Logger.Fatal("erro ao inicializar o servidor [erro: " + err.Error() + "]")
 	}
 }
