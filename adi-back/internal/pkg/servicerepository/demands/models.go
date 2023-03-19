@@ -1,6 +1,8 @@
 package demands
 
-import "adi-back/internal/pkg/integration/gojira"
+import (
+	"adi-back/third_party/gojira"
+)
 
 type IssuesByPeriodData struct {
 	Values []uint `json:"values"`

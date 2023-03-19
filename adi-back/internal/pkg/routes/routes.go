@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"adi-back/internal/pkg/integration/gojira"
 	"adi-back/internal/pkg/middlewares"
 	"adi-back/internal/pkg/servicerepository/demands"
+	"adi-back/third_party/gojira"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

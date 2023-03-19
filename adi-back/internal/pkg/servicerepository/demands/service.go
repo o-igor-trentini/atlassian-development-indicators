@@ -3,7 +3,7 @@ package demands
 import (
 	"adi-back/internal/pkg/adiutils/udate"
 	"adi-back/internal/pkg/adiutils/uslice"
-	"adi-back/internal/pkg/integration/gojira"
+	gojira2 "adi-back/third_party/gojira"
 	"adi-gojira/pkg/gjservice"
 	"fmt"
 	"strings"
@@ -12,19 +12,19 @@ import (
 
 type Service interface {
 	// GetCreatedVersusResolved busca as issues criadas, resolvidas e pendentes divididas por mês.
-	GetCreatedVersusResolved(params gojira.BuildJQLParams) (GetCreatedVersusResolvedResponse, error)
+	GetCreatedVersusResolved(params gojira2.BuildJQLParams) (GetCreatedVersusResolvedResponse, error)
 }
 
 type serviceImpl struct {
-	gojiraService gojira.Service
+	gojiraService gojira2.Service
 }
 
 // NewService instância o serviço das demandas
-func NewService(gojiraService gojira.Service) Service {
+func NewService(gojiraService gojira2.Service) Service {
 	return &serviceImpl{gojiraService}
 }
 
-func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (GetCreatedVersusResolvedResponse, error) {
+func (s serviceImpl) GetCreatedVersusResolved(params gojira2.BuildJQLParams) (GetCreatedVersusResolvedResponse, error) {
 	var res GetCreatedVersusResolvedResponse
 	errors := make(map[string]string)
 	ch := make(chan IssuesByPeriodDTO)
@@ -32,13 +32,13 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 
 	res.YearMonthRange = udate.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
 
-	params.Period.Type = gojira.CreatedPeriodType
+	params.Period.Type = gojira2.CreatedPeriodType
 	go s.asyncGetIssues(ch, params, res.YearMonthRange)
 
-	params.Period.Type = gojira.ResolvedPeriodType
+	params.Period.Type = gojira2.ResolvedPeriodType
 	go s.asyncGetIssues(ch, params, res.YearMonthRange)
 
-	params.Period.Type = gojira.PendingPeriodType
+	params.Period.Type = gojira2.PendingPeriodType
 	go s.asyncGetIssues(ch, params, res.YearMonthRange)
 
 	issues := []IssuesByPeriodDTO{<-ch, <-ch, <-ch}
@@ -49,11 +49,11 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 		}
 
 		switch v.Type {
-		case gojira.CreatedPeriodType:
+		case gojira2.CreatedPeriodType:
 			res.Created = v
-		case gojira.ResolvedPeriodType:
+		case gojira2.ResolvedPeriodType:
 			res.Resolved = v
-		case gojira.PendingPeriodType:
+		case gojira2.PendingPeriodType:
 			res.Pending = v
 		}
 	}
@@ -68,7 +68,7 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 // asyncGetIssues realiza a busca de forma assíncrona na API do Jira.
 func (s serviceImpl) asyncGetIssues(
 	c chan IssuesByPeriodDTO,
-	params gojira.BuildJQLParams,
+	params gojira2.BuildJQLParams,
 	monthKeys []string,
 ) {
 	issues, JQL, err := s.gojiraService.GetIssues(params)
@@ -105,14 +105,14 @@ func (s serviceImpl) asyncGetIssues(
 // handleGetIssues formata os dados retornados pelo Jira dividindo em issue por ano/mês.
 func (s serviceImpl) handleGetIssues(
 	payload gjservice.SearchByJQLPayload,
-	periodType gojira.PeriodType,
+	periodType gojira2.PeriodType,
 	monthsKeys []string,
 ) ([]uint, error) {
 	values := make([]uint, len(monthsKeys))
 
 	for _, v := range payload.Issues {
 		strDate := v.Fields.Created
-		if periodType == gojira.ResolvedPeriodType {
+		if periodType == gojira2.ResolvedPeriodType {
 			strDate = *v.Fields.ResolutionDate
 		}
 
