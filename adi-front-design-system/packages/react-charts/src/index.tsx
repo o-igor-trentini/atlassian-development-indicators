@@ -3,19 +3,22 @@ import { init, getInstanceByDom } from 'echarts';
 import type { CSSProperties } from 'react';
 import type { EChartsOption, ECharts, SetOptionOpts } from 'echarts';
 
-export type ReactEChartsTheme = 'light' | 'dark';
+export type ChartTheme = 'light' | 'dark';
+export type ChartRenderType = 'svg' | 'canvas';
 
-export interface ReactEChartsProps {
-    theme?: ReactEChartsTheme;
+export interface ChartProps {
+    theme?: ChartTheme;
     option: EChartsOption;
+    rendererType?: ChartRenderType;
     settings?: SetOptionOpts;
     loading?: boolean;
     style?: CSSProperties;
 }
 
-export const ReactECharts: FC<ReactEChartsProps> = ({
+export const Chart: FC<ChartProps> = ({
     theme = 'light',
     option,
+    rendererType = 'canvas',
     settings,
     loading,
     style,
@@ -25,7 +28,10 @@ export const ReactECharts: FC<ReactEChartsProps> = ({
     useEffect(() => {
         // Initialize chart
         let chart: ECharts | undefined;
-        if (chartRef.current !== null) chart = init(chartRef.current, theme);
+        if (chartRef.current !== null)
+            chart = init(chartRef.current, theme, {
+                renderer: rendererType,
+            });
 
         // Add chart resize listener
         // ResizeObserver is leading to a bit janky UX

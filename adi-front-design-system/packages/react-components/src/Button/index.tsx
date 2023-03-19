@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react';
-import { Button as AntdButton, ButtonProps as AntdButtonProps } from 'antd';
+import { Button as AntdButton } from 'antd';
+import type { ButtonProps as AntdButtonProps } from 'antd';
 
 export interface ButtonProps {
     children?: ReactNode;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button, ButtonProps } from '@adi/react-components';
+import { Button } from '@adi/react-components';
+import type { ButtonProps } from '@adi/react-components';
 
 export default {
     title: 'Components/Button',
@@ -11,6 +12,7 @@ export default {
         type: 'button',
         size: 'middle',
         disabled: false,
+        block: false,
         onClick: () => console.log('you clicked me :D'),
     },
     argTypes: {
@@ -21,6 +23,7 @@ export default {
         variant: {
             options: ['default', 'primary', 'ghost', 'dashed', 'link', 'text'],
             control: 'inline-radio',
+            description: 'Define a variante do botão',
         },
         type: {
             options: ['submit', 'button', 'reset'],
@@ -37,6 +40,12 @@ export default {
             control: 'boolean',
             defaultValue: false,
             description: 'Estado desativado do botão',
+        },
+        block: {
+            control: 'boolean',
+            defaultValue: false,
+            description: 'Opção para ajustar a largura do botão à largura do elemento pai',
+            type: 'boolean',
         },
         onClick: {
             action: 'click',

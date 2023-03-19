@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ReactEChartsProps, ReactEChartsTheme } from '@adi/react-charts';
-import { ReactECharts } from '@adi/react-charts';
+import type { ChartProps, ChartTheme } from '@adi/react-charts';
+import { Chart } from '@adi/react-charts';
+import type { EChartsOption } from 'echarts';
 import { useState } from 'react';
-import { Button } from '@adi/react-components';
-import { EChartsOption } from 'echarts';
+import { Button, Row, Col } from '@adi/react-components';
 
 const defaultOption: EChartsOption = {
     xAxis: {
@@ -30,64 +30,71 @@ const defaultOption: EChartsOption = {
 
 export default {
     title: 'Charts/Area/Basic',
-    component: ReactECharts,
+    component: Chart,
     args: {
         option: defaultOption,
     },
     decorators: [
         (Story) => (
-            <div
+            <Row
                 id="chart-decorator-container"
+                justify="center"
+                align="middle"
                 style={{
                     height: '94vh',
                     width: '94vw',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
                 }}
             >
                 {Story()}
-            </div>
+            </Row>
         ),
     ],
-} as Meta<ReactEChartsProps>;
+} as Meta<ChartProps>;
 
-export const Default: StoryObj<ReactEChartsProps> = {};
+export const Default: StoryObj<ChartProps> = {};
 
-export const Theme: StoryObj<ReactEChartsProps> = {
+export const Theme: StoryObj<ChartProps> = {
     args: {
         theme: 'dark',
     },
     decorators: [
         (Story) => {
-            const [theme, setTheme] = useState<ReactEChartsTheme>('dark');
+            const [theme, setTheme] = useState<ChartTheme>('dark');
 
             const handleChangeTheme = (): void => (theme === 'light' ? setTheme('dark') : setTheme('light'));
 
             return (
-                <div
+                <Row
+                    gutter={[0, 12]}
+                    justify="center"
+                    align="top"
                     style={{
                         height: 'calc(94vh - 12px)',
                         width: '94vw',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        gap: 12,
                     }}
                 >
-                    <Button id="change-chart-theme" variant="primary" block onClick={handleChangeTheme}>
-                        Change theme
-                    </Button>
+                    <Col span={24}>
+                        <Button id="change-chart-theme" variant="primary" block onClick={handleChangeTheme}>
+                            Change theme
+                        </Button>
+                    </Col>
 
-                    {Story({ args: { theme, option: defaultOption } as ReactEChartsProps })}
-                </div>
+                    <Col span={24} style={{ height: '100%' }}>
+                        {Story({ args: { theme, option: defaultOption } as ChartProps })}
+                    </Col>
+                </Row>
             );
         },
     ],
 };
 
-export const Loading: StoryObj<ReactEChartsProps> = {
+export const RendererType: StoryObj<ChartProps> = {
+    args: {
+        rendererType: 'svg',
+    },
+};
+
+export const Loading: StoryObj<ChartProps> = {
     args: {
         loading: true,
         option: {
@@ -96,7 +103,7 @@ export const Loading: StoryObj<ReactEChartsProps> = {
     },
 };
 
-export const LoadingWithContent: StoryObj<ReactEChartsProps> = {
+export const LoadingWithContent: StoryObj<ChartProps> = {
     args: {
         loading: true,
     },
