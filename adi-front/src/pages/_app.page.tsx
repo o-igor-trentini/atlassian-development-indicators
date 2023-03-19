@@ -1,7 +1,8 @@
 import type { AppProps } from 'next/app';
 import { FC } from 'react';
 import Head from 'next/head';
-import { ConfigProvider } from '../../../adi-front-design-system/packages/react-components';
+import { ConfigProvider } from '@adi/react-components';
+import { GlobalStyle } from '@/styles/global';
 
 const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
     // TODO: Adicionar favicon dinâmicamente
@@ -16,7 +17,7 @@ const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
             }}
             locale="ptBR"
         >
-            {/*<GlobalStyle />*/}
+            <GlobalStyle />
 
             <Head>
                 <title>ADI - Indicadores de Dev </title>

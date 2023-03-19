@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ChartProps, ChartTheme } from '@adi/react-charts';
+import type { ChartProps, ChartTheme, ChartOption } from '@adi/react-charts';
 import { Chart } from '@adi/react-charts';
-import type { EChartsOption } from 'echarts';
 import { useState } from 'react';
 import { Button, Row, Col } from '@adi/react-components';
 
-const defaultOption: EChartsOption = {
+const defaultOption: ChartOption = {
     xAxis: {
         type: 'category',
         boundaryGap: false,

@@ -15,12 +15,19 @@ const (
 )
 
 type Period struct {
+	// TODO: Alterar Range para struct
 	Range []time.Time `form:"range"`
 	Type  PeriodType  `form:"-"`
 }
 
+type OrderBy struct {
+	Field     string
+	Direction string
+}
+
 // BuildJQLParams são os parâmetros passados para gerar uma JQL.
 type BuildJQLParams struct {
-	Projects []string `form:"projects"`
-	Period   Period   `form:"period"`
+	Projects []string  `form:"projects"`
+	Period   Period    `form:"period"`
+	OrderBy  []OrderBy `form:"orderBy"`
 }

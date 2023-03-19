@@ -13,10 +13,9 @@ func Init(r *gin.Engine, db *gorm.DB) {
 	md := middlewares.New()
 
 	r.NoRoute(md.Cors)
-	r.Group("", md.Cors)
 
 	gojiraService := gojira.NewService()
 	demandsService := demands.NewService(gojiraService)
 
-	newDemands(r, demandsService)
+	newDemands(r, md, demandsService)
 }

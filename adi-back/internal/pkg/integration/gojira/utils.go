@@ -4,6 +4,7 @@ import "strings"
 
 // buildJQL monta a query JQL com base nos parâmetros passados.
 func buildJQL(params BuildJQLParams) string {
+	var JQL string
 	var query []string
 
 	// projetos
@@ -48,5 +49,17 @@ func buildJQL(params BuildJQLParams) string {
 
 	query = append(query, item)
 
-	return strings.Join(query, " AND ")
+	JQL = strings.Join(query, " AND ")
+
+	if len(params.OrderBy) > 0 {
+		var order []string
+
+		for _, v := range params.OrderBy {
+			order = append(order, v.Field+" "+v.Direction)
+		}
+
+		JQL += " ORDER BY " + strings.Join(order, ", ")
+	}
+
+	return JQL
 }

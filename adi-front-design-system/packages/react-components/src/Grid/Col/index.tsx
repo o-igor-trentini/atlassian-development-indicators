@@ -3,7 +3,7 @@ import { Col as AntdCol } from 'antd';
 import type { ColProps as AntdColProps } from 'antd';
 
 export interface ColProps {
-    children: ReactNode | ReactNode[];
+    children?: ReactNode | ReactNode[];
     id?: string;
     flex?: AntdColProps['flex'];
     span?: AntdColProps['span'];

@@ -3,8 +3,8 @@ package demands
 import "adi-back/internal/pkg/integration/gojira"
 
 type IssuesByPeriodData struct {
-	Result map[string]uint `json:"months"`
-	Total  uint            `json:"total"`
+	Values []uint `json:"values"`
+	Total  uint   `json:"total"`
 }
 
 type IssuesByPeriodDTO struct {
@@ -15,7 +15,8 @@ type IssuesByPeriodDTO struct {
 }
 
 type GetCreatedVersusResolvedResponse struct {
-	Created  IssuesByPeriodDTO `json:"created"`
-	Resolved IssuesByPeriodDTO `json:"resolved"`
-	Pending  IssuesByPeriodDTO `json:"pending"`
+	Created        IssuesByPeriodDTO `json:"created"`
+	Resolved       IssuesByPeriodDTO `json:"resolved"`
+	Pending        IssuesByPeriodDTO `json:"pending"`
+	YearMonthRange []string          `json:"yearMonthRange"`
 }

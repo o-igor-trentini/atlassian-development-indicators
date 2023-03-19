@@ -5,12 +5,14 @@ import type { EChartsOption, ECharts, SetOptionOpts } from 'echarts';
 
 export type ChartTheme = 'light' | 'dark';
 export type ChartRenderType = 'svg' | 'canvas';
+export type ChartOption = EChartsOption;
+export type ChartSettings = SetOptionOpts;
 
 export interface ChartProps {
     theme?: ChartTheme;
-    option: EChartsOption;
+    option: ChartOption;
     rendererType?: ChartRenderType;
-    settings?: SetOptionOpts;
+    settings?: ChartSettings;
     loading?: boolean;
     style?: CSSProperties;
 }

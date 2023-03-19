@@ -1,6 +1,8 @@
 package demands
 
 import (
+	"adi-back/internal/pkg/adiutils/udate"
+	"adi-back/internal/pkg/adiutils/uslice"
 	"adi-back/internal/pkg/integration/gojira"
 	"adi-gojira/pkg/gjservice"
 	"fmt"
@@ -28,14 +30,16 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 	ch := make(chan IssuesByPeriodDTO)
 	defer close(ch)
 
+	res.YearMonthRange = udate.GetYearMonthBetweenDates(params.Period.Range[0], params.Period.Range[1])
+
 	params.Period.Type = gojira.CreatedPeriodType
-	go s.asyncGetIssues(ch, params)
+	go s.asyncGetIssues(ch, params, res.YearMonthRange)
 
 	params.Period.Type = gojira.ResolvedPeriodType
-	go s.asyncGetIssues(ch, params)
+	go s.asyncGetIssues(ch, params, res.YearMonthRange)
 
 	params.Period.Type = gojira.PendingPeriodType
-	go s.asyncGetIssues(ch, params)
+	go s.asyncGetIssues(ch, params, res.YearMonthRange)
 
 	issues := []IssuesByPeriodDTO{<-ch, <-ch, <-ch}
 	for _, v := range issues {
@@ -62,21 +66,25 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 }
 
 // asyncGetIssues realiza a busca de forma assíncrona na API do Jira.
-func (s serviceImpl) asyncGetIssues(c chan IssuesByPeriodDTO, queryParameters gojira.BuildJQLParams) {
-	issues, JQL, err := s.gojiraService.GetIssues(queryParameters)
+func (s serviceImpl) asyncGetIssues(
+	c chan IssuesByPeriodDTO,
+	params gojira.BuildJQLParams,
+	monthKeys []string,
+) {
+	issues, JQL, err := s.gojiraService.GetIssues(params)
 	if err != nil {
 		c <- IssuesByPeriodDTO{
-			Type:  queryParameters.Period.Type,
+			Type:  params.Period.Type,
 			Data:  IssuesByPeriodData{},
 			Error: err,
 		}
 		return
 	}
 
-	result, err := s.handleGetIssues(issues, queryParameters.Period.Type)
+	result, err := s.handleGetIssues(issues, params.Period.Type, monthKeys)
 	if err != nil {
 		c <- IssuesByPeriodDTO{
-			Type:  queryParameters.Period.Type,
+			Type:  params.Period.Type,
 			Data:  IssuesByPeriodData{},
 			Error: err,
 		}
@@ -84,9 +92,9 @@ func (s serviceImpl) asyncGetIssues(c chan IssuesByPeriodDTO, queryParameters go
 	}
 
 	c <- IssuesByPeriodDTO{
-		Type: queryParameters.Period.Type,
+		Type: params.Period.Type,
 		Data: IssuesByPeriodData{
-			Result: result,
+			Values: result,
 			Total:  issues.Total,
 		},
 		JQL:   JQL,
@@ -95,11 +103,12 @@ func (s serviceImpl) asyncGetIssues(c chan IssuesByPeriodDTO, queryParameters go
 }
 
 // handleGetIssues formata os dados retornados pelo Jira dividindo em issue por ano/mês.
-func (s serviceImpl) handleGetIssues(payload gjservice.SearchByJQLPayload, periodType gojira.PeriodType) (
-	yearMonthCount map[string]uint,
-	err error,
-) {
-	result := make(map[string]uint)
+func (s serviceImpl) handleGetIssues(
+	payload gjservice.SearchByJQLPayload,
+	periodType gojira.PeriodType,
+	monthsKeys []string,
+) ([]uint, error) {
+	values := make([]uint, len(monthsKeys))
 
 	for _, v := range payload.Issues {
 		strDate := v.Fields.Created
@@ -111,19 +120,15 @@ func (s serviceImpl) handleGetIssues(payload gjservice.SearchByJQLPayload, perio
 
 		date, err := time.Parse("2006-01-02", cutedStrDate)
 		if err != nil {
-			return result, err
+			return values, err
 		}
 
 		key := fmt.Sprintf("%d/%d", date.Year(), date.Month())
 
-		if v, exist := result[key]; exist {
-			result[key] = v + 1
-		} else {
-			result[key] = 1
+		if i := uslice.Index(monthsKeys, key); i != -1 {
+			values[i] += 1
 		}
 	}
 
-	yearMonthCount = result
-
-	return
+	return values, nil
 }

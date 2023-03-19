@@ -3,7 +3,7 @@ import { Row as AntdRow } from 'antd';
 import type { RowProps as AntdRowProps } from 'antd';
 
 export interface RowProps {
-    children: ReactNode | ReactNode[];
+    children?: ReactNode | ReactNode[];
     id?: string;
     gutter?: AntdRowProps['gutter'];
     justify?: AntdRowProps['justify'];
