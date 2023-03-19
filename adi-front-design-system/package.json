@@ -4,6 +4,7 @@
     "packages/*"
   ],
   "scripts": {
+    "lint": "turbo run lint --parallel",
     "dev": "turbo run dev --parallel",
     "build": "turbo run build"
   },

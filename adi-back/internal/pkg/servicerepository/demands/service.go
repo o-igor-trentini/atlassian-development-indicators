@@ -37,13 +37,8 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 	params.Period.Type = gojira.PendingPeriodType
 	go s.asyncGetIssues(ch, params)
 
-	i := 0
-	for v := range ch {
-		// verifica se já teve 3 retornos (created, resolved, pending)
-		if i == 2 {
-			break
-		}
-
+	issues := []IssuesByPeriodDTO{<-ch, <-ch, <-ch}
+	for _, v := range issues {
 		if v.Error != nil {
 			errors[string(v.Type)] = v.Error.Error()
 			continue
@@ -57,8 +52,6 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 		case gojira.PendingPeriodType:
 			res.Pending = v
 		}
-
-		i++
 	}
 
 	if len(errors) > 0 {
