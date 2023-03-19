@@ -14,9 +14,13 @@ const (
 	PendingPeriodType PeriodType = "pending"
 )
 
+type PeriodRange struct {
+	From  time.Time `form:"from"`
+	Until time.Time `form:"until"`
+}
+
 type Period struct {
-	// TODO: Alterar Range para struct
-	Range []time.Time `form:"range"`
+	Range PeriodRange `form:"range"`
 	Type  PeriodType  `form:"-"`
 }
 

@@ -24,22 +24,8 @@ func buildJQL(params BuildJQLParams) string {
 	var item string
 	field := string(params.Period.Type)
 
-	for k, v := range params.Period.Range {
-		switch k {
-		// from
-		case 0:
-			item += field + " >= " + v.Format("2006-01-02")
-			continue
-
-		// until
-		case 1:
-			item += " AND " + field + " <= " + v.Format("2006-01-02")
-			continue
-
-		default:
-			break
-		}
-	}
+	item += field + " >= " + params.Period.Range.From.Format("2006-01-02")
+	item += " AND " + field + " <= " + params.Period.Range.Until.Format("2006-01-02")
 
 	if params.Period.Type == PendingPeriodType {
 		item = strings.ReplaceAll(item, field, string(CreatedPeriodType))
@@ -51,6 +37,7 @@ func buildJQL(params BuildJQLParams) string {
 
 	JQL = strings.Join(query, " AND ")
 
+	// order
 	if len(params.OrderBy) > 0 {
 		var order []string
 

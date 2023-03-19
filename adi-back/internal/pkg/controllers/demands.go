@@ -26,7 +26,10 @@ func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
 	params := gojira.BuildJQLParams{
 		Projects: []string{"PEC"},
 		Period: gojira.Period{
-			Range: []time.Time{time.Now().AddDate(0, -2, 0), time.Now()},
+			Range: gojira.PeriodRange{
+				From:  time.Now().AddDate(0, -2, 0),
+				Until: time.Now(),
+			},
 		},
 	}
 

@@ -30,7 +30,7 @@ func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (Get
 	ch := make(chan IssuesByPeriodDTO)
 	defer close(ch)
 
-	res.YearMonthRange = udate.GetYearMonthBetweenDates(params.Period.Range[0], params.Period.Range[1])
+	res.YearMonthRange = udate.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
 
 	params.Period.Type = gojira.CreatedPeriodType
 	go s.asyncGetIssues(ch, params, res.YearMonthRange)
