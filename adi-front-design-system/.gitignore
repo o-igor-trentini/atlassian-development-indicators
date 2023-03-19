@@ -1,1 +1,5 @@
-dist
+# Storybook
+storybook-static
+
+# Turborepo
+.turbo

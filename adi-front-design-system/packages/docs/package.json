@@ -6,6 +6,7 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src/**/*.ts* --fix",
     "dev": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
     "build": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages"
@@ -22,12 +23,13 @@
     "@storybook/testing-library": "^0.0.13",
     "@vitejs/plugin-react": "^3.0.1",
     "babel-loader": "^8.3.0",
+    "turbo": "^1.8.3",
     "vite": "^4.0.4"
   },
   "dependencies": {
     "@adi/eslint-prettier-config": "*",
-    "@adi/react-components": "*",
     "@adi/react-charts": "*",
+    "@adi/react-components": "*",
     "@adi/ts-config": "*",
     "@storybook/addon-a11y": "^6.5.16",
     "@storybook/addon-docs": "^6.5.16",
