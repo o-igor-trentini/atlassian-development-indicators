@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import { ConfigProvider as AntdConfigProvider } from 'antd';
+import { ConfigProvider as AntdConfigProvider, theme as AntdTheme } from 'antd';
 import type { ThemeConfig } from 'antd';
 import ptBRLocale from 'antd/lib/locale/pt_BR';
 import enLocale from 'antd/lib/locale/en_GB';
@@ -9,6 +9,8 @@ export interface ConfigProviderProps {
     theme: ThemeConfig;
     locale: 'ptBR' | 'en';
 }
+
+export const AppTheme = AntdTheme;
 
 export const ConfigProvider: FC<ConfigProviderProps> = ({ children, theme, locale = 'ptBR' }): JSX.Element => {
     return (

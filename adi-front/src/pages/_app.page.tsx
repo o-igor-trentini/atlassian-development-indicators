@@ -1,8 +1,10 @@
 import type { AppProps } from 'next/app';
 import { FC } from 'react';
 import Head from 'next/head';
-import { ConfigProvider } from '@adi/react-components';
+import { AppTheme, ConfigProvider } from '@adi/react-components';
 import { GlobalStyle } from '@/styles/global';
+
+const { defaultAlgorithm } = AppTheme;
 
 const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
     // TODO: Adicionar favicon dinâmicamente
@@ -10,8 +12,9 @@ const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
     return (
         <ConfigProvider
             theme={{
+                algorithm: defaultAlgorithm,
                 token: {
-                    colorPrimary: 'red',
+                    colorPrimary: '#00FF00',
                     borderRadius: 6,
                 },
             }}

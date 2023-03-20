@@ -22,16 +22,25 @@ func NewDemands(demandsService demands.Service) DemandsController {
 }
 
 func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
-	// irá ser recebido por parâmetro
-	params := gojira.BuildJQLParams{
-		Projects: []string{"PEC"},
-		Period: gojira.Period{
-			Range: gojira.PeriodRange{
-				From:  time.Now().AddDate(0, -2, 0),
-				Until: time.Now(),
-			},
-		},
+	type bindQueryDTO struct {
+		gojira.BuildJQLParams
+		From  time.Time `form:"from" binding:"required"`
+		Until time.Time `form:"until" binding:"required"`
 	}
+
+	var (
+		dto    bindQueryDTO
+		params gojira.BuildJQLParams
+	)
+
+	if err := c.ShouldBindQuery(&dto); err != nil {
+		c.JSON(422, err)
+		return
+	}
+
+	params = dto.BuildJQLParams
+	params.Period.Range.From = dto.From
+	params.Period.Range.Until = dto.Until
 
 	response, err := co.demandsService.GetCreatedVersusResolved(params)
 	if err != nil {

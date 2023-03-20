@@ -1,111 +1,44 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
-import { Button, Col, Row } from '@adi/react-components';
-import type { ChartOption } from '@adi/react-charts';
-import { Chart } from '@adi/react-charts';
+import { useState } from 'react';
+import { Col, Row } from '@adi/react-components';
+import { DemandsChart } from '@/pages/components/DemandsChart';
+import { FormSearch, SearchForm } from '@/pages/components/SearchForm';
 import { Demands } from '@/@types/demands';
 import { getCreatedVersusResolved } from '@/pages/api/demands.api';
+import { getCreatedVersusResolvedProps } from '@/pages/api/types';
 
 const Home: FC = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const getData = async (): Promise<void> => {
+    const getDemands = async (parameters: getCreatedVersusResolvedProps): Promise<void> => {
         try {
             setLoading(true);
 
-            setDemands(await getCreatedVersusResolved());
+            setDemands(await getCreatedVersusResolved(parameters));
         } catch (err: unknown) {
-            console.log('### err', err);
+            alert(err);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleClick = () => getData();
-
-    const defaultOption: ChartOption = {
-        legend: {
-            data: demands?.yearMonthRange,
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                label: {
-                    // TODO: Alterar para cor primária TOKEN do Antd
-                    backgroundColor: 'red',
+    const handleSearch = (values: FormSearch): void => {
+        getDemands({
+            projects: ['PEC'],
+            period: {
+                range: {
+                    from: values.from,
+                    until: values.until,
                 },
             },
-        },
-
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: demands?.yearMonthRange,
-        },
-        yAxis: {
-            type: 'value',
-        },
-        series: [
-            {
-                name: 'Criadas',
-                data: demands?.created.data.values,
-                type: 'line',
-                smooth: true,
-                areaStyle: {
-                    color: 'rgba(255, 105, 97, 0.6)',
-                },
-                lineStyle: {
-                    color: 'rgba(255, 105, 97, 0.8)',
-                },
-                itemStyle: {
-                    color: 'rgb(255, 105, 97)',
-                },
-            },
-            {
-                name: 'Resolvidas',
-                data: demands?.resolved.data.values,
-                type: 'line',
-                smooth: true,
-                areaStyle: {
-                    color: 'rgba(189, 236, 182, 0.6)',
-                },
-                lineStyle: {
-                    color: 'rgba(189, 236, 182, 0.8)',
-                },
-                itemStyle: {
-                    color: 'rgb(189, 236, 182)',
-                },
-            },
-            {
-                name: 'Pendentes',
-                data: demands?.pending.data.values,
-                type: 'line',
-                smooth: true,
-                areaStyle: {
-                    color: 'rgba(121, 210, 230, 0.6)',
-                },
-                lineStyle: {
-                    color: 'rgba(121, 210, 230, 0.8)',
-                },
-                itemStyle: {
-                    color: 'rgb(121, 210, 230)',
-                },
-            },
-        ],
+        }).then();
     };
-
-    useEffect(() => {
-        getData().then();
-    }, []);
 
     return (
         <Row gutter={[0, 12]} justify="center" align="top" style={{ height: '100vh' }}>
             <Col span={24}>
-                <Button id="search" variant="primary" onClick={handleClick}>
-                    Buscar
-                </Button>
+                <SearchForm onSubmit={handleSearch} />
             </Col>
 
             <Row gutter={[0, 12]} justify="start" align="top">
@@ -131,8 +64,8 @@ const Home: FC = (): JSX.Element => {
                 </Col>
             </Row>
 
-            <Col span={24} style={{ height: '80%' }}>
-                <Chart loading={loading} option={defaultOption} />
+            <Col span={24} style={{ height: '600px' }}>
+                <DemandsChart data={demands} loading={loading} />
             </Col>
         </Row>
     );

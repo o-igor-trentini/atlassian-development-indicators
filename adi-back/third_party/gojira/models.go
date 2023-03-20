@@ -15,23 +15,23 @@ const (
 )
 
 type PeriodRange struct {
-	From  time.Time `form:"from"`
-	Until time.Time `form:"until"`
+	From  time.Time `json:"from" bingind:"required"`
+	Until time.Time `json:"until" bingind:"required"`
 }
 
 type Period struct {
-	Range PeriodRange `form:"range"`
-	Type  PeriodType  `form:"-"`
+	Range PeriodRange `json:"range" bingind:"required"`
+	Type  PeriodType  `json:"-"`
 }
 
 type OrderBy struct {
-	Field     string
-	Direction string
+	Field     string `json:"field" bingind:"required"`
+	Direction string `json:"direction" bingind:"required"`
 }
 
 // BuildJQLParams são os parâmetros passados para gerar uma JQL.
 type BuildJQLParams struct {
-	Projects []string  `form:"projects"`
-	Period   Period    `form:"period"`
-	OrderBy  []OrderBy `form:"orderBy"`
+	Projects []string  `form:"projects[]" binding:"required"`
+	Period   Period    `form:"period" binding:"required"`
+	OrderBy  []OrderBy `form:"orderBy[]"`
 }
