@@ -23,13 +23,23 @@ func GetYearMonthBetweenDates(t1, t2 time.Time) []string {
 	// TODO: Arrumar quando é ano diferente
 
 	yearDiff := y2 - y1
+	//lastMonth := 12
+
+	// TODO: Arrumar cálculo de diferença
 
 	// ano
 	for i := 0; i <= yearDiff; i++ {
 		// mês
-		for j := m1 - 1; j < m2; j++ {
-			interval = append(interval, fmt.Sprintf("%d/%d", y1+i, m1+j))
+		if i == yearDiff {
+			for j := m1 - 1; j < m2; j++ {
+				interval = append(interval, fmt.Sprintf("%d/%d", y1+i, m1+j))
+			}
+			break
 		}
+
+		//for j := m1; j <= lastMonth; j++ {
+		//	interval = append(interval, fmt.Sprintf("%d/%d", y2-yearDiff+i, j))
+		//}
 	}
 
 	return interval
