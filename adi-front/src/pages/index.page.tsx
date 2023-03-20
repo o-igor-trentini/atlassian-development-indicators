@@ -25,7 +25,7 @@ const Home: FC = (): JSX.Element => {
 
     const handleSearch = (values: FormSearch): void => {
         getDemands({
-            projects: ['PEC'],
+            projects: values.projects,
             period: {
                 range: {
                     from: values.from,

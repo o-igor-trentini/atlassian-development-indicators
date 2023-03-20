@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Button, Col, DatePicker, Form, Row } from '@adi/react-components';
+import { FC, useEffect } from 'react';
+import { Button, Col, DatePicker, Form, Row, Select, SelectOptions } from '@adi/react-components';
 import { FormItem, useForm } from '@adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -13,7 +13,7 @@ const today = dayjs();
 const twoWeeksAgo = today.clone().subtract(15, 'days');
 
 const initialValues: FormSearch = {
-    projects: ['PEC'],
+    projects: [],
     from: twoWeeksAgo,
     until: today,
 };
@@ -25,26 +25,38 @@ interface SearchFormProps {
 export const SearchForm: FC<SearchFormProps> = ({ onSubmit }): JSX.Element => {
     const [form] = useForm<FormSearch>();
 
+    const projectOptions: SelectOptions = [
+        {
+            label: 'PeC',
+            value: 'PEC',
+        },
+        {
+            label: 'Risk',
+            value: 'RISK1',
+        },
+        {
+            label: 'Random',
+            value: 'RAN',
+        },
+    ];
+
     const handleSubmit = (values: FormSearch): void => onSubmit(values);
+
+    useEffect(() => {
+        // Marcar todos os projetos como padrão
+        form.setFieldsValue({ projects: projectOptions.map(({ value }) => value) });
+    }, [projectOptions]);
 
     return (
         <Form id="search-demands" form={form} initialValues={initialValues} onSubmit={handleSubmit}>
             <Row gutter={12} justify="center" align="middle">
-                {/*<Col xs={24} md={11}>
-
-                TODO: Adicionar select com multiple
-
-                    <FormItem
-                        name="projects"
-                        label="De"
-                        tooltip="A busca será feita pelo valor maior ou igual ao deste campo"
-                        rules={[{ required: true }]}
-                    >
-                        <DatePicker id="from" block format="DD/MM/YYYY" />
+                <Col xs={24} md={8}>
+                    <FormItem name="projects" label="Projetos" rules={[{ required: true }]}>
+                        <Select id="projects" mode="multiple" options={projectOptions} />
                     </FormItem>
-                </Col>*/}
+                </Col>
 
-                <Col xs={24} md={11}>
+                <Col xs={24} md={6}>
                     <FormItem
                         name="from"
                         valuePropName="date"
@@ -56,7 +68,7 @@ export const SearchForm: FC<SearchFormProps> = ({ onSubmit }): JSX.Element => {
                     </FormItem>
                 </Col>
 
-                <Col xs={24} md={11}>
+                <Col xs={24} md={6}>
                     <FormItem
                         name="until"
                         valuePropName="date"

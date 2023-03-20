@@ -7,6 +7,7 @@ export interface DatePickerProps {
     value?: AntdDatePickerProps['value'];
     defaultValue?: AntdDatePickerProps['defaultValue'];
     defaultPickerValue?: AntdDatePickerProps['defaultPickerValue'];
+    placeholder?: AntdDatePickerProps['placeholder'];
     allowClear?: boolean;
     disabled?: boolean;
     block?: boolean;
@@ -27,6 +28,7 @@ export const DatePicker: FC<DatePickerProps> = ({
     value,
     defaultValue,
     defaultPickerValue,
+    placeholder,
     allowClear,
     disabled,
     disabledDate,
@@ -44,10 +46,10 @@ export const DatePicker: FC<DatePickerProps> = ({
     return (
         <AntdDatePicker
             id={'dtp-' + id}
-            autoComplete="off"
             value={value}
             defaultValue={defaultValue}
             defaultPickerValue={defaultPickerValue}
+            placeholder={placeholder}
             allowClear={allowClear}
             disabled={disabled}
             disabledDate={disabledDate}

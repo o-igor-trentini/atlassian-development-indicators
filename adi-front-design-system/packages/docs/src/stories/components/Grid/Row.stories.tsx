@@ -1,7 +1,6 @@
-import { Row } from '@adi/react-components';
 import type { RowProps } from '@adi/react-components';
+import { Row } from '@adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
-import { ChartProps } from '@adi/react-charts';
 
 export default {
     title: 'Components/Grid/Row',
@@ -37,4 +36,4 @@ export default {
     },
 } as Meta<RowProps>;
 
-export const Default: StoryObj<ChartProps> = {};
+export const Default: StoryObj<RowProps> = {};
