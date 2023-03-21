@@ -1,5 +1,5 @@
 export { ConfigProvider, AppTheme } from './ConfigProvider';
-export type { ConfigProviderProps } from './ConfigProvider';
+export type { ConfigProviderProps, ThemeAlgorithm } from './ConfigProvider';
 
 export { Button } from './Button';
 export type { ButtonProps } from './Button';
@@ -26,3 +26,6 @@ export type { CardProps } from './Card';
 
 export { Text } from './Text';
 export type { TextProps } from './Text';
+
+export { Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';

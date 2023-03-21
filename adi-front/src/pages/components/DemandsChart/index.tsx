@@ -26,11 +26,11 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
             backgroundColor: token.colorBgBase,
             borderRadius: token.borderRadius,
         },
-        // toolbox: {
-        //     feature: {
-        //         saveAsImage: {},
-        //     },
-        // },
+        toolbox: {
+            feature: {
+                saveAsImage: {},
+            },
+        },
 
         xAxis: {
             type: 'category',
@@ -47,13 +47,15 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
                 type: 'line',
                 smooth: true,
                 areaStyle: {
-                    color: 'rgba(255, 49, 49, 0.6)',
+                    color: '#FF0000',
+                    opacity: 0.6,
                 },
                 lineStyle: {
-                    color: 'rgba(255, 49, 49, 0.8)',
+                    color: '#FF0000',
+                    opacity: 0.8,
                 },
                 itemStyle: {
-                    color: 'rgb(255, 49, 49)',
+                    color: '#FF0000',
                 },
                 emphasis: {
                     focus: 'series',
@@ -74,13 +76,15 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
                 type: 'line',
                 smooth: true,
                 areaStyle: {
-                    color: 'rgba(80, 200, 120, 0.6)',
+                    color: '#32CD32',
+                    opacity: 0.6,
                 },
                 lineStyle: {
-                    color: 'rgba(80, 200, 120, 0.8)',
+                    color: '#32CD32',
+                    opacity: 0.8,
                 },
                 itemStyle: {
-                    color: 'rgb(80, 200, 120)',
+                    color: '#32CD32',
                 },
                 emphasis: {
                     focus: 'series',
@@ -101,13 +105,15 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
                 type: 'line',
                 smooth: true,
                 areaStyle: {
-                    color: 'rgba(0, 150, 255, 0.6)',
+                    color: '#0077B6',
+                    opacity: 0.6,
                 },
                 lineStyle: {
-                    color: 'rgba(0, 150, 255, 0.8)',
+                    color: '#0077B6',
+                    opacity: 0.8,
                 },
                 itemStyle: {
-                    color: 'rgb(0, 150, 255)',
+                    color: '#0077B6',
                 },
                 emphasis: {
                     focus: 'series',

@@ -1,13 +1,29 @@
-export interface Theme {
-    primaryColor: string;
-    secondaryColor: string;
+export type ThemeVariant = 'light' | 'dark';
+
+export interface ThemeType {
+    theme: ThemeVariant;
+
+    colorPrimary: string;
+
+    ADIcolorSecondary: string;
+    ADIcolorWhite: string;
+    ADIcolorBlack: string;
 
     borderRadius: number;
+
+    padding: number;
 }
 
-export const LightTheme: Theme = {
-    primaryColor: 'red',
-    secondaryColor: 'blue',
+export const defaultTheme: ThemeType = {
+    theme: 'light',
 
-    borderRadius: 8,
+    colorPrimary: '#00FF00',
+
+    ADIcolorSecondary: '#020039',
+    ADIcolorWhite: '#FFFFFF',
+    ADIcolorBlack: '#000000',
+
+    borderRadius: 6,
+
+    padding: 12,
 };

@@ -1,11 +1,13 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Col, Row, Card } from '@adi/react-components';
+import { Col, Row, Card, Text, Tooltip } from '@adi/react-components';
 import { DemandsChart } from '@/pages/components/DemandsChart';
 import { FormSearch, SearchForm } from '@/pages/components/SearchForm';
 import { Demands } from '@/@types/demands';
 import { getCreatedVersusResolvedProps } from '@/api/demands/types';
 import { getCreatedVersusResolved } from '@/api/demands';
+import { CardWithIcon } from '@/components/ui/CardWithIcon';
+import { FileCheck, FilePlus, History } from 'lucide-react';
 
 const Home: FC = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -36,7 +38,7 @@ const Home: FC = (): JSX.Element => {
     };
 
     return (
-        <Row gutter={[0, 12]} justify="center" align="top">
+        <Row gutter={[0, 32]} justify="center" align="top">
             <Col span={24}>
                 <Card>
                     <SearchForm onSubmit={handleSearch} />
@@ -46,24 +48,63 @@ const Home: FC = (): JSX.Element => {
             <Col span={24}>
                 <Row gutter={[12, 24]} justify="center" align="middle">
                     <Col xs={24} md={8}>
-                        <Card title="Criadas">
-                            <p>Total: {demands?.created.data.total}</p>
-                            <p>JQL: {demands?.created.jql}</p>
-                        </Card>
+                        <CardWithIcon
+                            title="Criadas"
+                            icon={{
+                                color: '#FF0000',
+                                element: <FilePlus />,
+                            }}
+                        >
+                            <Row justify="center" align="middle">
+                                <Col>
+                                    <Tooltip title={demands?.created.jql as string}>
+                                        <Text size="4xl" strong>
+                                            {demands?.created.data.total}
+                                        </Text>
+                                    </Tooltip>
+                                </Col>
+                            </Row>
+                        </CardWithIcon>
                     </Col>
 
                     <Col xs={24} md={8}>
-                        <Card title="Resolvidas">
-                            <p>Total: {demands?.resolved.data.total}</p>
-                            <p>JQL: {demands?.resolved.jql}</p>
-                        </Card>
+                        <CardWithIcon
+                            title="Resolvidas"
+                            icon={{
+                                color: '#32CD32',
+                                element: <FileCheck />,
+                            }}
+                        >
+                            <Row justify="center" align="middle">
+                                <Col>
+                                    <Tooltip title={demands?.resolved.jql as string}>
+                                        <Text size="4xl" strong>
+                                            {demands?.resolved.data.total}
+                                        </Text>
+                                    </Tooltip>
+                                </Col>
+                            </Row>
+                        </CardWithIcon>
                     </Col>
 
                     <Col xs={24} md={8}>
-                        <Card title="Pendentes">
-                            <p>Total: {demands?.pending.data.total}</p>
-                            <p>JQL: {demands?.pending.jql}</p>
-                        </Card>
+                        <CardWithIcon
+                            title="Pendentes"
+                            icon={{
+                                color: '#0077B6',
+                                element: <History />,
+                            }}
+                        >
+                            <Row justify="center" align="middle">
+                                <Col>
+                                    <Tooltip title={demands?.pending.jql as string}>
+                                        <Text size="4xl" strong>
+                                            {demands?.pending.data.total}
+                                        </Text>
+                                    </Tooltip>
+                                </Col>
+                            </Row>
+                        </CardWithIcon>
                     </Col>
                 </Row>
             </Col>
