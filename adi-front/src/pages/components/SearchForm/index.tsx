@@ -42,10 +42,12 @@ export const SearchForm: FC<SearchFormProps> = ({ onSubmit }): JSX.Element => {
 
     const handleSubmit = (values: FormSearch): void => onSubmit(values);
 
-    useEffect(() => {
-        // Marcar todos os projetos como padrão
-        form.setFieldsValue({ projects: projectOptions.map(({ value }) => value) });
-    }, [projectOptions]);
+    useEffect(
+        () =>
+            // Marcar todos os projetos como padrão
+            form.setFieldsValue({ projects: projectOptions.map(({ value }) => value) }),
+        [],
+    );
 
     return (
         <Form id="search-demands" form={form} initialValues={initialValues} onSubmit={handleSubmit}>

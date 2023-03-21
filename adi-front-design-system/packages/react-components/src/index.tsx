@@ -20,3 +20,9 @@ export { Row } from './Grid/Row';
 export type { RowProps } from './Grid/Row';
 export { Col } from './Grid/Col';
 export type { ColProps } from './Grid/Col';
+
+export { Card } from './Card';
+export type { CardProps } from './Card';
+
+export { Text } from './Text';
+export type { TextProps } from './Text';

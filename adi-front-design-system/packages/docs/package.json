@@ -7,8 +7,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.ts* --fix",
-    "dev": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
+    "dev-REMOVER": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
+    "build-REMOVER": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
     "deploy-storybook": "storybook-to-ghpages"
   },
   "devDependencies": {

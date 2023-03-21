@@ -125,5 +125,5 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
         ],
     };
 
-    return <Chart loading={loading} option={defaultOption} />;
+    return <Chart loading={loading} option={defaultOption} style={{ height: '100%' }} />;
 };

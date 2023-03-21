@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Col, Row } from '@adi/react-components';
+import { Col, Row, Card } from '@adi/react-components';
 import { DemandsChart } from '@/pages/components/DemandsChart';
 import { FormSearch, SearchForm } from '@/pages/components/SearchForm';
 import { Demands } from '@/@types/demands';
-import { getCreatedVersusResolved } from '@/pages/api/demands.api';
-import { getCreatedVersusResolvedProps } from '@/pages/api/types';
+import { getCreatedVersusResolvedProps } from '@/api/demands/types';
+import { getCreatedVersusResolved } from '@/api/demands';
 
 const Home: FC = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -36,36 +36,42 @@ const Home: FC = (): JSX.Element => {
     };
 
     return (
-        <Row gutter={[0, 12]} justify="center" align="top" style={{ height: '100vh' }}>
+        <Row gutter={[0, 12]} justify="center" align="top">
             <Col span={24}>
-                <SearchForm onSubmit={handleSearch} />
+                <Card>
+                    <SearchForm onSubmit={handleSearch} />
+                </Card>
             </Col>
 
-            <Row gutter={[0, 12]} justify="start" align="top">
-                <Col xs={24} md={12}>
-                    <strong>Criadas</strong>
+            <Col span={24}>
+                <Row gutter={[12, 24]} justify="center" align="middle">
+                    <Col xs={24} md={8}>
+                        <Card title="Criadas">
+                            <p>Total: {demands?.created.data.total}</p>
+                            <p>JQL: {demands?.created.jql}</p>
+                        </Card>
+                    </Col>
 
-                    <p>Total: {demands?.created.data.total}</p>
-                    <p>JQL: {demands?.created.jql}</p>
-                </Col>
+                    <Col xs={24} md={8}>
+                        <Card title="Resolvidas">
+                            <p>Total: {demands?.resolved.data.total}</p>
+                            <p>JQL: {demands?.resolved.jql}</p>
+                        </Card>
+                    </Col>
 
-                <Col xs={24} md={12}>
-                    <strong>Resolvidas</strong>
+                    <Col xs={24} md={8}>
+                        <Card title="Pendentes">
+                            <p>Total: {demands?.pending.data.total}</p>
+                            <p>JQL: {demands?.pending.jql}</p>
+                        </Card>
+                    </Col>
+                </Row>
+            </Col>
 
-                    <p>Total: {demands?.resolved.data.total}</p>
-                    <p>JQL: {demands?.resolved.jql}</p>
-                </Col>
-
-                <Col xs={24} md={12}>
-                    <strong>Pendentes</strong>
-
-                    <p>Total: {demands?.pending.data.total}</p>
-                    <p>JQL: {demands?.pending.jql}</p>
-                </Col>
-            </Row>
-
-            <Col span={24} style={{ height: '600px' }}>
-                <DemandsChart data={demands} loading={loading} />
+            <Col span={24} style={{ height: '450px' }}>
+                <Card title="Criadas x Resolvidas" style={{ height: '100%' }}>
+                    <DemandsChart data={demands} loading={loading} />
+                </Card>
             </Col>
         </Row>
     );
