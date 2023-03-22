@@ -5,6 +5,7 @@ import { CardProps } from '@adi/react-components';
 export interface IconProps {
     color: string;
     element: JSX.Element;
+    onClick?: () => void;
 }
 
 interface CardWithIconProps extends CardProps {
@@ -13,11 +14,13 @@ interface CardWithIconProps extends CardProps {
 }
 
 export const CardWithIcon: FC<CardWithIconProps> = ({ children, icon, ...props }): JSX.Element => {
-    const { color, element } = icon;
+    const { color, element, onClick } = icon;
 
     return (
         <Container {...props}>
-            <IconContainer color={color}>{element}</IconContainer>
+            <IconContainer color={color} copyable={!!onClick}>
+                {element}
+            </IconContainer>
 
             {children}
         </Container>

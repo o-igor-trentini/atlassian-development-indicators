@@ -8,6 +8,7 @@ export interface TextProps {
     size?: TextSize;
     italic?: boolean;
     strong?: boolean;
+    copyable?: boolean;
     color?: string;
     style?: CSSProperties;
     className?: string;
@@ -18,6 +19,7 @@ export const Text: FC<TextProps> = ({
     size = 'md',
     italic = false,
     strong = false,
+    copyable = false,
     color,
     style,
     className,
@@ -42,6 +44,7 @@ export const Text: FC<TextProps> = ({
         <Typography.Text
             strong={strong}
             italic={italic}
+            copyable={copyable}
             style={{ ...style, color: color, fontSize: sizes[size] }}
             className={className}
         >

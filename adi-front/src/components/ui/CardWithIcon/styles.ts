@@ -14,6 +14,7 @@ export const Container = styled(Card)`
 
 export interface IconContainerProps {
     color: string;
+    copyable?: boolean;
 }
 
 /*eslint-disable*/
@@ -36,6 +37,8 @@ export const IconContainer = styled.div<IconContainerProps>`
 
     border-radius: ${({ theme }) => theme.borderRadius}px;
     box-shadow: ${defaultBoxShadow()};
+
+    cursor: ${({ copyable }) => (copyable ? 'pointer' : 'default')};
 
     > svg {
         color: ${({ theme }) =>
