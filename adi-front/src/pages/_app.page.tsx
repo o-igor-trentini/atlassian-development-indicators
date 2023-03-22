@@ -33,9 +33,7 @@ const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
             <ConfigProvider
                 theme={{
                     algorithm: algorithm[theme.theme],
-                    token: {
-                        ...defaultTheme,
-                    },
+                    token: { ...theme },
                 }}
                 locale="ptBR"
             >

@@ -1,13 +1,14 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Col, Row, Card, Text, Tooltip } from '@adi/react-components';
+import { Card, Col, Row, Text, Tooltip } from '@adi/react-components';
 import { DemandsChart } from '@/pages/components/DemandsChart';
 import { FormSearch, SearchForm } from '@/pages/components/SearchForm';
 import { Demands } from '@/@types/demands';
 import { getCreatedVersusResolvedProps } from '@/api/demands/types';
 import { getCreatedVersusResolved } from '@/api/demands';
 import { CardWithIcon } from '@/components/ui/CardWithIcon';
-import { FileCheck, FilePlus, History } from 'lucide-react';
+import { CheckCircle2, History, PlusCircle } from 'lucide-react';
+import { defaultTheme } from '@/styles/themes';
 
 const Home: FC = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -51,13 +52,13 @@ const Home: FC = (): JSX.Element => {
                         <CardWithIcon
                             title="Criadas"
                             icon={{
-                                color: '#FF0000',
-                                element: <FilePlus />,
+                                color: defaultTheme.ADIcolorCreated,
+                                element: <PlusCircle />,
                             }}
                         >
                             <Row justify="center" align="middle">
                                 <Col>
-                                    <Tooltip title={demands?.created.jql as string}>
+                                    <Tooltip title={'demands?.created.jql as string'}>
                                         <Text size="4xl" strong>
                                             {demands?.created.data.total}
                                         </Text>
@@ -71,8 +72,8 @@ const Home: FC = (): JSX.Element => {
                         <CardWithIcon
                             title="Resolvidas"
                             icon={{
-                                color: '#32CD32',
-                                element: <FileCheck />,
+                                color: defaultTheme.ADIcolorResolved,
+                                element: <CheckCircle2 />,
                             }}
                         >
                             <Row justify="center" align="middle">
@@ -91,7 +92,7 @@ const Home: FC = (): JSX.Element => {
                         <CardWithIcon
                             title="Pendentes"
                             icon={{
-                                color: '#0077B6',
+                                color: defaultTheme.ADIcolorPending,
                                 element: <History />,
                             }}
                         >

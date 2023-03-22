@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Chart, ChartOption } from '@adi/react-charts';
 import { AppTheme } from '@adi/react-components';
 import { Demands } from '@/@types/demands';
+import { defaultTheme } from '@/styles/themes';
 
 const { useToken } = AppTheme;
 
@@ -47,15 +48,15 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
                 type: 'line',
                 smooth: true,
                 areaStyle: {
-                    color: '#FF0000',
+                    color: defaultTheme.ADIcolorCreated,
                     opacity: 0.6,
                 },
                 lineStyle: {
-                    color: '#FF0000',
+                    color: defaultTheme.ADIcolorCreated,
                     opacity: 0.8,
                 },
                 itemStyle: {
-                    color: '#FF0000',
+                    color: defaultTheme.ADIcolorCreated,
                 },
                 emphasis: {
                     focus: 'series',
@@ -76,15 +77,15 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
                 type: 'line',
                 smooth: true,
                 areaStyle: {
-                    color: '#32CD32',
+                    color: defaultTheme.ADIcolorResolved,
                     opacity: 0.6,
                 },
                 lineStyle: {
-                    color: '#32CD32',
+                    color: defaultTheme.ADIcolorResolved,
                     opacity: 0.8,
                 },
                 itemStyle: {
-                    color: '#32CD32',
+                    color: defaultTheme.ADIcolorResolved,
                 },
                 emphasis: {
                     focus: 'series',
@@ -105,15 +106,15 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
                 type: 'line',
                 smooth: true,
                 areaStyle: {
-                    color: '#0077B6',
+                    color: defaultTheme.ADIcolorPending,
                     opacity: 0.6,
                 },
                 lineStyle: {
-                    color: '#0077B6',
+                    color: defaultTheme.ADIcolorPending,
                     opacity: 0.8,
                 },
                 itemStyle: {
-                    color: '#0077B6',
+                    color: defaultTheme.ADIcolorPending,
                 },
                 emphasis: {
                     focus: 'series',

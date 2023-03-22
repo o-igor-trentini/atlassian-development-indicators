@@ -5,15 +5,16 @@ import type { TooltipProps as AntdTooltipProps } from 'antd';
 export type TooltipPlacement = AntdTooltipProps['placement'];
 
 export interface TooltipProps {
-    children: ReactNode | ReactNode[];
+    children: ReactNode;
     title: string;
+    placement?: TooltipPlacement;
     style?: CSSProperties;
     className?: string;
 }
 
-export const Tooltip: FC<TooltipProps> = ({ children, title, style, className }): JSX.Element => {
+export const Tooltip: FC<TooltipProps> = ({ children, title, placement = 'top', style, className }): JSX.Element => {
     return (
-        <AntdTooltip title={title} style={style} className={className}>
+        <AntdTooltip title={title} placement={placement} style={style} className={className}>
             {children}
         </AntdTooltip>
     );
