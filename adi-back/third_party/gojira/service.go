@@ -3,15 +3,17 @@ package gojira
 import (
 	"adi-back/internal/consts/envconst"
 	"adi-gojira/pkg/gjservice"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
 type Service interface {
 	// GetIssues busca as issues pelos parâmetros passados.
-	GetIssues(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error)
+	GetIssues(parameters BuildJQLParams, fields []string) (data gjservice.SearchByJQLPayload, JQL string, err error)
 }
 
 type serviceImpl struct {
@@ -32,56 +34,67 @@ func NewService() Service {
 	return &serviceImpl{gjService}
 }
 
-func (s serviceImpl) GetIssues(parameters BuildJQLParams) (data gjservice.SearchByJQLPayload, JQL string, err error) {
-	JQL = buildJQL(parameters)
-
-	queryParameters := map[string]string{
-		"jql":        JQL,
-		"fields":     "created",
-		"maxResults": "100",
-		"startAt":    "0",
-	}
-
-	if parameters.Period.Type == ResolvedPeriodType {
-		queryParameters["fields"] = "resolutiondate"
-	}
-
-	data, err = s.helpGetByPeriodType(queryParameters)
-
-	return
-}
-
-// helpGetByPeriodType executa as ações genéricas usadas em todos os GetPeriodType
-func (s serviceImpl) helpGetByPeriodType(queryParameters map[string]string) (
+func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string) (
 	data gjservice.SearchByJQLPayload,
+	JQL string,
 	err error,
 ) {
-	response, err := s.gjService.SearchByJQL(queryParameters)
+	JQL = buildJQL(parameters, fields)
+	maxResults := 100
+
+	params := map[string]string{
+		"jql":        JQL,
+		"maxResults": strconv.Itoa(maxResults),
+		"startAt":    "0",
+		"fields":     strings.Join(fields, ","),
+	}
+
+	response, err := s.gjService.SearchByJQL(params)
 	if err != nil {
-		return data, err
+		return data, JQL, err
 	}
 
 	data = response
 
 	if uint(len(data.Issues)) < data.Total {
-		startAt := 0
+		c := make(chan gjservice.SearchByJQLPayload)
+		defer close(c)
 
-		for {
-			startAt += 100
-			queryParameters["startAt"] = strconv.Itoa(startAt)
+		totalIssues := float64(data.Total) // data.Total
+		loops := totalIssues / float64(maxResults)
+		startAt := 100
 
-			response, err = s.gjService.SearchByJQL(queryParameters)
-			if err != nil {
-				return data, err
-			}
+		// Evitar requisição extra
+		if int(totalIssues)%startAt == 0 {
+			loops--
+		}
 
-			data.Issues = append(data.Issues, response.Issues...)
+		for i := 1; i <= int(loops); i++ {
+			go s.getIssuesAsync(c, params, startAt*i)
+		}
 
-			if uint(len(data.Issues)) == data.Total {
-				break
-			}
+		for i := 0; i < int(loops); i++ {
+			v := <-c
+			data.Issues = append(data.Issues, v.Issues...)
 		}
 	}
 
 	return
+}
+
+// getIssuesAsync busca de forma assíncrona as demais issues no JIRA.
+func (s serviceImpl) getIssuesAsync(
+	c chan gjservice.SearchByJQLPayload,
+	params map[string]string,
+	startAt int,
+) {
+	params["startAt"] = strconv.Itoa(startAt)
+
+	respose, err := s.gjService.SearchByJQL(params)
+	if err != nil {
+		fmt.Println("ERRO NA REQUISIÇÃO DO JQL")
+		c <- gjservice.SearchByJQLPayload{}
+	}
+
+	c <- respose
 }

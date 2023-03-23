@@ -2,8 +2,8 @@ package demands
 
 import (
 	"adi-back/internal/pkg/adiutils/uslice"
-	"adi-back/internal/pkg/adiutils/utime"
 	"adi-back/third_party/gojira"
+	"adi-gojira/pkg/gjconsts"
 	"adi-gojira/pkg/gjservice"
 	"fmt"
 	"strings"
@@ -25,81 +25,19 @@ func NewService(gojiraService gojira.Service) Service {
 }
 
 func (s serviceImpl) GetCreatedVersusResolved(params gojira.BuildJQLParams) (GetCreatedVersusResolvedResponse, error) {
-	var res GetCreatedVersusResolvedResponse
-	errors := make(map[string]string)
-	ch := make(chan IssuesByPeriodDTO)
-	defer close(ch)
+	//monthKeys := utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
 
-	res.YearMonthRange = utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
+	fields := []string{gjconsts.IssueFieldCreaetd, gjconsts.IssueFieldResolutionDate}
 
-	params.Period.Type = gojira.CreatedPeriodType
-	go s.asyncGetIssues(ch, params, res.YearMonthRange)
-
-	params.Period.Type = gojira.ResolvedPeriodType
-	go s.asyncGetIssues(ch, params, res.YearMonthRange)
-
-	params.Period.Type = gojira.PendingPeriodType
-	go s.asyncGetIssues(ch, params, res.YearMonthRange)
-
-	issues := []IssuesByPeriodDTO{<-ch, <-ch, <-ch}
-	for _, v := range issues {
-		if v.Error != nil {
-			errors[string(v.Type)] = v.Error.Error()
-			continue
-		}
-
-		switch v.Type {
-		case gojira.CreatedPeriodType:
-			res.Created = v
-		case gojira.ResolvedPeriodType:
-			res.Resolved = v
-		case gojira.PendingPeriodType:
-			res.Pending = v
-		}
-	}
-
-	if len(errors) > 0 {
-		return res, fmt.Errorf("%+v", errors)
-	}
-
-	return res, nil
-}
-
-// asyncGetIssues realiza a busca de forma assíncrona na API do Jira.
-func (s serviceImpl) asyncGetIssues(
-	c chan IssuesByPeriodDTO,
-	params gojira.BuildJQLParams,
-	monthKeys []string,
-) {
-	issues, JQL, err := s.gojiraService.GetIssues(params)
+	issues, JQL, err := s.gojiraService.GetIssues(params, fields)
 	if err != nil {
-		c <- IssuesByPeriodDTO{
-			Type:  params.Period.Type,
-			Data:  IssuesByPeriodData{},
-			Error: err,
-		}
-		return
+		// TODO: Tipo de erro personalizado
+		fmt.Println(err)
+		return GetCreatedVersusResolvedResponse{}, nil
 	}
+	fmt.Println(issues, JQL)
 
-	result, err := s.handleGetIssues(issues, params.Period.Type, monthKeys)
-	if err != nil {
-		c <- IssuesByPeriodDTO{
-			Type:  params.Period.Type,
-			Data:  IssuesByPeriodData{},
-			Error: err,
-		}
-		return
-	}
-
-	c <- IssuesByPeriodDTO{
-		Type: params.Period.Type,
-		Data: IssuesByPeriodData{
-			Values: result,
-			Total:  issues.Total,
-		},
-		JQL:   JQL,
-		Error: nil,
-	}
+	return GetCreatedVersusResolvedResponse{}, nil
 }
 
 // handleGetIssues formata os dados retornados pelo Jira dividindo em issue por ano/mês.

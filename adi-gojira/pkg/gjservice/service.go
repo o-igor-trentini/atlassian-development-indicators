@@ -1,7 +1,7 @@
 package gjservice
 
 import (
-	"adi-gojira/internal/gjutils"
+	"adi-gojira/internal/encoder"
 	"adi-gojira/pkg/gjmodels"
 	"fmt"
 	"net/url"
@@ -33,5 +33,5 @@ func (c Client) SearchByJQL(queryParams map[string]string) (SearchByJQLPayload, 
 		return data, fmt.Errorf("não foi possível buscar por JQL [erro: %s]", err)
 	}
 
-	return data, gjutils.ResBodyToStruct(res, &data)
+	return data, encoder.DecodeRequestResponse(res, &data)
 }
