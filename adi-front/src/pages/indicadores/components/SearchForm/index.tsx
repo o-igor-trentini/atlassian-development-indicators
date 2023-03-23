@@ -25,6 +25,8 @@ interface SearchFormProps {
 export const SearchForm: FC<SearchFormProps> = ({ onSubmit }): JSX.Element => {
     const [form] = useForm<FormSearch>();
 
+    // TODO: Alterar projectOptions para useMemo
+
     const projectOptions: SelectOptions = [
         {
             label: 'PeC',
@@ -46,7 +48,7 @@ export const SearchForm: FC<SearchFormProps> = ({ onSubmit }): JSX.Element => {
         () =>
             // Marcar todos os projetos como padrão
             form.setFieldsValue({ projects: projectOptions.map(({ value }) => value) }),
-        [],
+        [form, projectOptions],
     );
 
     return (

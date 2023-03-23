@@ -1,12 +1,12 @@
-import { useRef, useEffect, FC } from 'react';
-import { init, getInstanceByDom } from 'echarts';
 import type { CSSProperties } from 'react';
-import type { EChartsOption, ECharts, SetOptionOpts } from 'echarts';
+import { FC, useEffect, useRef } from 'react';
+import type { ECharts, EChartsOption, SetOptionOpts } from 'echarts';
+import { getInstanceByDom, init } from 'echarts';
 
 export type ChartTheme = 'light' | 'dark';
 export type ChartRenderType = 'svg' | 'canvas';
-export type ChartOption = EChartsOption;
 export type ChartSettings = SetOptionOpts;
+export type ChartOption = EChartsOption;
 
 export interface ChartProps {
     theme?: ChartTheme;

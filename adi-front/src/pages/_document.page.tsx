@@ -1,7 +1,35 @@
-import { Html, Head, Main, NextScript } from 'next/document';
-import { FC } from 'react';
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
+import { NextPage } from 'next';
+import { ServerStyleSheet } from 'styled-components';
 
-const Document: FC = (): JSX.Element => {
+const MyDocument: NextPage = () => {
+    MyDocument.getInitialProps = async (ctx: DocumentContext) => {
+        const sheet = new ServerStyleSheet();
+        const originalRenderPage = ctx.renderPage;
+
+        try {
+            ctx.renderPage = () =>
+                originalRenderPage({
+                    enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+                });
+
+            const initialProps = await Document.getInitialProps(ctx);
+
+            return {
+                ...initialProps,
+                styles: (
+                    <>
+                        {initialProps.styles}
+
+                        {sheet.getStyleElement()}
+                    </>
+                ),
+            };
+        } finally {
+            sheet.seal();
+        }
+    };
+
     return (
         <Html lang="pt-BR">
             <Head />
@@ -15,4 +43,4 @@ const Document: FC = (): JSX.Element => {
     );
 };
 
-export default Document;
+export default MyDocument;

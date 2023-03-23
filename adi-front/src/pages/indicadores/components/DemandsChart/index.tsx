@@ -2,7 +2,35 @@ import { FC } from 'react';
 import { Chart, ChartOption } from '@adi/react-charts';
 import { AppTheme } from '@adi/react-components';
 import { Demands } from '@/@types/demands';
-import { defaultTheme } from '@/styles/themes';
+import { chooseColorByContrast } from '@/utils/style';
+import { baseTheme } from '@/styles/themes';
+
+type seriesDefaultConfig = {
+    type: 'line';
+    smooth: true;
+
+    areaStyle: {
+        opacity: 0.6;
+    };
+    lineStyle: {
+        opacity: 0.8;
+    };
+
+    emphasis: {
+        focus: 'series';
+    };
+
+    label: {
+        show: true;
+        position: 'top';
+        padding: 6;
+        color: string;
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: 1;
+        borderRadius: number;
+    };
+};
 
 const { useToken } = AppTheme;
 
@@ -14,9 +42,48 @@ interface DemandsChartProps {
 export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Element => {
     const { token } = useToken();
 
+    const seriesLegendColor = chooseColorByContrast(
+        token.colorBgBase,
+        baseTheme.ADIcolorBlack,
+        baseTheme.ADIcolorWhite,
+    );
+
+    const seriesDefaultConfig: seriesDefaultConfig = {
+        type: 'line',
+        smooth: true,
+
+        areaStyle: {
+            opacity: 0.6,
+        },
+        lineStyle: {
+            opacity: 0.8,
+        },
+
+        emphasis: {
+            focus: 'series',
+        },
+
+        label: {
+            show: true,
+            position: 'top',
+            padding: 6,
+            color: seriesLegendColor,
+            backgroundColor: token.colorBgBase,
+            borderColor: token.colorPrimaryBorder,
+            borderWidth: 1,
+            borderRadius: token.borderRadius,
+        },
+    };
+
     const defaultOption: ChartOption = {
         legend: {
             data: ['Criadas', 'Resolvidas', 'Pendentes'],
+            backgroundColor: token.colorBgElevated,
+            padding: token.padding,
+            textStyle: {
+                color: token.colorText,
+            },
+            borderRadius: token.borderRadius,
         },
         tooltip: {
             trigger: 'axis',
@@ -43,91 +110,28 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
         },
         series: [
             {
+                ...seriesDefaultConfig,
                 name: 'Criadas',
                 data: data?.created.data.values,
-                type: 'line',
-                smooth: true,
-                areaStyle: {
-                    color: defaultTheme.ADIcolorCreated,
-                    opacity: 0.6,
-                },
-                lineStyle: {
-                    color: defaultTheme.ADIcolorCreated,
-                    opacity: 0.8,
-                },
-                itemStyle: {
-                    color: defaultTheme.ADIcolorCreated,
-                },
-                emphasis: {
-                    focus: 'series',
-                },
-                label: {
-                    show: true,
-                    position: 'top',
-                    padding: 6,
-                    backgroundColor: token.colorBgBase,
-                    borderColor: token.colorPrimaryBorder,
-                    borderWidth: 1,
-                    borderRadius: token.borderRadius,
-                },
+                areaStyle: { color: baseTheme.ADIcolorCreated },
+                lineStyle: { color: baseTheme.ADIcolorCreated },
+                itemStyle: { color: baseTheme.ADIcolorCreated },
             },
             {
+                ...seriesDefaultConfig,
                 name: 'Resolvidas',
                 data: data?.resolved.data.values,
-                type: 'line',
-                smooth: true,
-                areaStyle: {
-                    color: defaultTheme.ADIcolorResolved,
-                    opacity: 0.6,
-                },
-                lineStyle: {
-                    color: defaultTheme.ADIcolorResolved,
-                    opacity: 0.8,
-                },
-                itemStyle: {
-                    color: defaultTheme.ADIcolorResolved,
-                },
-                emphasis: {
-                    focus: 'series',
-                },
-                label: {
-                    show: true,
-                    position: 'top',
-                    padding: 6,
-                    backgroundColor: token.colorBgBase,
-                    borderColor: token.colorPrimaryBorder,
-                    borderWidth: 1,
-                    borderRadius: token.borderRadius,
-                },
+                areaStyle: { color: baseTheme.ADIcolorResolved },
+                lineStyle: { color: baseTheme.ADIcolorResolved },
+                itemStyle: { color: baseTheme.ADIcolorResolved },
             },
             {
+                ...seriesDefaultConfig,
                 name: 'Pendentes',
                 data: data?.pending.data.values,
-                type: 'line',
-                smooth: true,
-                areaStyle: {
-                    color: defaultTheme.ADIcolorPending,
-                    opacity: 0.6,
-                },
-                lineStyle: {
-                    color: defaultTheme.ADIcolorPending,
-                    opacity: 0.8,
-                },
-                itemStyle: {
-                    color: defaultTheme.ADIcolorPending,
-                },
-                emphasis: {
-                    focus: 'series',
-                },
-                label: {
-                    show: true,
-                    position: 'top',
-                    padding: 6,
-                    backgroundColor: token.colorBgBase,
-                    borderColor: token.colorPrimaryBorder,
-                    borderWidth: 1,
-                    borderRadius: token.borderRadius,
-                },
+                areaStyle: { color: baseTheme.ADIcolorPending },
+                lineStyle: { color: baseTheme.ADIcolorPending },
+                itemStyle: { color: baseTheme.ADIcolorPending },
             },
         ],
     };

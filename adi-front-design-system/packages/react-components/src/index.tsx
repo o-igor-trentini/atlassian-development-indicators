@@ -29,3 +29,5 @@ export type { TextProps } from './Text';
 
 export { Tooltip } from './Tooltip';
 export type { TooltipProps } from './Tooltip';
+
+export * from './Layout';

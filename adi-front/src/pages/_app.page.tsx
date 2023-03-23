@@ -1,14 +1,16 @@
 import type { AppProps } from 'next/app';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { AppTheme, Col, ConfigProvider, Row, ThemeAlgorithm } from '@adi/react-components';
+import { AppTheme, ConfigProvider, ThemeAlgorithm } from '@adi/react-components';
 import { GlobalStyle } from '@/styles/global';
-import { defaultTheme, ThemeType, ThemeVariant } from '@/styles/themes';
+import { darkTheme, defaultTheme, ThemeType, ThemeVariant } from '@/styles/themes';
 import { ThemeProvider } from 'styled-components';
+import { LayoutWrapper } from '@/pages/components/LayoutWrapper';
+import { NextPage } from 'next';
 
 const { defaultAlgorithm, darkAlgorithm } = AppTheme;
 
-const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
+const App: NextPage<AppProps> = ({ Component, pageProps }): JSX.Element => {
     // TODO: Adicionar favicon dinâmicamente
 
     const [theme, setTheme] = useState<ThemeType>(defaultTheme);
@@ -17,6 +19,8 @@ const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
         light: defaultAlgorithm,
         dark: darkAlgorithm,
     };
+
+    const handleMenuClick = (): void => setTheme((state) => (state.variant === 'light' ? darkTheme : defaultTheme));
 
     useEffect(() => {
         setTheme(defaultTheme);
@@ -32,16 +36,14 @@ const App: FC<AppProps> = ({ Component, pageProps }): JSX.Element => {
 
             <ConfigProvider
                 theme={{
-                    algorithm: algorithm[theme.theme],
+                    algorithm: algorithm[theme.variant],
                     token: { ...theme },
                 }}
                 locale="ptBR"
             >
-                <Row justify="center" align="top" style={{ minHeight: '100vh', backgroundColor: 'gray' }}>
-                    <Col xs={23} md={20} xl={18} style={{ padding: '1rem', backgroundColor: 'lightgray' }}>
-                        <Component {...pageProps} />
-                    </Col>
-                </Row>
+                <LayoutWrapper onClick={handleMenuClick}>
+                    <Component {...pageProps} />
+                </LayoutWrapper>
             </ConfigProvider>
         </ThemeProvider>
     );
