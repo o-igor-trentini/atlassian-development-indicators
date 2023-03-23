@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { Card, Col, Row } from '@adi/react-components';
 import { DemandsChart } from './components/DemandsChart';
 import { FormSearch, SearchForm } from './components/SearchForm';
-import { Demands } from '@/@types/demands';
-import { getCreatedVersusResolvedProps } from '@/api/demands/types';
+import { APIGetCreatedVersusResolvedProps, Demands } from '@/@types/demands';
 import { getCreatedVersusResolved } from '@/api/demands';
-import { CheckCircle2, History, PlusCircle } from 'lucide-react';
+import { CheckCircle2, History, Percent, PlusCircle } from 'lucide-react';
 import { baseTheme } from '@/styles/themes';
 import { TotalingCards, TotalingCardsItem } from './components/TotalingCards';
 import { NextPage } from 'next';
@@ -14,7 +13,7 @@ const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const getDemands = async (parameters: getCreatedVersusResolvedProps): Promise<void> => {
+    const getDemands = async (parameters: APIGetCreatedVersusResolvedProps): Promise<void> => {
         try {
             setLoading(true);
 
@@ -41,24 +40,34 @@ const Indicators: NextPage = (): JSX.Element => {
     const totalingCardsItems: TotalingCardsItem[] = [
         {
             total: demands?.created.data?.total ?? 0,
-            jql: demands?.created.jql ?? '',
+            tooltip: demands?.created.jql ?? '',
             title: 'Criadas',
             color: baseTheme.ADIcolorCreated,
             icon: <PlusCircle />,
         },
         {
             total: demands?.resolved.data?.total ?? 0,
-            jql: demands?.resolved.jql ?? '',
+            tooltip: demands?.resolved.jql ?? '',
             title: 'Resolvidas',
             color: baseTheme.ADIcolorResolved,
             icon: <CheckCircle2 />,
         },
         {
             total: demands?.pending.data?.total ?? 0,
-            jql: demands?.pending.jql ?? '',
+            tooltip: demands?.pending.jql ?? '',
             title: 'Pendentes',
             color: baseTheme.ADIcolorPending,
             icon: <History />,
+        },
+        {
+            total:
+                // TODO: Receber do backend
+                demands?.resolved.data?.total && demands?.created.data?.total
+                    ? demands?.resolved.data?.total / demands?.created.data?.total
+                    : 0,
+            title: 'Progresso',
+            color: '#2C3539',
+            icon: <Percent />,
         },
     ];
 

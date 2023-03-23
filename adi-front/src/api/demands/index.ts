@@ -1,9 +1,8 @@
 import { AxiosResponse } from 'axios';
-import { Demands } from '@/@types/demands';
+import { Demands, APIGetCreatedVersusResolvedProps } from '@/@types/demands';
 import { backApi } from '@/lib/axios';
-import { getCreatedVersusResolvedProps } from '@/pages/api/types';
 
-export const getCreatedVersusResolved = async (parameters: getCreatedVersusResolvedProps): Promise<Demands> => {
+export const getCreatedVersusResolved = async (parameters: APIGetCreatedVersusResolvedProps): Promise<Demands> => {
     const { data }: AxiosResponse<Demands> = await backApi.get('/demands', {
         params: {
             ...parameters,

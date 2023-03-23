@@ -33,6 +33,8 @@ func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
 		params gojira.BuildJQLParams
 	)
 
+	// TODO: Implementar generic handler para controller
+
 	if err := c.ShouldBindQuery(&dto); err != nil {
 		c.JSON(422, err)
 		return
