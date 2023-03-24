@@ -41,7 +41,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }): JSX.Element => {
                 }}
                 locale="ptBR"
             >
-                <LayoutWrapper onClick={handleMenuClick}>
+                <LayoutWrapper onSwitchTheme={handleMenuClick}>
                     <Component {...pageProps} />
                 </LayoutWrapper>
             </ConfigProvider>

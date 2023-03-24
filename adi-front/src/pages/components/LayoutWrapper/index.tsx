@@ -5,10 +5,10 @@ import { Container } from '@/pages/components/LayoutWrapper/styles';
 
 interface LayoutWrapperProps extends LayoutHeaderProps, LayoutContentProps {}
 
-export const LayoutWrapper: FC<LayoutWrapperProps> = ({ children, onClick }): JSX.Element => {
+export const LayoutWrapper: FC<LayoutWrapperProps> = ({ children, onSwitchTheme }): JSX.Element => {
     return (
         <Container>
-            <LayoutHeader onClick={onClick} />
+            <LayoutHeader onSwitchTheme={onSwitchTheme} />
 
             <LayoutContent>{children}</LayoutContent>
         </Container>

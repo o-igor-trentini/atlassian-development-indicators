@@ -33,7 +33,7 @@ export const Drawer: FC<DrawerProps> = ({
     closable = true,
     destroyOnClose = true,
     forceRender = false,
-    mask = false,
+    mask = true,
     maskClosable = true,
     placement = 'right',
     closeIcon,
