@@ -37,7 +37,11 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 
 	monthKeys := utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
 
-	response, _ := s.handleGetIssues(issues, monthKeys)
+	response, err := s.handleGetIssues(issues, monthKeys)
+	if err != nil {
+		fmt.Println(err)
+		return GetIssuesByPeriodResponse{}, nil
+	}
 
 	response.JQL = JQL
 	response.Periods = monthKeys

@@ -2,5 +2,5 @@ import { FC } from 'react';
 import { Skeleton } from 'antd';
 
 export const CardSkeleton: FC = (): JSX.Element => {
-    return <Skeleton.Input active block size="default" />;
+    return <Skeleton.Button active />;
 };

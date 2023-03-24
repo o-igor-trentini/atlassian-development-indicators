@@ -3,7 +3,6 @@ package gojira
 import (
 	"adi-back/internal/pkg/adiutils/uslice"
 	"adi-gojira/pkg/gjconsts"
-	"fmt"
 	"strings"
 )
 
@@ -26,32 +25,16 @@ func buildJQL(params BuildJQLParams, fields []string) string {
 	}
 
 	// período
-	var (
-		hasCreatedDate    = uslice.Contains(fields, gjconsts.IssueFieldCreaetd)
-		hasResolutionDate = uslice.Contains(fields, gjconsts.IssueFieldResolutionDate)
-		makeDate          = func(field string) string {
-			item := field + " >= " + params.Period.Range.From.Format("2006-01-02")
-			item += " AND " + field + " <= " + params.Period.Range.Until.Format("2006-01-02")
+	var makeDate = func(field string) string {
+		item := field + " >= " + params.Period.Range.From.Format("2006-01-02")
+		item += " AND " + field + " <= " + params.Period.Range.Until.Format("2006-01-02")
 
-			return item
-		}
-	)
+		return item
+	}
 
-	switch {
-	// criadas e resolvidas
-	case hasCreatedDate && hasResolutionDate:
-		query = append(
-			query,
-			fmt.Sprintf("((%s) OR (%s))", makeDate(gjconsts.IssueFieldCreaetd), makeDate(gjconsts.IssueFieldResolutionDate)),
-		)
-
-	// apenas criadas
-	case hasCreatedDate && !hasResolutionDate:
+	if uslice.Contains(fields, gjconsts.IssueFieldCreaetd) ||
+		uslice.Contains(fields, gjconsts.IssueFieldResolutionDate) {
 		query = append(query, makeDate(gjconsts.IssueFieldCreaetd))
-
-	// apenas resolvidas
-	case !hasCreatedDate && hasResolutionDate:
-		query = append(query, makeDate(gjconsts.IssueFieldResolutionDate))
 	}
 
 	JQL = strings.Join(query, " AND ")
