@@ -17,7 +17,11 @@ const Indicators: NextPage = (): JSX.Element => {
         try {
             setLoading(true);
 
-            setDemands(await getCreatedVersusResolved(parameters));
+            const response = await getCreatedVersusResolved(parameters);
+
+            console.log('### response', response);
+
+            setDemands(response);
         } catch (err: unknown) {
             alert(err);
         } finally {
@@ -39,32 +43,25 @@ const Indicators: NextPage = (): JSX.Element => {
 
     const totalingCardsItems: TotalingCardsItem[] = [
         {
-            total: demands?.created.data?.total ?? 0,
-            tooltip: demands?.created.jql ?? '',
+            content: demands?.created?.total ?? 0,
             title: 'Criadas',
             color: baseTheme.ADIcolorCreated,
             icon: <PlusCircle />,
         },
         {
-            total: demands?.resolved.data?.total ?? 0,
-            tooltip: demands?.resolved.jql ?? '',
+            content: demands?.resolved?.total ?? 0,
             title: 'Resolvidas',
             color: baseTheme.ADIcolorResolved,
             icon: <CheckCircle2 />,
         },
         {
-            total: demands?.pending.data?.total ?? 0,
-            tooltip: demands?.pending.jql ?? '',
+            content: demands?.pending?.total ?? 0,
             title: 'Pendentes',
             color: baseTheme.ADIcolorPending,
             icon: <History />,
         },
         {
-            total:
-                // TODO: Receber do backend
-                demands?.resolved.data?.total && demands?.created.data?.total
-                    ? demands?.resolved.data?.total / demands?.created.data?.total
-                    : 0,
+            content: demands?.analytics?.overallProgress?.toFixed(2) ?? 0,
             title: 'Progresso',
             color: '#2C3539',
             icon: <Percent />,
@@ -75,7 +72,7 @@ const Indicators: NextPage = (): JSX.Element => {
         <Row gutter={[0, 32]} justify="center" align="top">
             <Col span={24}>
                 <Card>
-                    <SearchForm onSubmit={handleSearch} />
+                    <SearchForm loading={loading} onSubmit={handleSearch} />
                 </Card>
             </Col>
 

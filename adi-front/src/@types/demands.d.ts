@@ -1,18 +1,25 @@
 import { Dayjs } from 'dayjs';
 
 export interface IssuesDetails {
-    jql: string;
-    data: {
-        values: number[];
-        total: number;
-    };
+    total: number;
+    values: number[];
+}
+
+export interface DemandsAnalytics {
+    overallProgress: number;
+    progressPerPeriod: number[];
+    createdTotal: number;
+    resolvedTotal: number;
+    pendingTotal: number;
 }
 
 export interface Demands {
+    jql: string;
+    periods: string[];
     created: IssuesDetails;
     resolved: IssuesDetails;
     pending: IssuesDetails;
-    yearMonthRange: string[];
+    analytics: DemandsAnalytics;
 }
 
 export interface APIGetCreatedVersusResolvedProps {

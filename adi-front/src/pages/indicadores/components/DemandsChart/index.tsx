@@ -103,7 +103,7 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: data?.yearMonthRange,
+            data: data?.periods,
         },
         yAxis: {
             type: 'value',
@@ -112,7 +112,7 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
             {
                 ...seriesDefaultConfig,
                 name: 'Criadas',
-                data: data?.created.data.values,
+                data: data?.created?.values,
                 areaStyle: { color: baseTheme.ADIcolorCreated },
                 lineStyle: { color: baseTheme.ADIcolorCreated },
                 itemStyle: { color: baseTheme.ADIcolorCreated },
@@ -120,7 +120,7 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
             {
                 ...seriesDefaultConfig,
                 name: 'Resolvidas',
-                data: data?.resolved.data.values,
+                data: data?.resolved?.values,
                 areaStyle: { color: baseTheme.ADIcolorResolved },
                 lineStyle: { color: baseTheme.ADIcolorResolved },
                 itemStyle: { color: baseTheme.ADIcolorResolved },
@@ -128,7 +128,7 @@ export const DemandsChart: FC<DemandsChartProps> = ({ data, loading }): JSX.Elem
             {
                 ...seriesDefaultConfig,
                 name: 'Pendentes',
-                data: data?.pending.data.values,
+                data: data?.pending?.values,
                 areaStyle: { color: baseTheme.ADIcolorPending },
                 lineStyle: { color: baseTheme.ADIcolorPending },
                 itemStyle: { color: baseTheme.ADIcolorPending },

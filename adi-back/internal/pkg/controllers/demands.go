@@ -44,7 +44,7 @@ func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
 	params.Period.Range.From = dto.From
 	params.Period.Range.Until = dto.Until
 
-	response, err := co.demandsService.GetCreatedVersusResolved(params)
+	response, err := co.demandsService.GetIssuesByPeriod(params)
 	if err != nil {
 		c.JSON(400, err)
 		return

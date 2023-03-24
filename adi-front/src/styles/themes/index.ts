@@ -31,8 +31,8 @@ export const baseTheme: Omit<ThemeType, 'variant'> = {
     ADIcolorSecondary: '#020039',
     ADIcolorWhite: '#FFFFFF',
     ADIcolorBlack: '#000000',
-    ADIcolorCreated: '#FF0000',
-    ADIcolorResolved: '#32CD32',
+    ADIcolorCreated: '#C80815',
+    ADIcolorResolved: '#009E60',
     ADIcolorPending: '#0077B6',
 
     ADIHeaderHeight: '4rem',

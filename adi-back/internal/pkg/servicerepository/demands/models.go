@@ -1,24 +1,23 @@
 package demands
 
-import (
-	"adi-back/third_party/gojira"
-)
-
-type IssuesByPeriodData struct {
-	Values []uint `json:"values"`
-	Total  uint   `json:"total"`
-}
-
 type IssuesByPeriodDTO struct {
-	Type  gojira.PeriodType  `json:"-"`
-	Data  IssuesByPeriodData `json:"data"`
-	JQL   string             `json:"jql"`
-	Error error              `json:"-"`
+	Total        uint   `json:"total"`
+	PeriodValues []uint `json:"values"`
 }
 
-type GetCreatedVersusResolvedResponse struct {
-	Created        IssuesByPeriodDTO `json:"created"`
-	Resolved       IssuesByPeriodDTO `json:"resolved"`
-	Pending        IssuesByPeriodDTO `json:"pending"`
-	YearMonthRange []string          `json:"yearMonthRange"`
+type Analytics struct {
+	OverallProgress   float32   `json:"overallProgress"`
+	ProgressPerPeriod []float32 `json:"progressPerPeriod"`
+	CreatedTotal      uint      `json:"createdTotal"`
+	ResolvedTotal     uint      `json:"resolvedTotal"`
+	PendingTotal      uint      `json:"pendingTotal"`
+}
+
+type GetIssuesByPeriodResponse struct {
+	JQL       string            `json:"jql"`
+	Created   IssuesByPeriodDTO `json:"created"`
+	Resolved  IssuesByPeriodDTO `json:"resolved"`
+	Pending   IssuesByPeriodDTO `json:"pending"`
+	Periods   []string          `json:"periods"`
+	Analytics Analytics         `json:"analytics"`
 }

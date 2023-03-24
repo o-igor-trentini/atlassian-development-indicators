@@ -19,10 +19,11 @@ const initialValues: FormSearch = {
 };
 
 interface SearchFormProps {
+    loading: boolean;
     onSubmit: (values: FormSearch) => void;
 }
 
-export const SearchForm: FC<SearchFormProps> = ({ onSubmit }): JSX.Element => {
+export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Element => {
     const [form] = useForm<FormSearch>();
 
     // TODO: Alterar projectOptions para useMemo
@@ -86,7 +87,7 @@ export const SearchForm: FC<SearchFormProps> = ({ onSubmit }): JSX.Element => {
 
                 <Col flex={1}>
                     <FormItem>
-                        <Button id="search" variant="primary" block type="submit">
+                        <Button id="search" type="submit" variant="primary" block loading={loading}>
                             Buscar
                         </Button>
                     </FormItem>

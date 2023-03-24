@@ -2,12 +2,13 @@ package gojira
 
 import (
 	"adi-back/internal/consts/envconst"
+	"adi-back/internal/pkg/adiutils/umap"
 	"adi-gojira/pkg/gjservice"
-	"fmt"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -57,24 +58,31 @@ func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string) (
 	data = response
 
 	if uint(len(data.Issues)) < data.Total {
-		c := make(chan gjservice.SearchByJQLPayload)
-		defer close(c)
-
-		totalIssues := float64(data.Total) // data.Total
-		loops := totalIssues / float64(maxResults)
-		startAt := 100
+		totalIssues := int(data.Total)
+		loops := totalIssues / maxResults
+		startAt := maxResults
 
 		// Evitar requisição extra
-		if int(totalIssues)%startAt == 0 {
+		if totalIssues%startAt == 0 {
 			loops--
 		}
 
-		for i := 1; i <= int(loops); i++ {
-			go s.getIssuesAsync(c, params, startAt*i)
+		var wg sync.WaitGroup
+		wg.Add(loops)
+		c := make(chan gjservice.SearchByJQLPayload, loops)
+
+		go func() {
+			wg.Wait()
+			close(c)
+		}()
+
+		for i := 1; i <= loops; i++ {
+			go s.getIssuesAsync(&wg, c, params, startAt*i)
 		}
 
-		for i := 0; i < int(loops); i++ {
-			v := <-c
+		wg.Wait()
+
+		for v := range c {
 			data.Issues = append(data.Issues, v.Issues...)
 		}
 	}
@@ -84,15 +92,18 @@ func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string) (
 
 // getIssuesAsync busca de forma assíncrona as demais issues no JIRA.
 func (s serviceImpl) getIssuesAsync(
+	wg *sync.WaitGroup,
 	c chan gjservice.SearchByJQLPayload,
 	params map[string]string,
 	startAt int,
 ) {
-	params["startAt"] = strconv.Itoa(startAt)
+	defer wg.Done()
 
-	respose, err := s.gjService.SearchByJQL(params)
+	p := umap.Copy(params)
+	p["startAt"] = strconv.Itoa(startAt)
+
+	respose, err := s.gjService.SearchByJQL(p)
 	if err != nil {
-		fmt.Println("ERRO NA REQUISIÇÃO DO JQL")
 		c <- gjservice.SearchByJQLPayload{}
 	}
 

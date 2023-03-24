@@ -3,7 +3,7 @@ import { Col, Row, Text, Tooltip } from '@adi/react-components';
 import { CardWithIcon } from '@/components/ui/CardWithIcon';
 
 export interface TotalingCardsItem {
-    total: number;
+    content: string | number;
     tooltip?: string;
     title: string;
     color: string;
@@ -19,7 +19,7 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ items, loading }): JSX.E
     return (
         <Col span={24}>
             <Row gutter={[12, 24]} justify="start" align="middle">
-                {items.map(({ total, tooltip, title, color, icon }) => (
+                {items.map(({ content, tooltip, title, color, icon }) => (
                     <Col key={title} xs={24} md={12} lg={6}>
                         <CardWithIcon
                             title={title}
@@ -31,7 +31,7 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ items, loading }): JSX.E
                             <Row justify="center" align="middle">
                                 <Col>
                                     <Text size="4xl" strong>
-                                        {loading ? '...' : total}
+                                        {loading ? '...' : content}
                                     </Text>
                                 </Col>
                             </Row>

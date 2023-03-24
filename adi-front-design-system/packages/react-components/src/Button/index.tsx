@@ -10,6 +10,7 @@ export interface ButtonProps {
     size?: AntdButtonProps['size'];
     icon?: AntdButtonProps['icon'];
     disabled?: boolean;
+    loading?: boolean;
     block?: boolean;
     onClick?: AntdButtonProps['onClick'];
     style?: CSSProperties;
@@ -25,6 +26,7 @@ export const Button: FC<ButtonProps> = ({
     icon,
     disabled = false,
     block = false,
+    loading = false,
     onClick,
     style,
     className,
@@ -38,6 +40,7 @@ export const Button: FC<ButtonProps> = ({
             icon={icon}
             disabled={disabled}
             block={block}
+            loading={loading}
             onClick={onClick}
             style={style}
             className={className}
