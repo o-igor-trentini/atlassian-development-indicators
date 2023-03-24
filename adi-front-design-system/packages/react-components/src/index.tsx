@@ -36,4 +36,7 @@ export type { DrawerProps } from './Drawer';
 export { Skeleton } from './Skeleton';
 export type { SkeletonProps } from './Skeleton';
 
+export { Table } from './Table';
+export type { TableProps } from './Table';
+
 export * from './Layout';
