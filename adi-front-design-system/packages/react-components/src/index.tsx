@@ -33,4 +33,7 @@ export type { TooltipProps } from './Tooltip';
 export { Drawer } from './Drawer';
 export type { DrawerProps } from './Drawer';
 
+export { Skeleton } from './Skeleton';
+export type { SkeletonProps } from './Skeleton';
+
 export * from './Layout';

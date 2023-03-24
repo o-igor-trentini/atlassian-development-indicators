@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Col, Row, Text, Tooltip } from '@adi/react-components';
 import { CardWithIcon } from '@/components/ui/CardWithIcon';
+import { CardSkeleton } from '@/pages/indicadores/components/TotalingCards/components/CardSkeleton';
 
 export interface TotalingCardsItem {
     content: string | number;
@@ -16,6 +17,15 @@ interface TotalingCardsProps {
 }
 
 export const TotalingCards: FC<TotalingCardsProps> = ({ items, loading }): JSX.Element => {
+    const CardContent: FC<{ content?: string | number }> = ({ content }): JSX.Element =>
+        loading ? (
+            <CardSkeleton />
+        ) : (
+            <Text size="4xl" strong>
+                {content}
+            </Text>
+        );
+
     return (
         <Col span={24}>
             <Row gutter={[12, 24]} justify="start" align="middle">
@@ -30,9 +40,7 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ items, loading }): JSX.E
                         >
                             <Row justify="center" align="middle">
                                 <Col>
-                                    <Text size="4xl" strong>
-                                        {loading ? '...' : content}
-                                    </Text>
+                                    <CardContent content={content} />
                                 </Col>
                             </Row>
                         </CardWithIcon>
