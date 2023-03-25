@@ -3,6 +3,7 @@ import { Dayjs } from 'dayjs';
 export interface IssuesDetails {
     total: number;
     values: number[];
+    jql?: string;
 }
 
 export interface DemandsAnalytics {
@@ -14,7 +15,6 @@ export interface DemandsAnalytics {
 }
 
 export interface Demands {
-    jql: string;
     periods: string[];
     created: IssuesDetails;
     resolved: IssuesDetails;
