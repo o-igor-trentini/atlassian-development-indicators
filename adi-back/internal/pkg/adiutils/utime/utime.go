@@ -43,7 +43,7 @@ func GetYearMonthBetweenDates(t1, t2 time.Time) []string {
 		}
 
 		// meses do primeiro ano
-		if i < yearDiff-1 {
+		if i == 0 {
 			for j := m1; j <= lastMonth; j++ {
 				interval = append(interval, fmt.Sprintf("%d/%d", y2-yearDiff+i, j))
 			}
