@@ -2,6 +2,7 @@ package gojira
 
 import (
 	"adi-back/internal/consts/envconst"
+	"adi-back/internal/pkg/adiutils/uchan"
 	"adi-back/internal/pkg/adiutils/umap"
 	"adi-gojira/pkg/gjservice"
 	"net/http"
@@ -14,7 +15,13 @@ import (
 
 type Service interface {
 	// GetIssues busca as issues pelos parâmetros passados.
-	GetIssues(parameters BuildJQLParams, fields []string, t PeriodType) (data gjservice.SearchByJQLPayload, JQL string, err error)
+	GetIssues(
+		wg *sync.WaitGroup,
+		ch chan uchan.ChannelResponse[GetIssuesChannelResponse],
+		parameters BuildJQLParams,
+		fields []string,
+		t PeriodType,
+	)
 }
 
 type serviceImpl struct {
@@ -35,14 +42,28 @@ func NewService() Service {
 	return &serviceImpl{gjService}
 }
 
-func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string, t PeriodType) (
-	data gjservice.SearchByJQLPayload,
-	JQL string,
-	err error,
+func (s serviceImpl) GetIssues(
+	wg *sync.WaitGroup,
+	ch chan uchan.ChannelResponse[GetIssuesChannelResponse],
+	parameters BuildJQLParams,
+	fields []string,
+	t PeriodType,
 ) {
-	JQL = buildJQL(parameters, &t)
-	maxResults := 100
+	defer wg.Done()
 
+	var r = func(data gjservice.SearchByJQLPayload, JQL string, err error) {
+		ch <- uchan.ChannelResponse[GetIssuesChannelResponse]{
+			Data: GetIssuesChannelResponse{
+				JQL:        JQL,
+				Issues:     data,
+				PeriodType: t,
+			},
+			Error: err,
+		}
+	}
+
+	JQL := buildJQL(parameters, &t)
+	maxResults := 100
 	params := map[string]string{
 		"jql":        JQL,
 		"maxResults": strconv.Itoa(maxResults),
@@ -52,13 +73,12 @@ func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string, t Per
 
 	response, err := s.gjService.SearchByJQL(params)
 	if err != nil {
-		return data, JQL, err
+		r(response, JQL, err)
+		return
 	}
 
-	data = response
-
-	if uint(len(data.Issues)) < data.Total {
-		totalIssues := int(data.Total)
+	if uint(len(response.Issues)) < response.Total {
+		totalIssues := int(response.Total)
 		loops := totalIssues / maxResults
 		startAt := maxResults
 
@@ -69,7 +89,7 @@ func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string, t Per
 
 		var wg sync.WaitGroup
 		wg.Add(loops)
-		c := make(chan gjservice.SearchByJQLPayload, loops)
+		c := make(chan uchan.ChannelResponse[gjservice.SearchByJQLPayload], loops)
 
 		go func() {
 			wg.Wait()
@@ -83,17 +103,22 @@ func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string, t Per
 		wg.Wait()
 
 		for v := range c {
-			data.Issues = append(data.Issues, v.Issues...)
+			if v.Error != nil {
+				r(response, JQL, v.Error)
+				return
+			}
+
+			response.Issues = append(response.Issues, v.Data.Issues...)
 		}
 	}
 
-	return
+	r(response, JQL, nil)
 }
 
 // getIssuesAsync busca de forma assíncrona as demais issues no JIRA.
 func (s serviceImpl) getIssuesAsync(
 	wg *sync.WaitGroup,
-	c chan gjservice.SearchByJQLPayload,
+	c chan uchan.ChannelResponse[gjservice.SearchByJQLPayload],
 	params map[string]string,
 	startAt int,
 ) {
@@ -103,9 +128,8 @@ func (s serviceImpl) getIssuesAsync(
 	p["startAt"] = strconv.Itoa(startAt)
 
 	respose, err := s.gjService.SearchByJQL(p)
-	if err != nil {
-		c <- gjservice.SearchByJQLPayload{}
+	c <- uchan.ChannelResponse[gjservice.SearchByJQLPayload]{
+		Data:  respose,
+		Error: err,
 	}
-
-	c <- respose
 }

@@ -1,6 +1,9 @@
 package gojira
 
-import "time"
+import (
+	"adi-gojira/pkg/gjservice"
+	"time"
+)
 
 // PeriodType é o tipo da busca por período.
 type PeriodType string
@@ -34,4 +37,10 @@ type BuildJQLParams struct {
 	Projects []string  `form:"projects[]" binding:"required"`
 	Period   Period    `form:"period" binding:"required"`
 	OrderBy  []OrderBy `form:"orderBy[]"`
+}
+
+type GetIssuesChannelResponse struct {
+	JQL        string
+	Issues     gjservice.SearchByJQLPayload
+	PeriodType PeriodType
 }

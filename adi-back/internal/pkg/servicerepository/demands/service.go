@@ -1,6 +1,7 @@
 package demands
 
 import (
+	"adi-back/internal/pkg/adiutils/uchan"
 	"adi-back/internal/pkg/adiutils/uslice"
 	"adi-back/internal/pkg/adiutils/utime"
 	"adi-back/third_party/gojira"
@@ -8,6 +9,7 @@ import (
 	"adi-gojira/pkg/gjservice"
 	"fmt"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -26,19 +28,37 @@ func NewService(gojiraService gojira.Service) Service {
 }
 
 func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesByPeriodResponse, error) {
-	fields := []string{gjconsts.IssueFieldCreaetd, gjconsts.IssueFieldResolutionDate, gjconsts.IssueFieldStatus}
+	var wg sync.WaitGroup
+	wg.Add(2)
+	c := make(chan uchan.ChannelResponse[gojira.GetIssuesChannelResponse], 2)
 
-	createdIssues, createdJQL, err := s.gojiraService.GetIssues(params, fields, gojira.CreatedPeriodType)
-	if err != nil {
-		// TODO: Tipo de erro personalizado
-		fmt.Println(err)
-		return GetIssuesByPeriodResponse{}, nil
+	go func() {
+		wg.Wait()
+		close(c)
+	}()
+
+	fields := []string{
+		gjconsts.IssueFieldCreaetd,
+		gjconsts.IssueFieldResolutionDate,
+		gjconsts.IssueFieldStatus,
 	}
 
-	resolvedIssues, resolvedJQL, err := s.gojiraService.GetIssues(params, fields, gojira.ResolvedPeriodType)
-	if err != nil {
-		fmt.Println(err)
-		return GetIssuesByPeriodResponse{}, nil
+	go s.gojiraService.GetIssues(&wg, c, params, fields, gojira.CreatedPeriodType)
+	go s.gojiraService.GetIssues(&wg, c, params, fields, gojira.ResolvedPeriodType)
+
+	wg.Wait()
+
+	var createdIssues, resolvedIssues gjservice.SearchByJQLPayload
+	var createdJQL, resolvedJQL string
+	for v := range c {
+		if v.Data.PeriodType == gojira.CreatedPeriodType {
+			createdIssues = v.Data.Issues
+			createdJQL = v.Data.JQL
+			continue
+		}
+
+		resolvedIssues = v.Data.Issues
+		resolvedJQL = v.Data.JQL
 	}
 
 	monthKeys := utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
