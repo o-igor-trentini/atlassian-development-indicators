@@ -2,10 +2,14 @@ import { CSSProperties, FC } from 'react';
 import { Table as AntdTable } from 'antd';
 import type { TableProps as AntdTableProps } from 'antd';
 
+export type TableDataSourceType<T> = AntdTableProps<T>['dataSource'];
+export type TableColumnType<T> = AntdTableProps<T>['columns'];
+export type TablePaginationType<T> = AntdTableProps<T>['pagination'];
+
 export interface TableProps<T> {
-    dataSource?: AntdTableProps<T>['dataSource'];
-    columns?: AntdTableProps<T>['columns'];
-    pagination?: AntdTableProps<T>['pagination'];
+    dataSource?: TableDataSourceType<T>;
+    columns?: TableColumnType<T>;
+    pagination?: TablePaginationType<T>;
     size?: AntdTableProps<T>['size'];
     loading?: boolean;
     bordered?: boolean;
@@ -15,7 +19,7 @@ export interface TableProps<T> {
 }
 
 /*eslint-disable*/
-export const Table: FC = <T,>({
+export const Table: FC<TableProps<any>> = ({
     dataSource,
     columns,
     pagination,
@@ -25,16 +29,16 @@ export const Table: FC = <T,>({
     onChange,
     style,
     className,
-}: TableProps<T>) => {
+}) => {
     return (
         <AntdTable
-            dataSource={dataSource as any}
-            columns={columns as any}
+            dataSource={dataSource}
+            columns={columns}
             pagination={pagination}
             loading={loading}
             bordered={bordered}
             size={size}
-            onChange={onChange as any}
+            onChange={onChange}
             style={style}
             className={className}
         />

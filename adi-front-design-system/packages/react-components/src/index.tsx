@@ -37,6 +37,6 @@ export { Skeleton } from './Skeleton';
 export type { SkeletonProps } from './Skeleton';
 
 export { Table } from './Table';
-export type { TableProps } from './Table';
+export type { TableProps, TableColumnType, TablePaginationType, TableDataSourceType } from './Table';
 
 export * from './Layout';
