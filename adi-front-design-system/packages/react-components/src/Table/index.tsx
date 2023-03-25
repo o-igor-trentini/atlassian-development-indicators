@@ -13,6 +13,7 @@ export interface TableProps<T> {
     size?: AntdTableProps<T>['size'];
     loading?: boolean;
     bordered?: boolean;
+    scroll?: AntdTableProps<T>['scroll'];
     onChange?: AntdTableProps<T>['onChange'];
     style?: CSSProperties;
     className?: string;
@@ -26,6 +27,7 @@ export const Table: FC<TableProps<any>> = ({
     size = 'middle',
     loading,
     bordered,
+    scroll,
     onChange,
     style,
     className,
@@ -38,6 +40,7 @@ export const Table: FC<TableProps<any>> = ({
             loading={loading}
             bordered={bordered}
             size={size}
+            scroll={scroll}
             onChange={onChange}
             style={style}
             className={className}

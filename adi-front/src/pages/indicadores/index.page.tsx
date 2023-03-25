@@ -13,8 +13,8 @@ import { formatFloatPrecision } from '@/utils/string';
 const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [tableDataSource, setTableDataSource] = useState<TableDataSourceType<any>>([]);
-    const [tableColumns, setTableColumns] = useState<TableColumnType<any>>([]);
+    const [tableDataSource, setTableDataSource] = useState<TableDataSourceType<unknown>>([]);
+    const [tableColumns, setTableColumns] = useState<TableColumnType<unknown>>([]);
 
     const getDemands = async (parameters: APIGetCreatedVersusResolvedProps): Promise<void> => {
         try {
@@ -24,15 +24,13 @@ const Indicators: NextPage = (): JSX.Element => {
 
             setDemands(response);
 
-            interface Test {
-                key: string;
-                dataIndex: string;
-            }
-
             const periodRows: Record<string, string> = {};
             if (demands) for (const period of response.periods) periodRows[period] = period;
 
-            const periodCol: Test[] = Object.keys(periodRows).map((period, index) => ({
+            const periodCol: {
+                key: string;
+                dataIndex: string;
+            }[] = Object.keys(periodRows).map((period, index) => ({
                 key: String(index),
                 dataIndex: period,
             }));
@@ -40,7 +38,7 @@ const Indicators: NextPage = (): JSX.Element => {
             const createdRows: Record<string, number> = {},
                 resolvedRows: Record<string, number> = {},
                 pendingRows: Record<string, number> = {},
-                progressRows: Record<string, number> = {};
+                progressRows: Record<string, string> = {};
 
             for (let i = 0; i < response.periods.length; i++) {
                 const key = periodCol[i].dataIndex;
@@ -54,7 +52,7 @@ const Indicators: NextPage = (): JSX.Element => {
                 pendingRows[key] = createdRows[key] - resolvedRows[key];
                 // pendingRows[key] = response.pending.values[i];
 
-                progressRows[key] = formatFloatPrecision(response.analytics.progressPerPeriod[i], 2);
+                progressRows[key] = `${formatFloatPrecision(response.analytics.progressPerPeriod[i], 2)}%`;
             }
 
             const dataSource: TableDataSourceType<unknown> = [
@@ -86,6 +84,8 @@ const Indicators: NextPage = (): JSX.Element => {
                 {
                     dataIndex: 'key',
                     rowScope: 'row',
+                    width: 120,
+                    fixed: 'left',
                 },
                 ...periodCol,
             ];
@@ -159,7 +159,12 @@ const Indicators: NextPage = (): JSX.Element => {
             <Col span={24}>
                 <Card title="Criadas x Resolvidas">
                     {demands?.periods?.length && (
-                        <Table dataSource={tableDataSource} columns={tableColumns} pagination={false} />
+                        <Table
+                            dataSource={tableDataSource}
+                            columns={tableColumns}
+                            pagination={false}
+                            scroll={{ x: true }}
+                        />
                     )}
                 </Card>
             </Col>
