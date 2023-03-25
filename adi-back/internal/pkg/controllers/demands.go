@@ -24,16 +24,14 @@ func NewDemands(demandsService demands.Service) DemandsController {
 func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
 	type bindQueryDTO struct {
 		gojira.BuildJQLParams
-		From  time.Time `form:"from" binding:"required"`
-		Until time.Time `form:"until" binding:"required"`
+		From  time.Time `json:"from" form:"from" binding:"required"`
+		Until time.Time `json:"until" form:"until" binding:"required"`
 	}
 
 	var (
 		dto    bindQueryDTO
 		params gojira.BuildJQLParams
 	)
-
-	// TODO: Implementar generic handler para controller
 
 	if err := c.ShouldBindQuery(&dto); err != nil {
 		respond(c, err)

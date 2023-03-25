@@ -2,8 +2,8 @@ package setup
 
 import (
 	"adi-back/internal/consts/envconst"
-	"adi-back/internal/log/adilog"
 	"adi-back/internal/pkg/routes"
+	"adi-back/internal/services/log/adilog"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

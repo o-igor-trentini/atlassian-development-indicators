@@ -2,8 +2,8 @@ package database
 
 import (
 	"adi-back/internal/consts/envconst"
-	"adi-back/internal/log/adilog"
 	"adi-back/internal/pkg/adiutils"
+	"adi-back/internal/services/log/adilog"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

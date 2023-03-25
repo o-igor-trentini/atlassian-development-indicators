@@ -2,9 +2,9 @@ package setup
 
 import (
 	"adi-back/internal/consts/envconst"
-	"adi-back/internal/log/adilog"
-	"adi-back/internal/log/adisentry"
 	"adi-back/internal/pkg/adiutils/uenv"
+	"adi-back/internal/services/log/adilog"
+	"adi-back/internal/services/log/adisentry"
 	"github.com/joho/godotenv"
 	"log"
 )

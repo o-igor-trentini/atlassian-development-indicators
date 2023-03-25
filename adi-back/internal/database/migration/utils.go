@@ -1,7 +1,7 @@
 package migration
 
 import (
-	"adi-back/internal/log/adilog"
+	"adi-back/internal/services/log/adilog"
 	"fmt"
 	"os"
 	"time"
