@@ -43,7 +43,7 @@ func withError(c *gin.Context, response interface{}) {
 		code = statuscode.CodeValidation
 		message = "As informações enviadas não são válidas"
 		statusCode = http.StatusUnprocessableEntity
-		res["errors"] = makeValidationErrors(response.(validator.ValidationErrors), true)
+		res["errors"] = makeValidationResponse(response.(validator.ValidationErrors), true)
 
 	case *json.UnmarshalTypeError:
 		marshal := func(jsErr json.UnmarshalTypeError) map[string]string {
@@ -69,13 +69,18 @@ func withError(c *gin.Context, response interface{}) {
 	c.AbortWithStatusJSON(statusCode, res)
 }
 
-type validationResponse struct {
+type validationResponseDetails struct {
 	Tag      string  `json:"tag"`
 	Expected *string `json:"expected,omitempty"`
 }
 
-// makeValidationErrors Monta os erros de validações da struct.
-func makeValidationErrors(err validator.ValidationErrors, detailed bool) interface{} {
+type validationResponse struct {
+	Field   string                    `json:"field"`
+	Details validationResponseDetails `json:"details"`
+}
+
+// makeValidationResponse monta a estrutura dos erros de validações da struct.
+func makeValidationResponse(err validator.ValidationErrors, detailed bool) interface{} {
 	// simple Retorna a estrutura de erro de forma simples
 	simple := func(vErr validator.ValidationErrors) map[string]string {
 		errs := make(map[string]string)
@@ -94,8 +99,8 @@ func makeValidationErrors(err validator.ValidationErrors, detailed bool) interfa
 	}
 
 	// descriptive Retorna a estrutura de erro com mais detalhes
-	descriptive := func(errs validator.ValidationErrors) map[string]validationResponse {
-		response := make(map[string]validationResponse)
+	descriptive := func(errs validator.ValidationErrors) []validationResponse {
+		var response []validationResponse
 
 		for _, v := range errs {
 			var expected *string
@@ -107,10 +112,13 @@ func makeValidationErrors(err validator.ValidationErrors, detailed bool) interfa
 				expected = &param
 			}
 
-			response[field] = validationResponse{
-				Tag:      tag,
-				Expected: expected,
-			}
+			response = append(response, validationResponse{
+				Field: field,
+				Details: validationResponseDetails{
+					Tag:      tag,
+					Expected: expected,
+				},
+			})
 		}
 
 		return response
