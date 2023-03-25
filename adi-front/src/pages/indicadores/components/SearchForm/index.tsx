@@ -47,15 +47,11 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
 
     useEffect(() => {
         // Marcar todos os projetos como padrão
-        form.setFieldsValue({
-            projects: projectOptions.map(({ value }) => value),
-            from: initialValues.from,
-            until: initialValues.until,
-        });
+        form.setFieldsValue({ projects: projectOptions.map(({ value }) => value) });
     }, [form, projectOptions]);
 
     return (
-        <Form id="search-demands" form={form} onSubmit={handleSubmit}>
+        <Form id="search-demands" form={form} initialValues={initialValues} onSubmit={handleSubmit}>
             <Row gutter={12} justify="center" align="middle">
                 <Col xs={24} md={8}>
                     <FormItem name="projects" label="Projetos" rules={[{ required: true }]}>

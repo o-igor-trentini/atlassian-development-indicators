@@ -36,7 +36,7 @@ func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
 	// TODO: Implementar generic handler para controller
 
 	if err := c.ShouldBindQuery(&dto); err != nil {
-		c.JSON(422, err)
+		respond(c, err)
 		return
 	}
 
@@ -46,9 +46,9 @@ func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
 
 	response, err := co.demandsService.GetIssuesByPeriod(params)
 	if err != nil {
-		c.JSON(400, err)
+		respond(c, err)
 		return
 	}
 
-	c.JSON(200, response)
+	respond(c, response)
 }
