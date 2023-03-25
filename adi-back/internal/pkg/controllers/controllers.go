@@ -69,9 +69,9 @@ func withError(c *gin.Context, response interface{}) {
 	c.AbortWithStatusJSON(statusCode, res)
 }
 
-type validationErrors struct {
-	Field   string `json:"field"`
-	Message string `json:"message"`
+type validationResponse struct {
+	Tag      string  `json:"tag"`
+	Expected *string `json:"expected,omitempty"`
 }
 
 // makeValidationErrors Monta os erros de validações da struct.
@@ -94,20 +94,26 @@ func makeValidationErrors(err validator.ValidationErrors, detailed bool) interfa
 	}
 
 	// descriptive Retorna a estrutura de erro com mais detalhes
-	descriptive := func(err validator.ValidationErrors) []validationErrors {
-		var errs []validationErrors
+	descriptive := func(errs validator.ValidationErrors) map[string]validationResponse {
+		response := make(map[string]validationResponse)
 
-		for _, v := range err {
-			e := v.ActualTag()
+		for _, v := range errs {
+			var expected *string
+			field := v.Field()
+			tag := v.ActualTag()
 
 			if v.Param() != "" {
-				e = fmt.Sprintf("%s=%s", e, v.Param())
+				param := v.Param()
+				expected = &param
 			}
 
-			errs = append(errs, validationErrors{Field: v.Field(), Message: e})
+			response[field] = validationResponse{
+				Tag:      tag,
+				Expected: expected,
+			}
 		}
 
-		return errs
+		return response
 	}
 
 	if detailed {
