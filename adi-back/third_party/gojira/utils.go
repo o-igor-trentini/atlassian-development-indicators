@@ -1,13 +1,12 @@
 package gojira
 
 import (
-	"adi-back/internal/pkg/adiutils/uslice"
 	"adi-gojira/pkg/gjconsts"
 	"strings"
 )
 
 // buildJQL monta a query JQL com base nos parâmetros passados.
-func buildJQL(params BuildJQLParams, fields []string) string {
+func buildJQL(params BuildJQLParams, t *PeriodType) string {
 	var JQL string
 	var query []string
 
@@ -25,16 +24,21 @@ func buildJQL(params BuildJQLParams, fields []string) string {
 	}
 
 	// período
-	var makeDate = func(field string) string {
-		item := field + " >= " + params.Period.Range.From.Format("2006-01-02")
-		item += " AND " + field + " <= " + params.Period.Range.Until.Format("2006-01-02")
+	if t != nil {
+		var makeDate = func(field string) string {
+			item := field + " >= " + params.Period.Range.From.Format("2006-01-02")
+			item += " AND " + field + " <= " + params.Period.Range.Until.Format("2006-01-02")
 
-		return item
-	}
+			return item
+		}
 
-	if uslice.Contains(fields, gjconsts.IssueFieldCreaetd) ||
-		uslice.Contains(fields, gjconsts.IssueFieldResolutionDate) {
-		query = append(query, makeDate(gjconsts.IssueFieldCreaetd))
+		if *t == CreatedPeriodType {
+			query = append(query, makeDate(gjconsts.IssueFieldCreaetd))
+		}
+
+		if *t == ResolvedPeriodType {
+			query = append(query, makeDate(gjconsts.IssueFieldResolutionDate))
+		}
 	}
 
 	JQL = strings.Join(query, " AND ")

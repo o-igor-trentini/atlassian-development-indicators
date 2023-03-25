@@ -1,7 +1,7 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 import { Col, Row, Text, Tooltip } from '@adi/react-components';
 import { CardWithIcon } from '@/components/ui/CardWithIcon';
-import { CardSkeleton } from '@/pages/indicadores/components/TotalingCards/components/CardSkeleton';
+import { CardSkeleton } from './components/CardSkeleton';
 
 export interface TotalingCardsItem {
     content: string | number;

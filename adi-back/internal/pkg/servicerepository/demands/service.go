@@ -26,33 +26,44 @@ func NewService(gojiraService gojira.Service) Service {
 }
 
 func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesByPeriodResponse, error) {
-	fields := []string{gjconsts.IssueFieldCreaetd, gjconsts.IssueFieldResolutionDate}
+	fields := []string{gjconsts.IssueFieldCreaetd, gjconsts.IssueFieldResolutionDate, gjconsts.IssueFieldStatus}
 
-	issues, JQL, err := s.gojiraService.GetIssues(params, fields)
+	createdIssues, createdJQL, err := s.gojiraService.GetIssues(params, fields, gojira.CreatedPeriodType)
 	if err != nil {
 		// TODO: Tipo de erro personalizado
 		fmt.Println(err)
 		return GetIssuesByPeriodResponse{}, nil
 	}
 
-	monthKeys := utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
-
-	response, err := s.handleGetIssues(issues, monthKeys)
+	resolvedIssues, resolvedJQL, err := s.gojiraService.GetIssues(params, fields, gojira.ResolvedPeriodType)
 	if err != nil {
 		fmt.Println(err)
 		return GetIssuesByPeriodResponse{}, nil
 	}
 
-	response.JQL = JQL
+	monthKeys := utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
+	// TODO: Pegar de uma configuração  (banco)
+	skippedFieldsInPendants := []string{"00 - backlog", "backlog"}
+
+	response, err := s.handleGetIssues(createdIssues, resolvedIssues, monthKeys, skippedFieldsInPendants)
+	if err != nil {
+		fmt.Println(err)
+		return GetIssuesByPeriodResponse{}, nil
+	}
+
 	response.Periods = monthKeys
+	response.Created.JQL = &createdJQL
+	response.Resolved.JQL = &resolvedJQL
+
+	response.DoAnalysis()
 
 	return response, nil
 }
 
 // handleGetIssues formata os dados retornados pelo Jira dividindo em issue por ano/mês.
 func (s serviceImpl) handleGetIssues(
-	payload gjservice.SearchByJQLPayload,
-	monthsKeys []string,
+	createdPayload, resolvedPayload gjservice.SearchByJQLPayload,
+	monthsKeys, skippedFieldsInPendants []string,
 ) (GetIssuesByPeriodResponse, error) {
 	var add = func(rangeValues []uint, strDate string) error {
 		cutedStrDate, _, _ := strings.Cut(strDate, "T")
@@ -72,12 +83,10 @@ func (s serviceImpl) handleGetIssues(
 	}
 
 	var response GetIssuesByPeriodResponse
-	response.Created.PeriodValues = make([]uint, len(monthsKeys))
-	response.Resolved.PeriodValues = make([]uint, len(monthsKeys))
-	response.Pending.PeriodValues = make([]uint, len(monthsKeys))
-	response.Analytics.ProgressPerPeriod = make([]float32, len(monthsKeys))
 
-	for _, v := range payload.Issues {
+	response.Created.PeriodValues = make([]uint, len(monthsKeys))
+	response.Pending.PeriodValues = make([]uint, len(monthsKeys))
+	for _, v := range createdPayload.Issues {
 		fields := v.Fields
 
 		// created
@@ -85,30 +94,23 @@ func (s serviceImpl) handleGetIssues(
 			return response, err
 		}
 
-		// resolved
-		if fields.ResolutionDate != nil {
-			if err := add(response.Resolved.PeriodValues, *fields.ResolutionDate); err != nil {
-				return response, err
-			}
-		} else { // pending
+		// pending
+		if !uslice.Contains(skippedFieldsInPendants, strings.ToLower(fields.Status.Name)) && fields.ResolutionDate == nil {
 			if err := add(response.Pending.PeriodValues, fields.Created); err != nil {
 				return response, err
 			}
 		}
 	}
 
-	for i := range monthsKeys {
-		response.Created.Total += response.Created.PeriodValues[i]
-		response.Resolved.Total += response.Resolved.PeriodValues[i]
-		response.Pending.Total += response.Pending.PeriodValues[i]
+	// resolved
+	response.Resolved.PeriodValues = make([]uint, len(monthsKeys))
+	for _, v := range resolvedPayload.Issues {
+		fields := v.Fields
 
-		response.Analytics.ProgressPerPeriod[i] += float32(response.Resolved.PeriodValues[i]) / float32(response.Created.PeriodValues[i]) * 100
+		if err := add(response.Resolved.PeriodValues, *fields.ResolutionDate); err != nil {
+			return response, err
+		}
 	}
-
-	response.Analytics.CreatedTotal = response.Created.Total
-	response.Analytics.ResolvedTotal = response.Resolved.Total
-	response.Analytics.PendingTotal = response.Pending.Total
-	response.Analytics.OverallProgress = float32(response.Resolved.Total) / float32(response.Created.Total) * 100
 
 	return response, nil
 }

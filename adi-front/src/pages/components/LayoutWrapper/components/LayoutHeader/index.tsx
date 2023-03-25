@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { LineChart, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { Container, MenuButton } from './styles';
 import { Button, Col, Drawer, Row } from '@adi/react-components';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ export const LayoutHeader: FC<LayoutHeaderProps> = ({ onSwitchTheme }): JSX.Elem
             <Drawer open={showMenu} placement="left" mask onClose={handleCloseMenu}>
                 <Row gutter={[0, 12]}>
                     <Col span={24}>
-                        <Link href="/">
+                        <Link href="/" prefetch={false}>
                             <Button id="home" block>
                                 Home
                             </Button>
@@ -30,7 +30,7 @@ export const LayoutHeader: FC<LayoutHeaderProps> = ({ onSwitchTheme }): JSX.Elem
                     </Col>
 
                     <Col span={24}>
-                        <Link href="/indicadores">
+                        <Link href="/indicadores" prefetch={false}>
                             <Button id="indicators" block>
                                 Indicadores
                             </Button>

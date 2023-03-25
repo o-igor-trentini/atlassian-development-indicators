@@ -14,7 +14,7 @@ import (
 
 type Service interface {
 	// GetIssues busca as issues pelos parâmetros passados.
-	GetIssues(parameters BuildJQLParams, fields []string) (data gjservice.SearchByJQLPayload, JQL string, err error)
+	GetIssues(parameters BuildJQLParams, fields []string, t PeriodType) (data gjservice.SearchByJQLPayload, JQL string, err error)
 }
 
 type serviceImpl struct {
@@ -35,12 +35,12 @@ func NewService() Service {
 	return &serviceImpl{gjService}
 }
 
-func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string) (
+func (s serviceImpl) GetIssues(parameters BuildJQLParams, fields []string, t PeriodType) (
 	data gjservice.SearchByJQLPayload,
 	JQL string,
 	err error,
 ) {
-	JQL = buildJQL(parameters, fields)
+	JQL = buildJQL(parameters, &t)
 	maxResults := 100
 
 	params := map[string]string{

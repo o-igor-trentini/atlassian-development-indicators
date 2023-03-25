@@ -1,6 +1,5 @@
-import { FC, useEffect } from 'react';
-import { Button, Col, DatePicker, Form, Row, Select, SelectOptions } from '@adi/react-components';
-import { FormItem, useForm } from '@adi/react-components';
+import { FC, useEffect, useMemo } from 'react';
+import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
 
 export interface FormSearch {
@@ -10,11 +9,11 @@ export interface FormSearch {
 }
 
 const today = dayjs();
-const twoWeeksAgo = today.clone().subtract(15, 'days');
+const from = today.clone().subtract(3, 'months');
 
 const initialValues: FormSearch = {
     projects: [],
-    from: twoWeeksAgo,
+    from,
     until: today,
 };
 
@@ -26,34 +25,37 @@ interface SearchFormProps {
 export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Element => {
     const [form] = useForm<FormSearch>();
 
-    // TODO: Alterar projectOptions para useMemo
-
-    const projectOptions: SelectOptions = [
-        {
-            label: 'PeC',
-            value: 'PEC',
-        },
-        {
-            label: 'Risk',
-            value: 'RISK1',
-        },
-        {
-            label: 'Random',
-            value: 'RAN',
-        },
-    ];
+    const projectOptions: SelectOptions = useMemo(
+        () => [
+            {
+                label: 'PeC',
+                value: 'PEC',
+            },
+            {
+                label: 'Risk',
+                value: 'RISK1',
+            },
+            {
+                label: 'Randon',
+                value: 'RAN',
+            },
+        ],
+        [],
+    );
 
     const handleSubmit = (values: FormSearch): void => onSubmit(values);
 
-    useEffect(
-        () =>
-            // Marcar todos os projetos como padrão
-            form.setFieldsValue({ projects: projectOptions.map(({ value }) => value) }),
-        [form, projectOptions],
-    );
+    useEffect(() => {
+        // Marcar todos os projetos como padrão
+        form.setFieldsValue({
+            projects: projectOptions.map(({ value }) => value),
+            from: initialValues.from,
+            until: initialValues.until,
+        });
+    }, [form, projectOptions]);
 
     return (
-        <Form id="search-demands" form={form} initialValues={initialValues} onSubmit={handleSubmit}>
+        <Form id="search-demands" form={form} onSubmit={handleSubmit}>
             <Row gutter={12} justify="center" align="middle">
                 <Col xs={24} md={8}>
                     <FormItem name="projects" label="Projetos" rules={[{ required: true }]}>
