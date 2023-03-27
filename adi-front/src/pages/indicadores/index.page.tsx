@@ -7,6 +7,7 @@ import { getCreatedVersusResolved } from '@/api/demands';
 import { TotalingCards } from './components/TotalingCards';
 import { NextPage } from 'next';
 import { GeneralCreatedVersusResolvedTable } from '@/pages/indicadores/components/GeneralCreatedVersusResolvedTable';
+import { DemandsEmpty } from '@/pages/indicadores/components/DemandsEmpty';
 
 const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -36,14 +37,10 @@ const Indicators: NextPage = (): JSX.Element => {
         }).then();
     };
 
-    return (
-        <Row gutter={[0, 32]} justify="center" align="top">
-            <Col span={24}>
-                <Card>
-                    <SearchForm loading={loading} onSubmit={handleSearch} />
-                </Card>
-            </Col>
-
+    const content: JSX.Element = !demands ? (
+        <DemandsEmpty />
+    ) : (
+        <>
             <TotalingCards demands={demands} loading={loading} />
 
             <Col span={24}>
@@ -61,6 +58,18 @@ const Indicators: NextPage = (): JSX.Element => {
                     <GeneralCreatedVersusResolvedTable demands={demands} />
                 </Card>
             </Col>
+        </>
+    );
+
+    return (
+        <Row gutter={[0, 32]} justify="center" align="top">
+            <Col span={24}>
+                <Card>
+                    <SearchForm loading={loading} onSubmit={handleSearch} />
+                </Card>
+            </Col>
+
+            {content}
         </Row>
     );
 };

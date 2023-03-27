@@ -4,7 +4,7 @@ import { formatFloatPrecision } from '@/utils/string';
 import { Demands } from '@/@types/demands';
 
 interface GeneralCreatedVersusResolvedTableProps {
-    demands: Demands | null;
+    demands: Demands;
 }
 
 export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedTableProps> = ({
@@ -18,8 +18,6 @@ export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedT
     >([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
-        if (!demands) return;
-
         const periodRows: Record<string, string> = {};
 
         for (const period of demands.periods) periodRows[period] = period;
@@ -72,8 +70,6 @@ export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedT
     }, [demands]);
 
     const columns: TableColumnType<unknown> = useMemo(() => {
-        if (!demands) return;
-
         const columns: TableColumnType<unknown> = [
             {
                 dataIndex: 'key',

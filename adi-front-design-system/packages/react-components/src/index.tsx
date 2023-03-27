@@ -39,4 +39,7 @@ export type { SkeletonProps } from './Skeleton';
 export { Table } from './Table';
 export type { TableProps, TableColumnType, TablePaginationType, TableDataSourceType } from './Table';
 
+export { Empty } from './Empty';
+export type { EmptyProps } from './Empty';
+
 export * from './Layout';

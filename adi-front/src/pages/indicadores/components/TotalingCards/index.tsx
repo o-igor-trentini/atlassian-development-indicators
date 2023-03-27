@@ -16,7 +16,7 @@ interface TotalingCardsItem {
 }
 
 interface TotalingCardsProps {
-    demands: Demands | null;
+    demands: Demands;
     loading: boolean;
 }
 
@@ -33,25 +33,25 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ demands, loading }): JSX
     const items: TotalingCardsItem[] = useMemo(
         () => [
             {
-                content: demands?.analytics.createdTotal ?? 0,
+                content: demands.analytics.createdTotal,
                 title: 'Criadas',
                 color: baseTheme.ADIcolorCreated,
                 icon: <PlusCircle />,
             },
             {
-                content: demands?.analytics?.resolvedTotal ?? 0,
+                content: demands.analytics.resolvedTotal,
                 title: 'Resolvidas',
                 color: baseTheme.ADIcolorResolved,
                 icon: <CheckCircle2 />,
             },
             {
-                content: demands?.analytics.pendingTotal ?? 0,
+                content: demands.analytics.pendingTotal,
                 title: 'Pendentes',
                 color: baseTheme.ADIcolorPending,
                 icon: <History />,
             },
             {
-                content: formatFloatPrecision(demands?.analytics.overallProgress ?? 0, 2),
+                content: formatFloatPrecision(demands.analytics.overallProgress, 2),
                 title: 'Progresso',
                 color: '#2C3539',
                 icon: <Percent />,
