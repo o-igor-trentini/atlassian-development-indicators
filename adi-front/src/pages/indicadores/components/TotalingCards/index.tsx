@@ -1,9 +1,13 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { Col, Row, Text, Tooltip } from '@adi/react-components';
 import { CardWithIcon } from '@/components/ui/CardWithIcon';
 import { CardSkeleton } from './components/CardSkeleton';
+import { Demands } from '@/@types/demands';
+import { baseTheme } from '@/styles/themes';
+import { CheckCircle2, History, Percent, PlusCircle } from 'lucide-react';
+import { formatFloatPrecision } from '@/utils/string';
 
-export interface TotalingCardsItem {
+interface TotalingCardsItem {
     content: string | number;
     tooltip?: string;
     title: string;
@@ -12,11 +16,11 @@ export interface TotalingCardsItem {
 }
 
 interface TotalingCardsProps {
-    items: TotalingCardsItem[];
+    demands: Demands | null;
     loading: boolean;
 }
 
-export const TotalingCards: FC<TotalingCardsProps> = ({ items, loading }): JSX.Element => {
+export const TotalingCards: FC<TotalingCardsProps> = ({ demands, loading }): JSX.Element => {
     const CardContent: FC<{ content?: string | number }> = ({ content }): JSX.Element =>
         loading ? (
             <CardSkeleton />
@@ -25,6 +29,36 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ items, loading }): JSX.E
                 {content}
             </Text>
         );
+
+    const items: TotalingCardsItem[] = useMemo(
+        () => [
+            {
+                content: demands?.analytics.createdTotal ?? 0,
+                title: 'Criadas',
+                color: baseTheme.ADIcolorCreated,
+                icon: <PlusCircle />,
+            },
+            {
+                content: demands?.analytics?.resolvedTotal ?? 0,
+                title: 'Resolvidas',
+                color: baseTheme.ADIcolorResolved,
+                icon: <CheckCircle2 />,
+            },
+            {
+                content: demands?.analytics.pendingTotal ?? 0,
+                title: 'Pendentes',
+                color: baseTheme.ADIcolorPending,
+                icon: <History />,
+            },
+            {
+                content: formatFloatPrecision(demands?.analytics.overallProgress ?? 0, 2),
+                title: 'Progresso',
+                color: '#2C3539',
+                icon: <Percent />,
+            },
+        ],
+        [demands],
+    );
 
     return (
         <Col span={24}>
