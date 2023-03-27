@@ -85,7 +85,7 @@ func (s serviceImpl) handleGetIssues(
 	createdPayload, resolvedPayload gjservice.SearchByJQLPayload,
 	monthsKeys, skippedFieldsInPendants []string,
 ) (GetIssuesByPeriodResponse, error) {
-	var add = func(rangeValues []uint, strDate string) error {
+	var add = func(rangeValues []int, strDate string) error {
 		cutedStrDate, _, _ := strings.Cut(strDate, "T")
 
 		date, err := time.Parse("2006-01-02", cutedStrDate)
@@ -103,9 +103,10 @@ func (s serviceImpl) handleGetIssues(
 	}
 
 	var response GetIssuesByPeriodResponse
+	monthsLength := len(monthsKeys)
 
-	response.Created.PeriodValues = make([]uint, len(monthsKeys))
-	response.Pending.PeriodValues = make([]uint, len(monthsKeys))
+	response.Created.PeriodValues = make([]int, monthsLength)
+	response.Pending.PeriodValues = make([]int, monthsLength)
 	for _, v := range createdPayload.Issues {
 		fields := v.Fields
 
@@ -123,7 +124,7 @@ func (s serviceImpl) handleGetIssues(
 	}
 
 	// resolved
-	response.Resolved.PeriodValues = make([]uint, len(monthsKeys))
+	response.Resolved.PeriodValues = make([]int, monthsLength)
 	for _, v := range resolvedPayload.Issues {
 		fields := v.Fields
 
