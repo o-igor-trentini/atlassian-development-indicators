@@ -62,7 +62,7 @@ const Indicators: NextPage = (): JSX.Element => {
     );
 
     return (
-        <Row gutter={[0, 32]} justify="center" align="top">
+        <Row gutter={[0, 32]} justify="center" align="top" style={{ height: '100%' }}>
             <Col span={24}>
                 <Card>
                     <SearchForm loading={loading} onSubmit={handleSearch} />

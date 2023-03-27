@@ -1,12 +1,12 @@
 import type { AppProps } from 'next/app';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import Head from 'next/head';
-import { AppTheme, ConfigProvider, ThemeAlgorithm } from '@adi/react-components';
 import { GlobalStyle } from '@/styles/global';
 import { darkTheme, defaultTheme, ThemeType, ThemeVariant } from '@/styles/themes';
 import { ThemeProvider } from 'styled-components';
 import { LayoutWrapper } from '@/pages/components/LayoutWrapper';
 import { NextPage } from 'next';
+import { AppTheme, ConfigProvider, ThemeAlgorithm } from '@adi/react-components';
 
 const { defaultAlgorithm, darkAlgorithm } = AppTheme;
 
@@ -20,14 +20,26 @@ const App: NextPage<AppProps> = ({ Component, pageProps }): JSX.Element => {
         dark: darkAlgorithm,
     };
 
-    const handleMenuClick = (): void => setTheme((state) => (state.variant === 'light' ? darkTheme : defaultTheme));
+    const handleMenuClick = (): void => {
+        setTheme((state) => {
+            if (state.variant === 'light') {
+                localStorage.setItem('@adi/theme', 'dark');
+                return darkTheme;
+            }
 
-    useEffect(() => {
-        setTheme(defaultTheme);
+            localStorage.setItem('@adi/theme', 'light');
+            return defaultTheme;
+        });
+    };
+
+    useLayoutEffect(() => {
+        const storedTheme = localStorage.getItem('@adi/theme');
+
+        setTheme(storedTheme === 'light' ? defaultTheme : darkTheme);
     }, []);
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={theme}>
             <GlobalStyle />
 
             <Head>
