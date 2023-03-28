@@ -6,7 +6,7 @@ type IssuesByPeriodDTO struct {
 	PeriodValues []int   `json:"values"`
 }
 
-type Analytics struct {
+type IssuesAnalytics struct {
 	OverallProgress   float64   `json:"overallProgress"`
 	ProgressPerPeriod []float64 `json:"progressPerPeriod"`
 	CreatedTotal      int       `json:"createdTotal"`
@@ -15,13 +15,22 @@ type Analytics struct {
 	PendingTotal int `json:"pendingTotal"`
 }
 
+type IssuesByProject struct {
+	Total         int      `json:"total"`
+	TotalByPeriod []int    `json:"totalByPeriod"`
+	IssuesTypes   []string `json:"issuesTypes"`
+	TotalByType   []int    `json:"totalByType"`
+}
+
 type GetIssuesByPeriodResponse struct {
 	Created  IssuesByPeriodDTO `json:"created"`
 	Resolved IssuesByPeriodDTO `json:"resolved"`
 	// Pending possui informação temporal.
-	Pending   IssuesByPeriodDTO `json:"pending"`
-	Periods   []string          `json:"periods"`
-	Analytics Analytics         `json:"analytics"`
+	Pending        IssuesByPeriodDTO `json:"pending"`
+	Periods        []string          `json:"periods"`
+	Analytics      IssuesAnalytics   `json:"analytics"`
+	Projects       []string          `json:"projects"`
+	ProjectDetails []IssuesByProject `json:"project"`
 }
 
 func (s *GetIssuesByPeriodResponse) DoAnalysis() {

@@ -41,6 +41,8 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 		gjconsts.IssueFieldCreaetd,
 		gjconsts.IssueFieldResolutionDate,
 		gjconsts.IssueFieldStatus,
+		gjconsts.IssueFieldIssueType,
+		gjconsts.IssueFieldProject,
 	}
 
 	go s.gojiraService.GetIssues(&wg, c, params, fields, gojira.CreatedPeriodType)
@@ -65,7 +67,13 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 	// TODO: Pegar de uma configuração  (banco)
 	skippedFieldsInPendants := []string{"00 - backlog", "backlog"}
 
-	response, err := s.handleGetIssues(createdIssues, resolvedIssues, monthKeys, skippedFieldsInPendants)
+	response, err := s.handleGetIssues(
+		createdIssues,
+		resolvedIssues,
+		params.Projects,
+		monthKeys,
+		skippedFieldsInPendants,
+	)
 	if err != nil {
 		fmt.Println(err)
 		return GetIssuesByPeriodResponse{}, nil
@@ -83,7 +91,7 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 // handleGetIssues formata os dados retornados pelo Jira dividindo em issue por ano/mês.
 func (s serviceImpl) handleGetIssues(
 	createdPayload, resolvedPayload gjservice.SearchByJQLPayload,
-	monthsKeys, skippedFieldsInPendants []string,
+	projects, monthsKeys, skippedFieldsInPendants []string,
 ) (GetIssuesByPeriodResponse, error) {
 	var add = func(rangeValues []int, strDate string) error {
 		cutedStrDate, _, _ := strings.Cut(strDate, "T")
@@ -125,8 +133,39 @@ func (s serviceImpl) handleGetIssues(
 
 	// resolved
 	response.Resolved.PeriodValues = make([]int, monthsLength)
+	response.ProjectDetails = make([]IssuesByProject, len(projects))
 	for _, v := range resolvedPayload.Issues {
 		fields := v.Fields
+
+		// adiciona o projeto na listagem de projetos
+		projectIndex := uslice.Index(response.Projects, fields.Project.Name)
+		if projectIndex == -1 {
+			response.Projects = append(response.Projects, fields.Project.Name)
+			projectIndex = len(response.Projects) - 1
+		}
+
+		// adiciona o tipo da issue na listagem de tipos de issues
+		issueTypeIndex := uslice.Index(response.ProjectDetails[projectIndex].IssuesTypes, fields.IssueType.Name)
+		if issueTypeIndex == -1 {
+			response.ProjectDetails[projectIndex].IssuesTypes = append(
+				response.ProjectDetails[projectIndex].IssuesTypes,
+				fields.IssueType.Name,
+			)
+			issueTypeIndex = len(response.ProjectDetails[projectIndex].IssuesTypes) - 1
+		}
+
+		// total de tarefas
+		response.ProjectDetails[projectIndex].Total++
+
+		// total de tarefas por tipo
+		//
+		// verifica se o tamanho da lista de quantidade total por tipo é compatível com o tamanho
+		// da lista de tipos de issues
+		if len(response.ProjectDetails[projectIndex].TotalByType)-1 < issueTypeIndex {
+			response.ProjectDetails[projectIndex].TotalByType = append(response.ProjectDetails[projectIndex].TotalByType, 0)
+		}
+		
+		response.ProjectDetails[projectIndex].TotalByType[issueTypeIndex]++
 
 		if err := add(response.Resolved.PeriodValues, *fields.ResolutionDate); err != nil {
 			return response, err
