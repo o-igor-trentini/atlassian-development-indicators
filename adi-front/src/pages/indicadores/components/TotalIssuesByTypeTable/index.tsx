@@ -1,18 +1,14 @@
 import { FC, useMemo, useRef } from 'react';
 import { Table, TableColumnType, TableDataSourceType } from '@adi/react-components';
-import { formatFloatPrecision } from '@/utils/string';
 import { Demands } from '@/@types/demands';
 import { PartialTableColumnProps } from '@/@types/components/table';
 
-interface GeneralCreatedVersusResolvedTableProps {
+interface TotalIssuesByTypeTableProps {
     demands: Demands;
     loading: boolean;
 }
 
-export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedTableProps> = ({
-    demands,
-    loading = false,
-}): JSX.Element => {
+export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demands, loading }): JSX.Element => {
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
@@ -25,20 +21,17 @@ export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedT
             dataIndex: period,
         }));
 
-        const createdRows: Record<string, number> = {},
-            resolvedRows: Record<string, number> = {},
-            pendingRows: Record<string, number> = {},
-            progressRows: Record<string, string> = {};
+        const issueTypeRows: Record<string, number>[] = [];
 
-        for (let i = 0; i < demands.periods.length; i++) {
-            const key = periodCol.current[i].dataIndex;
+        for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
+            const rows: Record<string, number> = {};
 
-            createdRows[key] = demands.created.values[i];
-            resolvedRows[key] = demands.resolved.values[i];
+            for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
+                // const key = periodCol.current[periodIndex].dataIndex;
+                // rows[key] = demands.project.issuesDetailsByProject[projectIndex].bt[periodIndex];
+            }
 
-            pendingRows[key] = createdRows[key] - resolvedRows[key];
-
-            progressRows[key] = `${formatFloatPrecision(demands.analytics.progressPerPeriod[i], 2)}%`;
+            issueTypeRows.push(rows);
         }
 
         const dataSource: TableDataSourceType<unknown> = [
@@ -46,22 +39,7 @@ export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedT
                 key: 'Período',
                 ...periodRows,
             },
-            {
-                key: 'Criadas',
-                ...createdRows,
-            },
-            {
-                key: 'Resolvidas',
-                ...resolvedRows,
-            },
-            {
-                key: 'Pendentes',
-                ...pendingRows,
-            },
-            {
-                key: 'Progresso',
-                ...progressRows,
-            },
+            ...demands.project.projects.map((item, index) => ({ key: item, ...issueTypeRows[index] })),
         ];
 
         return dataSource;

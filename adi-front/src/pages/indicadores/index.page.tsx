@@ -6,9 +6,10 @@ import { APIGetCreatedVersusResolvedProps, Demands } from '@/@types/demands';
 import { getCreatedVersusResolved } from '@/api/demands';
 import { TotalingCards } from './components/TotalingCards';
 import { NextPage } from 'next';
-import { GeneralCreatedVersusResolvedTable } from '@/pages/indicadores/components/GeneralCreatedVersusResolvedTable';
 import { DemandsEmpty } from '@/pages/indicadores/components/DemandsEmpty';
-import { IssuesByProjectTable } from '@/pages/indicadores/components/IssuesByProjectTable';
+import { TotalCreatedVersusResolvedTable } from '@/pages/indicadores/components/TotalCreatedVersusResolvedTable';
+import { TotalIssuesByProjectTable } from '@/pages/indicadores/components/TotalIssuesByProjectTable';
+import { TotalIssuesByTypeTable } from '@/pages/indicadores/components/TotalIssuesByTypeTable';
 
 const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -56,13 +57,19 @@ const Indicators: NextPage = (): JSX.Element => {
 
             <Col span={24}>
                 <Card title="Criadas x Resolvidas">
-                    <GeneralCreatedVersusResolvedTable demands={demands} loading={loading} />
+                    <TotalCreatedVersusResolvedTable demands={demands} loading={loading} />
                 </Card>
             </Col>
 
             <Col span={24}>
                 <Card title="Total de tarefas por projeto">
-                    <IssuesByProjectTable demands={demands} loading={loading} />
+                    <TotalIssuesByProjectTable demands={demands} loading={loading} />
+                </Card>
+            </Col>
+
+            <Col span={24}>
+                <Card title="Total de tarefas por tipo">
+                    <TotalIssuesByTypeTable demands={demands} loading={loading} />
                 </Card>
             </Col>
         </>

@@ -3,12 +3,12 @@ import { Table, TableColumnType, TableDataSourceType } from '@adi/react-componen
 import { Demands } from '@/@types/demands';
 import { PartialTableColumnProps } from '@/@types/components/table';
 
-interface GeneralIssuesByProjectProps {
+interface TotalIssuesByProjectProps {
     demands: Demands;
     loading: boolean;
 }
 
-export const IssuesByProjectTable: FC<GeneralIssuesByProjectProps> = ({ demands, loading }): JSX.Element => {
+export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ demands, loading }): JSX.Element => {
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
