@@ -8,7 +8,7 @@ import { TotalingCards } from './components/TotalingCards';
 import { NextPage } from 'next';
 import { GeneralCreatedVersusResolvedTable } from '@/pages/indicadores/components/GeneralCreatedVersusResolvedTable';
 import { DemandsEmpty } from '@/pages/indicadores/components/DemandsEmpty';
-import { GeneralIssuesByProject } from '@/pages/indicadores/components/GeneralIssuesByProject';
+import { IssuesByProject } from '@/pages/indicadores/components/IssuesByProject';
 
 const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -62,7 +62,7 @@ const Indicators: NextPage = (): JSX.Element => {
 
             <Col span={24}>
                 <Card title="Total de tarefas por projeto">
-                    <GeneralIssuesByProject demands={demands} loading={loading} />
+                    <IssuesByProject demands={demands} loading={loading} />
                 </Card>
             </Col>
         </>

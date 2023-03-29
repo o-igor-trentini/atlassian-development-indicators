@@ -8,7 +8,7 @@ interface GeneralIssuesByProjectProps {
     loading: boolean;
 }
 
-export const GeneralIssuesByProject: FC<GeneralIssuesByProjectProps> = ({ demands, loading }): JSX.Element => {
+export const IssuesByProject: FC<GeneralIssuesByProjectProps> = ({ demands, loading }): JSX.Element => {
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
@@ -21,17 +21,18 @@ export const GeneralIssuesByProject: FC<GeneralIssuesByProjectProps> = ({ demand
             dataIndex: period,
         }));
 
-        const createdRows: Record<string, number> = {};
+        const projectRows: Record<string, number>[] = Array(demands.project.projects.length).fill({});
 
-        for (let i = 0; i < demands.periods.length; i++) {
-            const key = periodCol.current[i].dataIndex;
+        // TODO: Corrigir
+        // está pegando sempre o última para vários projetos
 
-            createdRows[key] = demands.created.values[i];
-            // resolvedRows[key] = demands.resolved.values[i];
-            //
-            // pendingRows[key] = createdRows[key] - resolvedRows[key];
-            //
-            // progressRows[key] = `${formatFloatPrecision(demands.analytics.progressPerPeriod[i], 2)}%`;
+        for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
+            for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
+                const key = periodCol.current[periodIndex].dataIndex;
+
+                projectRows[projectIndex][key] =
+                    demands.project.issuesDetailsByProject[projectIndex].totalByPeriod[periodIndex];
+            }
         }
 
         const dataSource: TableDataSourceType<unknown> = [
@@ -39,22 +40,7 @@ export const GeneralIssuesByProject: FC<GeneralIssuesByProjectProps> = ({ demand
                 key: 'Período',
                 ...periodRows,
             },
-            // {
-            //     key: 'Criadas',
-            //     ...createdRows,
-            // },
-            // {
-            //     key: 'Resolvidas',
-            //     ...resolvedRows,
-            // },
-            // {
-            //     key: 'Pendentes',
-            //     ...pendingRows,
-            // },
-            // {
-            //     key: 'Progresso',
-            //     ...progressRows,
-            // },
+            ...demands.project.projects.map((item, index) => ({ key: item, ...projectRows[index] })),
         ];
 
         return dataSource;
