@@ -14,12 +14,21 @@ export interface DemandsAnalytics {
     pendingTotal: number;
 }
 
+export interface ProjectDetails {
+    total: number;
+    totalByPeriod: number[];
+    issuesTypes: string[];
+    totalByType: number[];
+}
+
 export interface Demands {
     periods: string[];
     created: IssuesDetails;
     resolved: IssuesDetails;
     pending: IssuesDetails;
     analytics: DemandsAnalytics;
+    projects: string[];
+    projectDetails: ProjectDetails[];
 }
 
 export interface APIGetCreatedVersusResolvedProps {

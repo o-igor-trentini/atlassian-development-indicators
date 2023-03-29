@@ -164,7 +164,7 @@ func (s serviceImpl) handleGetIssues(
 		if len(response.ProjectDetails[projectIndex].TotalByType)-1 < issueTypeIndex {
 			response.ProjectDetails[projectIndex].TotalByType = append(response.ProjectDetails[projectIndex].TotalByType, 0)
 		}
-		
+
 		response.ProjectDetails[projectIndex].TotalByType[issueTypeIndex]++
 
 		if err := add(response.Resolved.PeriodValues, *fields.ResolutionDate); err != nil {

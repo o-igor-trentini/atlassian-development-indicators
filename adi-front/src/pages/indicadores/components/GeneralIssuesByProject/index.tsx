@@ -1,18 +1,14 @@
 import { FC, useMemo, useRef } from 'react';
 import { Table, TableColumnType, TableDataSourceType } from '@adi/react-components';
-import { formatFloatPrecision } from '@/utils/string';
 import { Demands } from '@/@types/demands';
 import { PartialTableColumnProps } from '@/@types/components/table';
 
-interface GeneralCreatedVersusResolvedTableProps {
+interface GeneralIssuesByProjectProps {
     demands: Demands;
     loading: boolean;
 }
 
-export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedTableProps> = ({
-    demands,
-    loading = false,
-}): JSX.Element => {
+export const GeneralIssuesByProject: FC<GeneralIssuesByProjectProps> = ({ demands, loading }): JSX.Element => {
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
@@ -25,20 +21,17 @@ export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedT
             dataIndex: period,
         }));
 
-        const createdRows: Record<string, number> = {},
-            resolvedRows: Record<string, number> = {},
-            pendingRows: Record<string, number> = {},
-            progressRows: Record<string, string> = {};
+        const createdRows: Record<string, number> = {};
 
         for (let i = 0; i < demands.periods.length; i++) {
             const key = periodCol.current[i].dataIndex;
 
             createdRows[key] = demands.created.values[i];
-            resolvedRows[key] = demands.resolved.values[i];
-
-            pendingRows[key] = createdRows[key] - resolvedRows[key];
-
-            progressRows[key] = `${formatFloatPrecision(demands.analytics.progressPerPeriod[i], 2)}%`;
+            // resolvedRows[key] = demands.resolved.values[i];
+            //
+            // pendingRows[key] = createdRows[key] - resolvedRows[key];
+            //
+            // progressRows[key] = `${formatFloatPrecision(demands.analytics.progressPerPeriod[i], 2)}%`;
         }
 
         const dataSource: TableDataSourceType<unknown> = [
@@ -46,22 +39,22 @@ export const GeneralCreatedVersusResolvedTable: FC<GeneralCreatedVersusResolvedT
                 key: 'Período',
                 ...periodRows,
             },
-            {
-                key: 'Criadas',
-                ...createdRows,
-            },
-            {
-                key: 'Resolvidas',
-                ...resolvedRows,
-            },
-            {
-                key: 'Pendentes',
-                ...pendingRows,
-            },
-            {
-                key: 'Progresso',
-                ...progressRows,
-            },
+            // {
+            //     key: 'Criadas',
+            //     ...createdRows,
+            // },
+            // {
+            //     key: 'Resolvidas',
+            //     ...resolvedRows,
+            // },
+            // {
+            //     key: 'Pendentes',
+            //     ...pendingRows,
+            // },
+            // {
+            //     key: 'Progresso',
+            //     ...progressRows,
+            // },
         ];
 
         return dataSource;

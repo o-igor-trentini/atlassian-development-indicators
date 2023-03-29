@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { GlobalStyle } from '@/styles/global';
 import { darkTheme, defaultTheme, ThemeType, ThemeVariant } from '@/styles/themes';
@@ -32,7 +32,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }): JSX.Element => {
         });
     };
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const storedTheme = localStorage.getItem('@adi/theme');
 
         setTheme(storedTheme === 'light' ? defaultTheme : darkTheme);

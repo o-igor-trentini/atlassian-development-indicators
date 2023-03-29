@@ -30,7 +30,7 @@ type GetIssuesByPeriodResponse struct {
 	Periods        []string          `json:"periods"`
 	Analytics      IssuesAnalytics   `json:"analytics"`
 	Projects       []string          `json:"projects"`
-	ProjectDetails []IssuesByProject `json:"project"`
+	ProjectDetails []IssuesByProject `json:"projectDetails"`
 }
 
 func (s *GetIssuesByPeriodResponse) DoAnalysis() {
