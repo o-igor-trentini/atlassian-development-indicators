@@ -60,3 +60,16 @@ func (s *GetIssuesByPeriodResponse) DoAnalysis() {
 		s.Analytics.OverallProgress = float64(s.Resolved.Total) / float64(s.Created.Total) * 100
 	}
 }
+
+func (s *GetIssuesByPeriodResponse) FixEmpty() {
+	for k, v := range s.Project.IssuesDetailsByProject {
+		if v.Total == 0 {
+			defaultLength := len(s.Periods)
+
+			s.Project.IssuesDetailsByProject[k].IssuesTypes = make([]string, defaultLength)
+			s.Project.IssuesDetailsByProject[k].TotalByType = make([]int, defaultLength)
+			s.Project.IssuesDetailsByProject[k].TotalByPeriod = make([]int, defaultLength)
+			s.Project.IssuesDetailsByProject[k].TotalByTypeAndPeriod = make([]map[string]int, defaultLength)
+		}
+	}
+}

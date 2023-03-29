@@ -84,6 +84,7 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 	response.Resolved.JQL = &resolvedJQL
 
 	response.DoAnalysis()
+	response.FixEmpty()
 
 	return response, nil
 }
@@ -151,9 +152,6 @@ func (s serviceImpl) handleGetIssues(
 		}
 	}
 
-	// TODO: By project
-	// Popular para projetos que não possuem nada
-
 	// resolved
 	response.Resolved.PeriodValues = make([]int, monthsLength)
 	response.Project.Projects = projects
@@ -202,9 +200,10 @@ func (s serviceImpl) handleGetIssues(
 			)
 		}
 
+		// total por tipo
 		response.Project.IssuesDetailsByProject[projectIndex].TotalByType[issueTypeIndex]++
 
-		// total por projeto
+		// total por projeto por período
 		if len(response.Project.IssuesDetailsByProject[projectIndex].TotalByPeriod) == 0 {
 			response.Project.IssuesDetailsByProject[projectIndex].TotalByPeriod = make([]int, monthsLength)
 		}
