@@ -20,7 +20,7 @@ type IssuesDetailsByProject struct {
 	IssuesTypes          []string         `json:"issuesTypes"`
 	TotalByType          []int            `json:"totalByType"`
 	TotalByPeriod        []int            `json:"totalByPeriod"`
-	TotalByTypeAndPeriod []map[string]int `json:"details"`
+	TotalByTypeAndPeriod []map[string]int `json:"totalByTypeAndPeriod"`
 }
 
 type GetIssuesByPeriodProject struct {

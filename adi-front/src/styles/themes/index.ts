@@ -22,13 +22,13 @@ export interface ThemeType {
 
 export const baseTheme: Omit<ThemeType, 'variant'> = {
     // antd
-    colorPrimary: '#00FF00',
+    colorPrimary: '#104535',
     colorBgLayout: '#F5F5F5',
     colorBgContainer: '#FFFFFF',
     borderRadius: 6,
     padding: 12,
 
-    ADIcolorSecondary: '#020039',
+    ADIcolorSecondary: '#3bba87',
     ADIcolorWhite: '#FFFFFF',
     ADIcolorBlack: '#000000',
     ADIcolorCreated: '#C80815',

@@ -8,7 +8,7 @@ interface GeneralIssuesByProjectProps {
     loading: boolean;
 }
 
-export const IssuesByProject: FC<GeneralIssuesByProjectProps> = ({ demands, loading }): JSX.Element => {
+export const IssuesByProjectTable: FC<GeneralIssuesByProjectProps> = ({ demands, loading }): JSX.Element => {
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
@@ -21,18 +21,18 @@ export const IssuesByProject: FC<GeneralIssuesByProjectProps> = ({ demands, load
             dataIndex: period,
         }));
 
-        const projectRows: Record<string, number>[] = Array(demands.project.projects.length).fill({});
-
-        // TODO: Corrigir
-        // está pegando sempre o última para vários projetos
+        const projectRows: Record<string, number>[] = [];
 
         for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
+            const rows: Record<string, number> = {};
+
             for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
                 const key = periodCol.current[periodIndex].dataIndex;
 
-                projectRows[projectIndex][key] =
-                    demands.project.issuesDetailsByProject[projectIndex].totalByPeriod[periodIndex];
+                rows[key] = demands.project.issuesDetailsByProject[projectIndex].totalByPeriod[periodIndex];
             }
+
+            projectRows.push(rows);
         }
 
         const dataSource: TableDataSourceType<unknown> = [
