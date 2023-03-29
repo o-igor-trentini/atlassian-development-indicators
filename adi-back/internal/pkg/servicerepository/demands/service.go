@@ -93,7 +93,7 @@ func (s serviceImpl) handleGetIssues(
 	createdPayload, resolvedPayload gjservice.SearchByJQLPayload,
 	projects, monthsKeys, skippedFieldsInPendants []string,
 ) (GetIssuesByPeriodResponse, error) {
-	var add = func(rangeValues []int, strDate string) error {
+	var addTotalByPeriod = func(s []int, strDate string) error {
 		cutedStrDate, _, _ := strings.Cut(strDate, "T")
 
 		date, err := time.Parse("2006-01-02", cutedStrDate)
@@ -104,7 +104,26 @@ func (s serviceImpl) handleGetIssues(
 		key := fmt.Sprintf("%d/%d", date.Year(), date.Month())
 
 		if i := uslice.Index(monthsKeys, key); i != -1 {
-			rangeValues[i] += 1
+			s[i] += 1
+		}
+
+		return nil
+	}
+
+	var addTotalByPeriodAndIssueType = func(s []map[string]int, strDate string, issueTypeIndex int) error {
+		cutedStrDate, _, _ := strings.Cut(strDate, "T")
+
+		date, err := time.Parse("2006-01-02", cutedStrDate)
+		if err != nil {
+			return err
+		}
+
+		key := fmt.Sprintf("%d/%d", date.Year(), date.Month())
+
+		if _, exist := s[issueTypeIndex][key]; exist {
+			s[issueTypeIndex][key]++
+		} else {
+			s[issueTypeIndex][key] = 1
 		}
 
 		return nil
@@ -112,62 +131,102 @@ func (s serviceImpl) handleGetIssues(
 
 	var response GetIssuesByPeriodResponse
 	monthsLength := len(monthsKeys)
+	projectsLength := len(projects)
 
 	response.Created.PeriodValues = make([]int, monthsLength)
 	response.Pending.PeriodValues = make([]int, monthsLength)
 	for _, v := range createdPayload.Issues {
 		fields := v.Fields
 
-		// created
-		if err := add(response.Created.PeriodValues, fields.Created); err != nil {
+		// total created
+		if err := addTotalByPeriod(response.Created.PeriodValues, fields.Created); err != nil {
 			return response, err
 		}
 
-		// pending
+		// total pending
 		if !uslice.Contains(skippedFieldsInPendants, strings.ToLower(fields.Status.Name)) && fields.ResolutionDate == nil {
-			if err := add(response.Pending.PeriodValues, fields.Created); err != nil {
+			if err := addTotalByPeriod(response.Pending.PeriodValues, fields.Created); err != nil {
 				return response, err
 			}
 		}
 	}
 
+	// TODO: By project
+	// Popular para projetos que não possuem nada
+
 	// resolved
 	response.Resolved.PeriodValues = make([]int, monthsLength)
-	response.ProjectDetails = make([]IssuesByProject, len(projects))
+	response.Project.Projects = projects
+	response.Project.ProjectsAvatars = make([]string, projectsLength)
+	response.Project.IssuesDetailsByProject = make([]IssuesDetailsByProject, projectsLength)
 	for _, v := range resolvedPayload.Issues {
 		fields := v.Fields
+		resolutionDate := *fields.ResolutionDate
 
 		// adiciona o projeto na listagem de projetos
-		projectIndex := uslice.Index(response.Projects, fields.Project.Name)
+		projectIndex := uslice.Index(response.Project.Projects, fields.Project.Name)
 		if projectIndex == -1 {
-			response.Projects = append(response.Projects, fields.Project.Name)
-			projectIndex = len(response.Projects) - 1
+			pIndex := uslice.Index(response.Project.Projects, fields.Project.Key)
+			projectIndex = pIndex
+
+			response.Project.Projects[projectIndex] = fields.Project.Name
+			response.Project.ProjectsAvatars[projectIndex] = fields.Project.AvatarUrls.Size48
 		}
 
 		// adiciona o tipo da issue na listagem de tipos de issues
-		issueTypeIndex := uslice.Index(response.ProjectDetails[projectIndex].IssuesTypes, fields.IssueType.Name)
+		issueTypeIndex := uslice.Index(response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes, fields.IssueType.Name)
 		if issueTypeIndex == -1 {
-			response.ProjectDetails[projectIndex].IssuesTypes = append(
-				response.ProjectDetails[projectIndex].IssuesTypes,
+			response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes = append(
+				response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes,
 				fields.IssueType.Name,
 			)
-			issueTypeIndex = len(response.ProjectDetails[projectIndex].IssuesTypes) - 1
+			issueTypeIndex = len(response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes) - 1
 		}
 
-		// total de tarefas
-		response.ProjectDetails[projectIndex].Total++
+		// total de tarefas por projeto
+		response.Project.IssuesDetailsByProject[projectIndex].Total++
 
 		// total de tarefas por tipo
 		//
 		// verifica se o tamanho da lista de quantidade total por tipo é compatível com o tamanho
 		// da lista de tipos de issues
-		if len(response.ProjectDetails[projectIndex].TotalByType)-1 < issueTypeIndex {
-			response.ProjectDetails[projectIndex].TotalByType = append(response.ProjectDetails[projectIndex].TotalByType, 0)
+		if len(response.Project.IssuesDetailsByProject[projectIndex].TotalByType)-1 < issueTypeIndex {
+			response.Project.IssuesDetailsByProject[projectIndex].TotalByType = append(
+				response.Project.IssuesDetailsByProject[projectIndex].TotalByType,
+				0,
+			)
+
+			response.Project.IssuesDetailsByProject[projectIndex].TotalByTypeAndPeriod = append(
+				response.Project.IssuesDetailsByProject[projectIndex].TotalByTypeAndPeriod,
+				make(map[string]int),
+			)
 		}
 
-		response.ProjectDetails[projectIndex].TotalByType[issueTypeIndex]++
+		response.Project.IssuesDetailsByProject[projectIndex].TotalByType[issueTypeIndex]++
 
-		if err := add(response.Resolved.PeriodValues, *fields.ResolutionDate); err != nil {
+		// total por projeto
+		if len(response.Project.IssuesDetailsByProject[projectIndex].TotalByPeriod) == 0 {
+			response.Project.IssuesDetailsByProject[projectIndex].TotalByPeriod = make([]int, monthsLength)
+		}
+
+		if err := addTotalByPeriod(
+			response.Project.IssuesDetailsByProject[projectIndex].TotalByPeriod,
+			resolutionDate,
+		); err != nil {
+			return response, err
+		}
+
+		// total de tarefas por tipo e período
+		if err := addTotalByPeriodAndIssueType(
+			response.Project.IssuesDetailsByProject[projectIndex].TotalByTypeAndPeriod,
+			resolutionDate,
+			issueTypeIndex,
+		); err != nil {
+			return response, err
+		}
+
+		// total resolved
+		if err := addTotalByPeriod(response.Resolved.PeriodValues, resolutionDate); err != nil {
 			return response, err
 		}
 	}
