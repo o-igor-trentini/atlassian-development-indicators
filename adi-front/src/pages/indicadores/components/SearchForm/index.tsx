@@ -60,10 +60,6 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
                 value: 'LOG4',
             },
             {
-                label: 'Projetos Solution center',
-                value: 'PSC',
-            },
-            {
                 label: 'Qualidade',
                 value: 'QA',
             },
