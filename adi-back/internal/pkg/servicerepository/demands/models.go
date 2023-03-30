@@ -17,7 +17,6 @@ type IssuesAnalytics struct {
 
 type IssuesDetailsByProject struct {
 	Total                int              `json:"total"`
-	IssuesTypes          []string         `json:"issuesTypes"`
 	TotalByType          []int            `json:"totalByType"`
 	TotalByPeriod        []int            `json:"totalByPeriod"`
 	TotalByTypeAndPeriod []map[string]int `json:"totalByTypeAndPeriod"`
@@ -26,6 +25,7 @@ type IssuesDetailsByProject struct {
 type GetIssuesByPeriodProject struct {
 	Projects               []string                 `json:"projects"`
 	ProjectsAvatars        []string                 `json:"projectsAvatars"`
+	IssuesTypes            []string                 `json:"issuesTypes"`
 	IssuesDetailsByProject []IssuesDetailsByProject `json:"issuesDetailsByProject"`
 }
 
@@ -64,12 +64,21 @@ func (s *GetIssuesByPeriodResponse) DoAnalysis() {
 func (s *GetIssuesByPeriodResponse) FixEmpty() {
 	for k, v := range s.Project.IssuesDetailsByProject {
 		if v.Total == 0 {
-			defaultLength := len(s.Periods)
+			periodLength := len(s.Periods)
 
-			s.Project.IssuesDetailsByProject[k].IssuesTypes = make([]string, defaultLength)
-			s.Project.IssuesDetailsByProject[k].TotalByType = make([]int, defaultLength)
-			s.Project.IssuesDetailsByProject[k].TotalByPeriod = make([]int, defaultLength)
-			s.Project.IssuesDetailsByProject[k].TotalByTypeAndPeriod = make([]map[string]int, defaultLength)
+			s.Project.IssuesDetailsByProject[k].TotalByType = make([]int, periodLength)
+			s.Project.IssuesDetailsByProject[k].TotalByPeriod = make([]int, periodLength)
+			s.Project.IssuesDetailsByProject[k].TotalByTypeAndPeriod = make([]map[string]int, len(s.Project.IssuesTypes))
+
+			for issueTypeIndex := range s.Project.IssuesTypes {
+				obj := make(map[string]int)
+
+				for _, period := range s.Periods {
+					obj[period] = 0
+				}
+
+				s.Project.IssuesDetailsByProject[k].TotalByTypeAndPeriod[issueTypeIndex] = obj
+			}
 		}
 	}
 }

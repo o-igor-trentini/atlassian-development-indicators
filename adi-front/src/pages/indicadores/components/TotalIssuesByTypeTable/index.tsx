@@ -23,15 +23,23 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
 
         const issueTypeRows: Record<string, number>[] = [];
 
-        for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
-            const rows: Record<string, number> = {};
+        for (let issueTypeIndex = 0; issueTypeIndex < demands.project.issuesTypes.length; issueTypeIndex++) {
+            const row: Record<string, number> = {};
 
-            for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
-                // const key = periodCol.current[periodIndex].dataIndex;
-                // rows[key] = demands.project.issuesDetailsByProject[projectIndex].bt[periodIndex];
+            for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
+                for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
+                    // const key = periodCol.current[periodIndex].dataIndex;
+                    // console.log(
+                    //     `Project [${demands.project.projects[projectIndex]}] issueType [${demands.project.issuesTypes[issueTypeIndex]}]`,
+                    //     demands.project.issuesDetailsByProject[projectIndex].totalByTypeAndPeriod[issueTypeIndex],
+                    // );
+                    //
+                    // row[key] =
+                    //     demands.project.issuesDetailsByProject[projectIndex].totalByTypeAndPeriod[issueTypeIndex][key];
+                }
             }
 
-            issueTypeRows.push(rows);
+            issueTypeRows.push(row);
         }
 
         const dataSource: TableDataSourceType<unknown> = [
@@ -39,7 +47,7 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
                 key: 'Período',
                 ...periodRows,
             },
-            ...demands.project.projects.map((item, index) => ({ key: item, ...issueTypeRows[index] })),
+            ...demands.project.issuesTypes.map((item, index) => ({ key: item, ...issueTypeRows[index] })),
         ];
 
         return dataSource;

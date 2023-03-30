@@ -24,15 +24,15 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
         const projectRows: Record<string, number>[] = [];
 
         for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
-            const rows: Record<string, number> = {};
+            const row: Record<string, number> = {};
 
             for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
                 const key = periodCol.current[periodIndex].dataIndex;
 
-                rows[key] = demands.project.issuesDetailsByProject[projectIndex].totalByPeriod[periodIndex];
+                row[key] = demands.project.issuesDetailsByProject[projectIndex].totalByPeriod[periodIndex];
             }
 
-            projectRows.push(rows);
+            projectRows.push(row);
         }
 
         const dataSource: TableDataSourceType<unknown> = [

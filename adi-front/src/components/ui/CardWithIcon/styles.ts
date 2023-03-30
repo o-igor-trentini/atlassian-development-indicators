@@ -41,10 +41,9 @@ export const IconContainer = styled.div<IconContainerProps>`
     cursor: ${({ copyable }) => (copyable ? 'pointer' : 'default')};
 
     > svg {
-        color: ${({ theme }) =>
-            chooseColorByContrast(theme.ADIcolorSecondary, theme.ADIcolorBlack, theme.ADIcolorWhite)};
-
         height: ${iconSize / 2}rem;
         width: ${iconSize / 2}rem;
+
+        color: ${({ theme }) => theme.ADIcolorWhite};
     }
 `;

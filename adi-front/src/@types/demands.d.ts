@@ -16,7 +16,6 @@ export interface DemandsAnalytics {
 
 export interface IssuesDetailsByProject {
     total: number;
-    issuesTypes: string[];
     totalByType: number[];
     totalByPeriod: number[];
     totalByTypeAndPeriod: Record<string, number>[];
@@ -31,6 +30,7 @@ export interface Demands {
     project: {
         projects: string[];
         projectsAvatars: string[];
+        issuesTypes: string[];
         issuesDetailsByProject: IssuesDetailsByProject[];
     };
 }

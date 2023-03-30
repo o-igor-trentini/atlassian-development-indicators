@@ -172,13 +172,13 @@ func (s serviceImpl) handleGetIssues(
 		}
 
 		// adiciona o tipo da issue na listagem de tipos de issues
-		issueTypeIndex := uslice.Index(response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes, fields.IssueType.Name)
+		issueTypeIndex := uslice.Index(response.Project.IssuesTypes, fields.IssueType.Name)
 		if issueTypeIndex == -1 {
-			response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes = append(
-				response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes,
+			response.Project.IssuesTypes = append(
+				response.Project.IssuesTypes,
 				fields.IssueType.Name,
 			)
-			issueTypeIndex = len(response.Project.IssuesDetailsByProject[projectIndex].IssuesTypes) - 1
+			issueTypeIndex = len(response.Project.IssuesTypes) - 1
 		}
 
 		// total de tarefas por projeto
@@ -186,18 +186,23 @@ func (s serviceImpl) handleGetIssues(
 
 		// total de tarefas por tipo
 		//
-		// verifica se o tamanho da lista de quantidade total por tipo é compatível com o tamanho
-		// da lista de tipos de issues
-		if len(response.Project.IssuesDetailsByProject[projectIndex].TotalByType)-1 < issueTypeIndex {
-			response.Project.IssuesDetailsByProject[projectIndex].TotalByType = append(
-				response.Project.IssuesDetailsByProject[projectIndex].TotalByType,
-				0,
-			)
+		// verifica se o tamanho da lista de quantidade total por tipo
+		// e se o tamanho da lista de quantidade por tipo e período
+		// é compatível com o tamanho da lista de tipos de issues
+		if len(response.Project.IssuesDetailsByProject[projectIndex].TotalByType) < len(response.Project.IssuesTypes) {
+			for len(response.Project.IssuesDetailsByProject[projectIndex].TotalByType) < len(response.Project.IssuesTypes) {
+				// total por tipo
+				response.Project.IssuesDetailsByProject[projectIndex].TotalByType = append(
+					response.Project.IssuesDetailsByProject[projectIndex].TotalByType,
+					0,
+				)
 
-			response.Project.IssuesDetailsByProject[projectIndex].TotalByTypeAndPeriod = append(
-				response.Project.IssuesDetailsByProject[projectIndex].TotalByTypeAndPeriod,
-				make(map[string]int),
-			)
+				// total por tipo e período
+				response.Project.IssuesDetailsByProject[projectIndex].TotalByTypeAndPeriod = append(
+					response.Project.IssuesDetailsByProject[projectIndex].TotalByTypeAndPeriod,
+					make(map[string]int),
+				)
+			}
 		}
 
 		// total por tipo
