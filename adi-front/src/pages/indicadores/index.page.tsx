@@ -39,41 +39,42 @@ const Indicators: NextPage = (): JSX.Element => {
         }).then();
     };
 
-    const content: JSX.Element = !demands ? (
-        <DemandsEmpty />
-    ) : (
-        <>
-            <TotalingCards demands={demands} loading={loading} />
+    const content: JSX.Element =
+        !demands || !demands.project || !demands.project.issuesTypes ? (
+            <DemandsEmpty />
+        ) : (
+            <>
+                <TotalingCards demands={demands} loading={loading} />
 
-            <Col span={24}>
-                <Card title="Criadas x Resolvidas (temporal)">
-                    <Row justify="center" align="top">
-                        <Col span={24} style={{ height: '450px' }}>
-                            <DemandsChart data={demands} loading={loading} />
-                        </Col>
-                    </Row>
-                </Card>
-            </Col>
+                <Col span={24}>
+                    <Card title="Criadas x Resolvidas (temporal)">
+                        <Row justify="center" align="top">
+                            <Col span={24} style={{ height: '450px' }}>
+                                <DemandsChart data={demands} loading={loading} />
+                            </Col>
+                        </Row>
+                    </Card>
+                </Col>
 
-            <Col span={24}>
-                <Card title="Criadas x Resolvidas">
-                    <TotalCreatedVersusResolvedTable demands={demands} loading={loading} />
-                </Card>
-            </Col>
+                <Col span={24}>
+                    <Card title="Criadas x Resolvidas">
+                        <TotalCreatedVersusResolvedTable demands={demands} loading={loading} />
+                    </Card>
+                </Col>
 
-            <Col span={24}>
-                <Card title="Total de tarefas por projeto">
-                    <TotalIssuesByProjectTable demands={demands} loading={loading} />
-                </Card>
-            </Col>
+                <Col span={24}>
+                    <Card title="Total de tarefas por projeto">
+                        <TotalIssuesByProjectTable demands={demands} loading={loading} />
+                    </Card>
+                </Col>
 
-            <Col span={24}>
-                <Card title="Total de tarefas por tipo">
-                    <TotalIssuesByTypeTable demands={demands} loading={loading} />
-                </Card>
-            </Col>
-        </>
-    );
+                <Col span={24}>
+                    <Card title="Total de tarefas por tipo">
+                        <TotalIssuesByTypeTable demands={demands} loading={loading} />
+                    </Card>
+                </Col>
+            </>
+        );
 
     return (
         <Row gutter={[0, 32]} justify="center" align="top" style={{ height: '100%' }}>

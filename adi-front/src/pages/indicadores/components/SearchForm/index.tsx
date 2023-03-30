@@ -39,6 +39,38 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
                 label: 'Randon',
                 value: 'RAN',
             },
+            {
+                label: 'Checklist 4.0',
+                value: 'CHL',
+            },
+            {
+                label: 'DEVOPS',
+                value: 'OPS',
+            },
+            {
+                label: 'Hubiie',
+                value: 'GE',
+            },
+            {
+                label: 'JOR 4.0',
+                value: 'JOR4',
+            },
+            {
+                label: 'LOG 4.0',
+                value: 'LOG4',
+            },
+            {
+                label: 'Projetos Solution center',
+                value: 'PSC',
+            },
+            {
+                label: 'Qualidade',
+                value: 'QA',
+            },
+            {
+                label: 'Siga Verde',
+                value: 'SV',
+            },
         ],
         [],
     );
