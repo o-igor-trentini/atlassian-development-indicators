@@ -28,14 +28,12 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
 
             for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
                 for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
-                    // const key = periodCol.current[periodIndex].dataIndex;
-                    // console.log(
-                    //     `Project [${demands.project.projects[projectIndex]}] issueType [${demands.project.issuesTypes[issueTypeIndex]}]`,
-                    //     demands.project.issuesDetailsByProject[projectIndex].totalByTypeAndPeriod[issueTypeIndex],
-                    // );
-                    //
-                    // row[key] =
-                    //     demands.project.issuesDetailsByProject[projectIndex].totalByTypeAndPeriod[issueTypeIndex][key];
+                    const key = periodCol.current[periodIndex].dataIndex;
+
+                    if (!row[key]) row[key] = 0;
+
+                    row[key] +=
+                        demands.project.issuesDetailsByProject[projectIndex].totalByTypeAndPeriod[issueTypeIndex][key];
                 }
             }
 
