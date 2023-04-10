@@ -48,20 +48,12 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
                 value: 'OPS',
             },
             {
-                label: 'Hubiie',
-                value: 'GE',
-            },
-            {
                 label: 'JOR 4.0',
                 value: 'JOR4',
             },
             {
                 label: 'LOG 4.0',
                 value: 'LOG4',
-            },
-            {
-                label: 'Qualidade',
-                value: 'QA',
             },
             {
                 label: 'Siga Verde',

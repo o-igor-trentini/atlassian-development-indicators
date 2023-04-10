@@ -62,23 +62,48 @@ func (s *GetIssuesByPeriodResponse) DoAnalysis() {
 }
 
 func (s *GetIssuesByPeriodResponse) FixEmpty() {
-	for k, v := range s.Project.IssuesDetailsByProject {
-		if v.Total == 0 {
-			periodLength := len(s.Periods)
+	issueTypes := s.Project.IssuesTypes
 
-			s.Project.IssuesDetailsByProject[k].TotalByType = make([]int, periodLength)
-			s.Project.IssuesDetailsByProject[k].TotalByPeriod = make([]int, periodLength)
-			s.Project.IssuesDetailsByProject[k].TotalByTypeAndPeriod = make([]map[string]int, len(s.Project.IssuesTypes))
+	for detailKey, detail := range s.Project.IssuesDetailsByProject {
+		periodLength := len(s.Periods)
+		totalByTypeLength := len(detail.TotalByType)
 
-			for issueTypeIndex := range s.Project.IssuesTypes {
-				obj := make(map[string]int)
+		// Adequa o tamanho do total de tarefas para um padrão
+		if totalByTypeLength < len(issueTypes) {
+			lenDiff := len(issueTypes) - totalByTypeLength
 
-				for _, period := range s.Periods {
-					obj[period] = 0
-				}
+			initialIndex := totalByTypeLength - 1
+			if initialIndex < 0 {
+				initialIndex = 0
+			}
 
-				s.Project.IssuesDetailsByProject[k].TotalByTypeAndPeriod[issueTypeIndex] = obj
+			for i := initialIndex; i < lenDiff; i++ {
+				detail.TotalByType = append(
+					detail.TotalByType,
+					0,
+				)
 			}
 		}
+
+		// Adequa o tamanho do total por período
+		for _, period := range s.Periods {
+			for issueTypeIndex := range issueTypes {
+				// por período e tipo
+				if len(detail.TotalByTypeAndPeriod) <= issueTypeIndex {
+					detail.TotalByTypeAndPeriod = append(detail.TotalByTypeAndPeriod, make(map[string]int))
+				}
+
+				if _, exist := detail.TotalByTypeAndPeriod[issueTypeIndex][period]; !exist {
+					detail.TotalByTypeAndPeriod[issueTypeIndex][period] = 0
+				}
+			}
+		}
+
+		if detail.Total == 0 {
+			detail.TotalByType = make([]int, periodLength)
+			detail.TotalByPeriod = make([]int, periodLength)
+		}
+
+		s.Project.IssuesDetailsByProject[detailKey] = detail
 	}
 }

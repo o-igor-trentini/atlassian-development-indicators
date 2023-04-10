@@ -83,8 +83,8 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 	response.Created.JQL = &createdJQL
 	response.Resolved.JQL = &resolvedJQL
 
-	response.DoAnalysis()
 	response.FixEmpty()
+	response.DoAnalysis()
 
 	return response, nil
 }
