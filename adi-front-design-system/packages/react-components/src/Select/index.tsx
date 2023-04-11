@@ -12,6 +12,7 @@ export interface SelectProps {
     mode?: AntdSelectProps['mode'];
     placeholder?: string;
     size?: AntdSelectProps['size'];
+    maxTagCount?: AntdSelectProps['maxTagCount'];
     disabled?: boolean;
     block?: boolean;
     onChange?: AntdSelectProps['onChange'];
@@ -27,6 +28,7 @@ export const Select: FC<SelectProps> = ({
     mode,
     placeholder,
     size = 'middle',
+    maxTagCount = 'responsive',
     disabled = false,
     block = false,
     onChange,
@@ -43,6 +45,7 @@ export const Select: FC<SelectProps> = ({
             placeholder={placeholder}
             disabled={disabled}
             size={size}
+            maxTagCount={maxTagCount}
             onChange={onChange}
             style={{ ...style, width: block ? '100%' : undefined }}
             className={className}
