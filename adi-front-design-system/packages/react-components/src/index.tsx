@@ -43,6 +43,9 @@ export type { TableProps, TableColumnType, TablePaginationType, TableDataSourceT
 export { Empty } from './Empty';
 export type { EmptyProps } from './Empty';
 
+export { Menu } from './Menu';
+export type { MenuProps, MenuItemsType } from './Menu';
+
 export * from './Layout';
 
 // Styles

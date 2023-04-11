@@ -1,6 +1,6 @@
 import { CSSProperties, FC, ReactNode } from 'react';
-import { Button as AntdButton } from 'antd';
 import type { ButtonProps as AntdButtonProps } from 'antd';
+import { MyButton } from './styles';
 
 export interface ButtonProps {
     children?: ReactNode;
@@ -32,7 +32,7 @@ export const Button: FC<ButtonProps> = ({
     className,
 }): JSX.Element => {
     return (
-        <AntdButton
+        <MyButton
             id={'btn-' + id}
             type={variant}
             htmlType={type}
@@ -46,6 +46,6 @@ export const Button: FC<ButtonProps> = ({
             className={className}
         >
             {children}
-        </AntdButton>
+        </MyButton>
     );
 };

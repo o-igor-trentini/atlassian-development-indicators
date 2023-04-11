@@ -1,8 +1,15 @@
 import { FC, useState } from 'react';
-import { Menu } from 'lucide-react';
-import { Container, MenuButton } from './styles';
-import { Button, Col, Drawer, Row } from '@adi/react-components';
-import Link from 'next/link';
+import { ArrowLeftRight, BarChart2, Home, Menu as MenuIcon } from 'lucide-react';
+import {
+    Container,
+    ContentContainer,
+    DrawerContentContainer,
+    DrawerContentFooter,
+    MenuButton,
+    SwitchThemeButton,
+} from './styles';
+import { Col, Drawer, Menu, MenuItemsType } from '@adi/react-components';
+import { useRouter } from 'next/router';
 
 export interface LayoutHeaderProps {
     onSwitchTheme: () => void;
@@ -10,40 +17,52 @@ export interface LayoutHeaderProps {
 
 export const LayoutHeader: FC<LayoutHeaderProps> = ({ onSwitchTheme }): JSX.Element => {
     const [showMenu, setShowMenu] = useState<boolean>(false);
+    const route = useRouter();
+
+    const menuItems: MenuItemsType[] = [
+        {
+            key: 'home',
+            label: 'Início',
+            icon: <Home />,
+            onClick: () => route.push('/'),
+        },
+        {
+            key: 'indicators',
+            label: 'Indicadores',
+            icon: <BarChart2 />,
+            onClick: () => route.push('/indicadores'),
+        },
+    ];
 
     const handleClickOpenMenu = (): void => setShowMenu(true);
 
     const handleCloseMenu = (): void => setShowMenu(false);
 
     return (
-        <Container>
-            <MenuButton id="menu" variant="ghost" icon={<Menu />} onClick={handleClickOpenMenu} />
+        <>
+            <Container>
+                <ContentContainer justify="start" align="middle">
+                    <Col>
+                        <MenuButton id="menu" variant="ghost" onClick={handleClickOpenMenu}>
+                            <MenuIcon />
+                        </MenuButton>
+                    </Col>
+                </ContentContainer>
+            </Container>
 
             <Drawer open={showMenu} placement="left" mask onClose={handleCloseMenu}>
-                <Row gutter={[0, 12]}>
+                <DrawerContentContainer gutter={[0, 12]} justify="center" align="top">
                     <Col span={24}>
-                        <Link href="/" prefetch={false}>
-                            <Button id="home" block>
-                                Home
-                            </Button>
-                        </Link>
+                        <Menu id="navigation" mode="inline" items={menuItems} />
                     </Col>
 
-                    <Col span={24}>
-                        <Link href="/indicadores" prefetch={false}>
-                            <Button id="indicators" block>
-                                Indicadores
-                            </Button>
-                        </Link>
-                    </Col>
-
-                    <Col span={24}>
-                        <Button id="change-theme" block onClick={onSwitchTheme}>
-                            Trocar tema :D
-                        </Button>
-                    </Col>
-                </Row>
+                    <DrawerContentFooter span={24}>
+                        <SwitchThemeButton id="change-theme" block icon={<ArrowLeftRight />} onClick={onSwitchTheme}>
+                            Trocar tema
+                        </SwitchThemeButton>
+                    </DrawerContentFooter>
+                </DrawerContentContainer>
             </Drawer>
-        </Container>
+        </>
     );
 };

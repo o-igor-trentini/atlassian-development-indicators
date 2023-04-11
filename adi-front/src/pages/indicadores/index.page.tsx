@@ -10,6 +10,7 @@ import { DemandsEmpty } from '@/pages/indicadores/components/DemandsEmpty';
 import { TotalCreatedVersusResolvedTable } from '@/pages/indicadores/components/TotalCreatedVersusResolvedTable';
 import { TotalIssuesByProjectTable } from '@/pages/indicadores/components/TotalIssuesByProjectTable';
 import { TotalIssuesByTypeTable } from '@/pages/indicadores/components/TotalIssuesByTypeTable';
+import { Container } from '@/pages/indicadores/styles';
 
 const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -77,7 +78,7 @@ const Indicators: NextPage = (): JSX.Element => {
         );
 
     return (
-        <Row gutter={[0, 32]} justify="center" align="top" style={{ height: '100%' }}>
+        <Container gutter={[0, 32]} justify="center" align="top">
             <Col span={24}>
                 <Card>
                     <SearchForm loading={loading} onSubmit={handleSearch} />
@@ -85,7 +86,7 @@ const Indicators: NextPage = (): JSX.Element => {
             </Col>
 
             {content}
-        </Row>
+        </Container>
     );
 };
 

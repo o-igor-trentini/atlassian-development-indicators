@@ -1,6 +1,7 @@
 import { FC, useEffect, useMemo } from 'react';
 import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
+import { Search } from 'lucide-react';
 
 export interface FormSearch {
     projects: string[];
@@ -104,7 +105,7 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
 
                 <Col flex={1}>
                     <FormItem>
-                        <Button id="search" type="submit" variant="primary" block loading={loading}>
+                        <Button id="search" type="submit" variant="primary" block loading={loading} icon={<Search />}>
                             Buscar
                         </Button>
                     </FormItem>
