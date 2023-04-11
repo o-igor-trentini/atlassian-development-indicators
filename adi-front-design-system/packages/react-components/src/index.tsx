@@ -1,3 +1,4 @@
+// Components
 export { ConfigProvider, AppTheme } from './ConfigProvider';
 export type { ConfigProviderProps, ThemeAlgorithm } from './ConfigProvider';
 
@@ -43,3 +44,8 @@ export { Empty } from './Empty';
 export type { EmptyProps } from './Empty';
 
 export * from './Layout';
+
+// Styles
+export { ThemeProvider, GlobalStyle, styled, ServerStyleSheet } from './styles/global';
+export type { ThemeType, ThemeVariant } from './styles/theme';
+export { chooseColorByContrast, defaultBoxShadow } from './styles/utils';

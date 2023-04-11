@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Frown } from 'lucide-react';
+import { styled } from '@adi/react-components';
 
 export const Icon = styled(Frown)`
     width: 6rem;

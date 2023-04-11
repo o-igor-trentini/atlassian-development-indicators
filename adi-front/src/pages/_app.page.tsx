@@ -1,12 +1,18 @@
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { GlobalStyle } from '@/styles/global';
-import { darkTheme, defaultTheme, ThemeType, ThemeVariant } from '@/styles/themes';
-import { ThemeProvider } from 'styled-components';
+import { darkTheme, defaultTheme } from '@/styles/themes';
 import { LayoutWrapper } from '@/pages/components/LayoutWrapper';
 import { NextPage } from 'next';
-import { AppTheme, ConfigProvider, ThemeAlgorithm } from '@adi/react-components';
+import {
+    AppTheme,
+    ConfigProvider,
+    GlobalStyle,
+    ThemeAlgorithm,
+    ThemeProvider,
+    ThemeType,
+    ThemeVariant,
+} from '@adi/react-components';
 
 const { defaultAlgorithm, darkAlgorithm } = AppTheme;
 
@@ -40,7 +46,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }): JSX.Element => {
 
     return (
         <ThemeProvider theme={theme}>
-            <GlobalStyle />
+            <GlobalStyle {...theme} />
 
             <Head>
                 <title>ADI - Indicadores de Dev </title>

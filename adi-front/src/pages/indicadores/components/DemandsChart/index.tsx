@@ -1,8 +1,7 @@
 import { FC } from 'react';
 import { Chart, ChartOption } from '@adi/react-charts';
-import { AppTheme } from '@adi/react-components';
+import { AppTheme, chooseColorByContrast } from '@adi/react-components';
 import { Demands } from '@/@types/demands';
-import { chooseColorByContrast } from '@/utils/style';
 import { baseTheme } from '@/styles/themes';
 
 type seriesDefaultConfig = {

@@ -1,6 +1,6 @@
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import { NextPage } from 'next';
-import { ServerStyleSheet } from 'styled-components';
+import { ServerStyleSheet } from '@adi/react-components';
 
 const MyDocument: NextPage = () => {
     MyDocument.getInitialProps = async (ctx: DocumentContext) => {

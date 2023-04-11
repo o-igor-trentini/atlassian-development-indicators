@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-import { Button, Layout } from '@adi/react-components';
-import { chooseColorByContrast } from '@/utils/style';
+import { Button, chooseColorByContrast, Layout, styled } from '@adi/react-components';
 
 export const Container = styled(Layout.Header)`
     width: 100vw;

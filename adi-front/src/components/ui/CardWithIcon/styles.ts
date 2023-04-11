@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-import { Card } from '@adi/react-components';
-import { chooseColorByContrast, defaultBoxShadow } from '@/utils/style';
+import { styled, Card, defaultBoxShadow } from '@adi/react-components';
 
 const iconSize = 4;
 

@@ -14,11 +14,17 @@ export interface DatePickerProps {
     disabledDate?: AntdDatePickerProps['disabledDate'];
     format?: AntdDatePickerProps['format'];
     mode?: AntdDatePickerProps['mode'];
+    locale?: AntdDatePickerProps['locale'];
+    presets?: AntdDatePickerProps['presets'];
     open?: AntdDatePickerProps['open'];
     picker?: AntdDatePickerProps['picker'];
     placement?: AntdDatePickerProps['placement'];
     size?: AntdDatePickerProps['size'];
     onChange?: AntdDatePickerProps['onChange'];
+    onOpenChange?: AntdDatePickerProps['onOpenChange'];
+    onPanelChange?: AntdDatePickerProps['onPanelChange'];
+    dateRender?: AntdDatePickerProps['dateRender'];
+    panelRender?: AntdDatePickerProps['panelRender'];
     style?: CSSProperties;
     className?: string;
 }
@@ -35,11 +41,17 @@ export const DatePicker: FC<DatePickerProps> = ({
     block = false,
     format,
     mode,
+    locale,
+    presets,
     open,
     picker,
     placement,
     size = 'middle',
     onChange,
+    onOpenChange,
+    onPanelChange,
+    dateRender,
+    panelRender,
     style,
     className,
 }): JSX.Element => {
@@ -55,11 +67,17 @@ export const DatePicker: FC<DatePickerProps> = ({
             disabledDate={disabledDate}
             format={format}
             mode={mode}
+            locale={locale}
+            presets={presets}
             open={open}
             picker={picker}
             placement={placement}
             size={size}
             onChange={onChange}
+            onOpenChange={onOpenChange}
+            onPanelChange={onPanelChange}
+            dateRender={dateRender}
+            panelRender={panelRender}
             style={{ ...style, width: block ? '100%' : undefined }}
             className={className}
         />
