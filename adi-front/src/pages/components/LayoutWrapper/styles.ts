@@ -6,6 +6,5 @@ export const Container = styled(Layout)`
 
     position: relative;
 
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden;
 `;
