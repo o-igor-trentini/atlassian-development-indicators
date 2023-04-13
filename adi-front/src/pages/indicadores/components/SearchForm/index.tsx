@@ -75,7 +75,7 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
             <Row gutter={12} justify="center" align="middle">
                 <Col xs={24} md={8}>
                     <FormItem name="projects" label="Projetos" rules={[{ required: true }]}>
-                        <Select id="projects" mode="multiple" options={projectOptions} />
+                        <Select id="projects" mode="multiple" options={projectOptions} selectAll={{ checked: true }} />
                     </FormItem>
                 </Col>
 

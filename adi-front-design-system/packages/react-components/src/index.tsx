@@ -12,7 +12,7 @@ export { DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 
 export { Select } from './Select';
-export type { SelectProps, SelectOptions } from './Select';
+export type { SelectProps, SelectOptions, SelectAllOptionsProps } from './Select';
 
 export { Form, FormItem, useForm } from './Form';
 export type { FormProps } from './Form';
@@ -45,6 +45,9 @@ export type { EmptyProps } from './Empty';
 
 export { Menu } from './Menu';
 export type { MenuProps, MenuItemsType } from './Menu';
+
+export { Checkbox } from './Checkbox';
+export type { CheckboxProps, CheckboxChangeEvent } from './Checkbox';
 
 export * from './Layout';
 
