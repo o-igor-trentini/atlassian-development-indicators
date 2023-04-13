@@ -87,7 +87,7 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
                         tooltip="A busca será feita pelo valor maior ou igual ao deste campo"
                         rules={[{ required: true }]}
                     >
-                        <DatePicker id="from" block format="DD/MM/YYYY" defaultValue={initialValues.from} />
+                        <DatePicker id="from" block format="DD/MM/YYYY" />
                     </FormItem>
                 </Col>
 
@@ -99,7 +99,7 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
                         tooltip="A busca será feita pelo valor menor ou igual ao deste campo"
                         rules={[{ required: true }]}
                     >
-                        <DatePicker id="from" block format="DD/MM/YYYY" defaultValue={initialValues.until} />
+                        <DatePicker id="from" block format="DD/MM/YYYY" />
                     </FormItem>
                 </Col>
 

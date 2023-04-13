@@ -58,7 +58,7 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
         ];
 
         return columns;
-    }, [dataSource]);
+    }, [periodCol]);
 
     return (
         <Table dataSource={dataSource} columns={columns} pagination={false} loading={loading} scroll={{ x: true }} />

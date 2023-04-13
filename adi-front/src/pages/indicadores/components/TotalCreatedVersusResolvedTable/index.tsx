@@ -79,7 +79,7 @@ export const TotalCreatedVersusResolvedTable: FC<TotalCreatedVersusResolvedTable
         ];
 
         return columns;
-    }, [dataSource]);
+    }, [periodCol]);
 
     return (
         <Table dataSource={dataSource} columns={columns} pagination={false} loading={loading} scroll={{ x: true }} />
