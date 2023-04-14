@@ -1,7 +1,8 @@
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
 import { Search } from 'lucide-react';
+import { handleClientScriptLoad } from 'next/script';
 
 export interface FormSearch {
     projects: string[];
@@ -16,6 +17,7 @@ interface SearchFormProps {
 
 export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Element => {
     const [form] = useForm<FormSearch>();
+    const [allProjectsIsSelected, setAllProjectsIsSelected] = useState<boolean>(true);
 
     const projectOptions: SelectOptions = useMemo(
         () => [
@@ -68,6 +70,16 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
 
     const handleSubmit = (values: FormSearch): void => onSubmit(values);
 
+    const handleClickSelectAllProjects = (): void => setAllProjectsIsSelected((state) => !state);
+
+    const handleSelectAllProjects = (): void =>
+        form.setFieldValue(
+            'projects' as keyof FormSearch,
+            projectOptions.map(({ value }) => value as string),
+        );
+
+    const handleDeselectAllProjects = (): void => form.setFieldValue('projects' as keyof FormSearch, []);
+
     useEffect(() => form.setFieldsValue(initialValues), [form, initialValues]);
 
     return (
@@ -75,7 +87,18 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
             <Row gutter={12} justify="center" align="middle">
                 <Col xs={24} md={8}>
                     <FormItem name="projects" label="Projetos" rules={[{ required: true }]}>
-                        <Select id="projects" mode="multiple" options={projectOptions} selectAll={{ checked: true }} />
+                        <Select
+                            id="projects"
+                            mode="multiple"
+                            options={projectOptions}
+                            selectAll={{
+                                checked: allProjectsIsSelected,
+                                onClick: handleClickSelectAllProjects,
+                                onSelect: handleSelectAllProjects,
+                                onDeselect: handleDeselectAllProjects,
+                            }}
+                            placeholder="Selecione pelo menos um projeto..."
+                        />
                     </FormItem>
                 </Col>
 
@@ -87,7 +110,7 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
                         tooltip="A busca será feita pelo valor maior ou igual ao deste campo"
                         rules={[{ required: true }]}
                     >
-                        <DatePicker id="from" block format="DD/MM/YYYY" />
+                        <DatePicker id="from" block format="DD/MM/YYYY" placeholder="Selecione a data de início..." />
                     </FormItem>
                 </Col>
 
@@ -99,7 +122,7 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
                         tooltip="A busca será feita pelo valor menor ou igual ao deste campo"
                         rules={[{ required: true }]}
                     >
-                        <DatePicker id="from" block format="DD/MM/YYYY" />
+                        <DatePicker id="from" block format="DD/MM/YYYY" placeholder="Selecione a data de fim..." />
                     </FormItem>
                 </Col>
 

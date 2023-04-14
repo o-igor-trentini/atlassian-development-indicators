@@ -1,6 +1,6 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
+import type { FormProps as AntdFormProps } from 'antd';
 import { Form as AntdForm } from 'antd';
-import type { FormProps as AntdFormProps, FormItemProps } from 'antd';
 
 export const FormItem = AntdForm.Item;
 

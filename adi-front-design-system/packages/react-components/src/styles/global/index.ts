@@ -26,6 +26,15 @@ export const GlobalStyle = createGlobalStyle<ThemeType>`
       margin-top: 30px; 
     }
   }
+  
+  // Margem entre os itens do Select
+  .ant-select-dropdown {
+    > div {
+      > .rc-virtual-list > .rc-virtual-list-holder > div > .rc-virtual-list-holder-inner {
+          gap: ${({ padding }) => padding / 2}px;
+      }
+    }
+  }
 `;
 
 export const ThemeProvider = scThemeProvider;

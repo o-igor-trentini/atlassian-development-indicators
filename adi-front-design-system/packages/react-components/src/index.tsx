@@ -12,7 +12,8 @@ export { DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 
 export { Select } from './Select';
-export type { SelectProps, SelectOptions, SelectAllOptionsProps } from './Select';
+export type { SelectProps, SelectOptions } from './Select';
+export type { SelectAllProps } from './Select/components/SelectAllComponent';
 
 export { Form, FormItem, useForm } from './Form';
 export type { FormProps } from './Form';

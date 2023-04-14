@@ -1,20 +1,13 @@
-import type { CSSProperties, FC, JSXElementConstructor, ReactElement } from 'react';
-import { Select as AntdSelect } from 'antd';
+import type { CSSProperties, FC } from 'react';
 import type { SelectProps as AntdSelectProps } from 'antd';
-import { Checkbox, CheckboxChangeEvent } from '../Checkbox';
-
-export interface SelectAllOptionsProps {
-    checked: boolean;
-    onClick?: () => void;
-    onSelect?: () => void;
-    onDeselect?: () => void;
-}
+import { Select as AntdSelect } from 'antd';
+import { SelectAllComponent, SelectAllProps } from './components/SelectAllComponent';
 
 export type SelectOptions = AntdSelectProps['options'];
 
 export interface SelectProps {
     id: string;
-    selectAll?: SelectAllOptionsProps;
+    selectAll?: SelectAllProps;
     value?: AntdSelectProps['value'];
     defaultValue?: AntdSelectProps['defaultValue'];
     options?: SelectOptions;
@@ -23,8 +16,10 @@ export interface SelectProps {
     size?: AntdSelectProps['size'];
     maxTagCount?: AntdSelectProps['maxTagCount'];
     disabled?: boolean;
+    allowClear?: boolean;
     block?: boolean;
     onChange?: AntdSelectProps['onChange'];
+    dropdownStyle?: CSSProperties;
     style?: CSSProperties;
     className?: string;
 }
@@ -40,53 +35,28 @@ export const Select: FC<SelectProps> = ({
     size = 'middle',
     maxTagCount = 'responsive',
     disabled = false,
+    allowClear = true,
     block = false,
     onChange,
+    dropdownStyle,
     style,
     className,
 }): JSX.Element => {
-    const SelectAllOptions = (
-        menu: ReactElement<unknown, string | JSXElementConstructor<unknown>> | undefined,
-    ): JSX.Element => {
-        if (!selectAll) return <></>;
-
-        const { checked, onClick, onSelect, onDeselect } = selectAll;
-
-        const handleChange = (e: CheckboxChangeEvent): void => {
-            const { checked } = e.target;
-
-            if (checked && onSelect) {
-                onSelect();
-                return;
-            }
-
-            if (onDeselect) onDeselect();
-        };
-
-        return (
-            <>
-                <Checkbox id="select-all" checked={checked} onClick={onClick} onChange={handleChange}>
-                    Selecionar tudo
-                </Checkbox>
-
-                {menu}
-            </>
-        );
-    };
-
     return (
         <AntdSelect
             id={'slct-' + id}
-            dropdownRender={selectAll ? SelectAllOptions : undefined}
+            dropdownRender={selectAll ? SelectAllComponent(selectAll) : undefined}
             value={value}
             defaultValue={defaultValue}
             options={options}
             mode={mode}
             placeholder={placeholder}
             disabled={disabled}
+            allowClear={allowClear}
             size={size}
             maxTagCount={maxTagCount}
             onChange={onChange}
+            dropdownStyle={dropdownStyle}
             style={{ ...style, width: block ? '100%' : undefined }}
             className={className}
         />

@@ -46,7 +46,7 @@ export const Chart: FC<ChartProps> = ({
             chart?.dispose();
             window.removeEventListener('resize', resizeChart);
         };
-    }, [theme]);
+    }, [theme, rendererType]);
 
     useEffect(() => {
         // Update chart
