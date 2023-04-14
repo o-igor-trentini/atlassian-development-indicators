@@ -35,7 +35,7 @@ export const Select: FC<SelectProps> = ({
     size = 'middle',
     maxTagCount = 'responsive',
     disabled = false,
-    allowClear = true,
+    allowClear = false,
     block = false,
     onChange,
     dropdownStyle,
