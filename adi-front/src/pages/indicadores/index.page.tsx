@@ -41,7 +41,7 @@ const Indicators: NextPage = (): JSX.Element => {
     };
 
     const content: JSX.Element =
-        !demands || !demands.project || !demands.project.issuesTypes ? (
+        !demands || !demands.project ? (
             <DemandsEmpty />
         ) : (
             <>
@@ -64,13 +64,13 @@ const Indicators: NextPage = (): JSX.Element => {
                 </Col>
 
                 <Col span={24}>
-                    <Card title="Total de tarefas por projeto">
+                    <Card title="Total de tarefas resolvidas por projeto">
                         <TotalIssuesByProjectTable demands={demands} loading={loading} />
                     </Card>
                 </Col>
 
                 <Col span={24}>
-                    <Card title="Total de tarefas por tipo">
+                    <Card title="Total de tarefas resolvidas por tipo">
                         <TotalIssuesByTypeTable demands={demands} loading={loading} />
                     </Card>
                 </Col>

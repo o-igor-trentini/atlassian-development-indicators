@@ -12,6 +12,8 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
+        if (!demands.project.issuesTypes) return [];
+
         const periodRows: Record<string, string> = {};
 
         for (const period of demands.periods) periodRows[period] = period;
