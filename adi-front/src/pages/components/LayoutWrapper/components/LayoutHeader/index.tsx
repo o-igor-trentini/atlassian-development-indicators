@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { ArrowLeftRight, BarChart2, Home, Menu as MenuIcon } from 'lucide-react';
+import { ArrowLeftRight, BarChart2, Home, Menu as MenuIcon, Settings } from 'lucide-react';
 import {
     Container,
     ContentContainer,
@@ -31,6 +31,12 @@ export const LayoutHeader: FC<LayoutHeaderProps> = ({ onSwitchTheme }): JSX.Elem
             label: 'Indicadores',
             icon: <BarChart2 />,
             onClick: () => route.push('/indicadores'),
+        },
+        {
+            key: 'configurations',
+            label: 'Configurações',
+            icon: <Settings />,
+            onClick: () => route.push('/configuracoes'),
         },
     ];
 

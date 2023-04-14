@@ -1,13 +1,26 @@
 import { CSSProperties, FC, ReactNode } from 'react';
-import { Typography } from 'antd';
+import { Typography, TypographyProps } from 'antd';
 
-export type TextSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl' | '6xl' | '7xl' | '8xl' | '9xl';
+export type TitleSize =
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
+    | '7xl'
+    | '8xl'
+    | '9xl';
 
-export interface TextProps {
+export interface TitleProps {
     children: ReactNode | ReactNode[];
-    size?: TextSize;
+    level?: 1 | 2 | 3 | 4 | 5;
+    size?: TitleSize;
     italic?: boolean;
-    strong?: boolean;
     copyable?: boolean;
     color?: string;
     style?: CSSProperties;
@@ -16,17 +29,17 @@ export interface TextProps {
 
 // TODO: Exporar sizes em tokens
 
-export const Text: FC<TextProps> = ({
+export const Title: FC<TitleProps> = ({
     children,
+    level,
     size = 'md',
     italic = false,
-    strong = false,
     copyable = false,
     color,
     style,
     className,
 }): JSX.Element => {
-    const sizes: Record<TextSize, string> = {
+    const sizes: Record<TitleSize, string> = {
         xxs: '0.625rem',
         xs: '0.75rem',
         sm: '0.875rem',
@@ -43,14 +56,14 @@ export const Text: FC<TextProps> = ({
     };
 
     return (
-        <Typography.Text
-            strong={strong}
+        <Typography.Title
+            level={level}
             italic={italic}
             copyable={copyable}
             style={{ ...style, color: color, fontSize: sizes[size] }}
             className={className}
         >
             {children}
-        </Typography.Text>
+        </Typography.Title>
     );
 };

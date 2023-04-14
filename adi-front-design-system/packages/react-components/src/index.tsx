@@ -23,11 +23,17 @@ export type { RowProps } from './Grid/Row';
 export { Col } from './Grid/Col';
 export type { ColProps } from './Grid/Col';
 
+export { Space } from './Space';
+export type { SpaceProps } from './Space';
+
 export { Card } from './Card';
 export type { CardProps } from './Card';
 
 export { Text } from './Text';
 export type { TextProps } from './Text';
+
+export { Title } from './Title';
+export type { TitleProps } from './Title';
 
 export { Tooltip } from './Tooltip';
 export type { TooltipProps } from './Tooltip';
