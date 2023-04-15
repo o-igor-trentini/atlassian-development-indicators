@@ -1,7 +1,6 @@
 package main
 
 import (
-	"adi-back/internal/database"
 	"adi-back/internal/database/migration"
 	"adi-back/setup"
 	"os"
@@ -14,27 +13,27 @@ func main() {
 }
 
 func run() {
-	db := database.OpenDatabase()
+	//db := database.OpenDatabase()
 
 	if len(os.Args) <= 1 {
-		setup.OpenServer(db)
+		setup.OpenServer(nil)
 	}
 
 	for _, arg := range os.Args {
 		switch arg {
 		case "-cds", "--create-database-structure":
-			migration.CreateDatabaseStructure(db)
-			migration.ExecMigrations(db)
+			migration.CreateDatabaseStructure(nil)
+			migration.ExecMigrations(nil)
 
 		case "-cm", "--create-migration":
 			migration.CreateMigrationFile()
 
 		case "-m", "--migrate":
-			migration.ExecMigrations(db)
+			migration.ExecMigrations(nil)
 
 		case "-mr", "--migrate-and-run":
-			migration.ExecMigrations(db)
-			setup.OpenServer(db)
+			migration.ExecMigrations(nil)
+			setup.OpenServer(nil)
 		}
 	}
 }
