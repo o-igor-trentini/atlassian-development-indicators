@@ -22,7 +22,7 @@ func Init(r *gin.Engine, db *gorm.DB) {
 	r.NoRoute(md.Cors)
 	defaultRouteGroup := r.Group("/api")
 
-	r.GET("/health", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{}) })
+	defaultRouteGroup.GET("/health", func(c *gin.Context) { c.JSON(http.StatusOK, "OK") })
 
 	newDemands(defaultRouteGroup, md, demandsService)
 }
