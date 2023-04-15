@@ -65,7 +65,7 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
         ];
 
         return columns;
-    }, [periodCol]);
+    }, [dataSource]);
 
     return (
         <Table dataSource={dataSource} columns={columns} pagination={false} loading={loading} scroll={{ x: true }} />

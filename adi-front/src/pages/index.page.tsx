@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const Home: NextPage = (): JSX.Element => {
     return (
-        <Container justify="center" align="middle">
+        <Container justify="center" align="top">
             <Space direction="vertical">
                 <Col span={24}>
                     <ImageContainer>
@@ -23,7 +23,7 @@ const Home: NextPage = (): JSX.Element => {
                 </Col>
 
                 <Col span={24}>
-                    <Row gutter={[0, 12]} justify="center" align="top">
+                    <Row gutter={[0, 12]} justify="center" align="middle">
                         <TextsContainer span={24}>
                             <WelcomeTitle level={1}>
                                 Seja bem-vindo(a) aos
