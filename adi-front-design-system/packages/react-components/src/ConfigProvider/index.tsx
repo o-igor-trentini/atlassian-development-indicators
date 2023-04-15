@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from 'react';
 import { ConfigProvider as AntdConfigProvider, theme as AntdTheme } from 'antd';
 import type { ThemeConfig } from 'antd';
-import ptBRLocale from 'antd/es/locale/pt_BR';
-import enLocale from 'antd/es/locale/en_GB';
-import { Locale } from 'antd/es/locale';
+import ptBRLocale from 'antd/lib/locale/pt_BR';
+import enLocale from 'antd/lib/locale/en_GB';
+import { Locale } from 'antd/lib/locale';
 
 export const AppTheme = AntdTheme;
 export type ThemeAlgorithm = typeof AntdTheme.defaultAlgorithm;
