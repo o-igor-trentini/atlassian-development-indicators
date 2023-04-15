@@ -7,6 +7,7 @@ import (
 	"adi-back/third_party/validators"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"net/http"
 )
 
 // Init inicializar as rotas da aplicação.
@@ -20,6 +21,8 @@ func Init(r *gin.Engine, db *gorm.DB) {
 
 	r.NoRoute(md.Cors)
 	defaultRouteGroup := r.Group("/api")
+
+	r.GET("/health", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{}) })
 
 	newDemands(defaultRouteGroup, md, demandsService)
 }
