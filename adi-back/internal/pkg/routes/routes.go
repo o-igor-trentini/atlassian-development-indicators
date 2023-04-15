@@ -15,10 +15,11 @@ func Init(r *gin.Engine, db *gorm.DB) {
 
 	md := middlewares.New()
 
-	r.NoRoute(md.Cors)
-
 	gojiraService := gojira.NewService()
 	demandsService := demands.NewService(gojiraService)
 
-	newDemands(r, md, demandsService)
+	r.NoRoute(md.Cors)
+	defaultRouteGroup := r.Group("/api")
+
+	newDemands(defaultRouteGroup, md, demandsService)
 }

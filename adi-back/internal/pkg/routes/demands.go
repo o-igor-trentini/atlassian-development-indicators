@@ -8,7 +8,7 @@ import (
 )
 
 // newDemands cria os endpoints das demandas.
-func newDemands(r *gin.Engine, middlewares middlewares.Middleware, demandsService demands.Service) {
+func newDemands(r *gin.RouterGroup, middlewares middlewares.Middleware, demandsService demands.Service) {
 	co := controllers.NewDemands(demandsService)
 
 	base := r.Group("/demands", middlewares.Cors)
