@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { Container, IconContainer } from '@/components/ui/CardWithIcon/styles';
-import { CardProps } from '@adi/react-components';
+import { CardProps } from '@it-adi/react-components';
 
 export interface IconProps {
     color: string;

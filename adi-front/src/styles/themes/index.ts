@@ -1,4 +1,4 @@
-import { ThemeType } from '@adi/react-components';
+import { ThemeType } from '@it-adi/react-components';
 
 export const baseTheme: Omit<ThemeType, 'variant'> = {
     // antd

@@ -1,5 +1,5 @@
 import { FC, useMemo, useRef } from 'react';
-import { Table, TableColumnType, TableDataSourceType } from '@adi/react-components';
+import { Table, TableColumnType, TableDataSourceType } from '@it-adi/react-components';
 import { formatFloatPrecision } from '@/utils/string';
 import { Demands } from '@/@types/demands';
 import { PartialTableColumnProps } from '@/@types/components/table';

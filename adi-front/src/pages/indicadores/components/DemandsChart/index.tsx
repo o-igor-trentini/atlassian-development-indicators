@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Chart, ChartOption } from '@adi/react-charts';
-import { AppTheme, chooseColorByContrast } from '@adi/react-components';
+import { Chart, ChartOption } from '@it-adi/react-charts';
+import { AppTheme, chooseColorByContrast } from '@it-adi/react-components';
 import { Demands } from '@/@types/demands';
 import { baseTheme } from '@/styles/themes';
 

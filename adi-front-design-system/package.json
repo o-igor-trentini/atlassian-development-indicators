@@ -1,14 +1,23 @@
 {
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/o-igor-trentini/atlassian-development-indicators/tree/main/adi-front-design-system.git"
+  },
+  "author": "Igor Trentini",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "lint": "turbo run lint --filter=!ts-config --parallel",
-    "dev": "turbo run dev --filter=!ts-config --parallel",
-    "build": "turbo run build --filter=!ts-config"
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build --filter=!docs",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter=!docs && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "turbo": "^1.9.1"
   }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "@adi/react-charts",
-  "version": "1.0.0",
+  "name": "@it-adi/react-charts",
+  "version": "1.0.1",
   "description": "Biblioteca de gráficos para ReactJS",
   "keywords": [],
   "author": "Igor Luís Casanova Trentini",

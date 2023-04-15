@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Col, Empty } from '@adi/react-components';
+import { Col, Empty } from '@it-adi/react-components';
 import { Icon } from '@/pages/indicadores/components/DemandsEmpty/styles';
 
 export const DemandsEmpty: FC = (): JSX.Element => {

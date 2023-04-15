@@ -8,7 +8,7 @@ import {
     MenuButton,
     SwitchThemeButton,
 } from './styles';
-import { Col, Drawer, Menu, MenuItemsType } from '@adi/react-components';
+import { Col, Drawer, Menu, MenuItemsType } from '@it-adi/react-components';
 import { useRouter } from 'next/router';
 
 export interface LayoutHeaderProps {

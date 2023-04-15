@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { Col, Row, Text, Tooltip } from '@adi/react-components';
+import { Col, Row, Text, Tooltip } from '@it-adi/react-components';
 import { CardWithIcon } from '@/components/ui/CardWithIcon';
 import { CardSkeleton } from './components/CardSkeleton';
 import { Demands } from '@/@types/demands';

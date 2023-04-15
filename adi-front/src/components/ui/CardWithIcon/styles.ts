@@ -1,4 +1,4 @@
-import { styled, Card, defaultBoxShadow } from '@adi/react-components';
+import { styled, Card, defaultBoxShadow } from '@it-adi/react-components';
 
 const iconSize = 4;
 

@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Col, Row, Space } from '@adi/react-components';
+import { Col, Row, Space } from '@it-adi/react-components';
 import Image from 'next/image';
 import AnalysisPng from '@/assets/welcome/analysis.png';
 import { Container, ImageContainer, TextsContainer, WelcomeText, WelcomeTitle } from '@/pages/components/Home/styles';

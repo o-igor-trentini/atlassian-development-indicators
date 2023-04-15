@@ -1,4 +1,4 @@
-import { Col, Row, styled, Title, Text } from '@adi/react-components';
+import { Col, Row, styled, Title, Text } from '@it-adi/react-components';
 
 export const Container = styled(Row)`
     height: 100%;

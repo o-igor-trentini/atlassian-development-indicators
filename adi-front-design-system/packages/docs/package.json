@@ -1,6 +1,7 @@
 {
-  "name": "@adi/docs",
+  "name": "@it-adi/docs",
   "version": "1.0.0",
+  "private": true,
   "description": "Documentação do Design System",
   "author": "Igor Luís Casanova Trentini",
   "license": "ISC",

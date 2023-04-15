@@ -1,8 +1,7 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@adi/react-components';
+import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@it-adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
 import { Search } from 'lucide-react';
-import { handleClientScriptLoad } from 'next/script';
 
 export interface FormSearch {
     projects: string[];

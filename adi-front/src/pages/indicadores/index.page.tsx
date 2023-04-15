@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Col, Row } from '@adi/react-components';
+import { Card, Col, Row } from '@it-adi/react-components';
 import { DemandsChart } from './components/DemandsChart';
 import { FormSearch, SearchForm } from './components/SearchForm';
 import { APIGetCreatedVersusResolvedProps, Demands } from '@/@types/demands';

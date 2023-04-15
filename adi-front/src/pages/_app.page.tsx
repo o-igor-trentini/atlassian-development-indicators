@@ -12,7 +12,7 @@ import {
     ThemeProvider,
     ThemeType,
     ThemeVariant,
-} from '@adi/react-components';
+} from '@it-adi/react-components';
 
 const { defaultAlgorithm, darkAlgorithm } = AppTheme;
 
@@ -29,17 +29,17 @@ const App: NextPage<AppProps> = ({ Component, pageProps }): JSX.Element => {
     const handleMenuClick = (): void => {
         setTheme((state) => {
             if (state.variant === 'light') {
-                localStorage.setItem('@adi/theme', 'dark');
+                localStorage.setItem('@it-adi/theme', 'dark');
                 return darkTheme;
             }
 
-            localStorage.setItem('@adi/theme', 'light');
+            localStorage.setItem('@it-adi/theme', 'light');
             return defaultTheme;
         });
     };
 
     useEffect(() => {
-        const storedTheme = localStorage.getItem('@adi/theme');
+        const storedTheme = localStorage.getItem('@it-adi/theme');
 
         setTheme(storedTheme === 'light' ? defaultTheme : darkTheme);
     }, []);
