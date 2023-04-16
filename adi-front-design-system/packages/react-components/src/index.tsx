@@ -59,6 +59,6 @@ export type { CheckboxProps, CheckboxChangeEvent } from './Checkbox';
 export * from './Layout';
 
 // Styles
-export { ThemeProvider, GlobalStyle, styled, ServerStyleSheet } from './styles/global';
+export { ThemeProvider, GlobalStyle, styled, ServerStyleSheet, keyframes } from './styles/global';
 export type { ThemeType, ThemeVariant } from './styles/theme';
 export { chooseColorByContrast, defaultBoxShadow } from './styles/utils';

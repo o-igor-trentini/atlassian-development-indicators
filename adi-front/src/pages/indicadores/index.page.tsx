@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Card, Col, Row } from '@it-adi/react-components';
 import { DemandsChart } from './components/DemandsChart';
-import { FormSearch, SearchForm } from './components/SearchForm';
+import { FormSearch, SearchForm, SearchFormRef } from './components/SearchForm';
 import { APIGetCreatedVersusResolvedProps, Demands } from '@/@types/demands';
 import { getCreatedVersusResolved } from '@/api/demands';
 import { TotalingCards } from './components/TotalingCards';
@@ -15,6 +15,7 @@ import { Container } from '@/pages/indicadores/styles';
 const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const searchFormRef = useRef<SearchFormRef>(null);
 
     const getDemands = async (parameters: APIGetCreatedVersusResolvedProps): Promise<void> => {
         try {
@@ -40,9 +41,13 @@ const Indicators: NextPage = (): JSX.Element => {
         }).then();
     };
 
+    useEffect(() => {
+        searchFormRef.current?.search();
+    }, []);
+
     const content: JSX.Element =
-        !demands || !demands.project ? (
-            <DemandsEmpty />
+        !demands || !demands.project || !demands.analytics.overallProgress ? (
+            <DemandsEmpty loading={loading} />
         ) : (
             <>
                 <TotalingCards demands={demands} loading={loading} />
@@ -81,7 +86,7 @@ const Indicators: NextPage = (): JSX.Element => {
         <Container gutter={[0, 32]} justify="center" align="top">
             <Col span={24}>
                 <Card>
-                    <SearchForm loading={loading} onSubmit={handleSearch} />
+                    <SearchForm ref={searchFormRef} loading={loading} onSubmit={handleSearch} />
                 </Card>
             </Col>
 

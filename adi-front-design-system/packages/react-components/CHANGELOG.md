@@ -1,5 +1,11 @@
 # @adi/react-components
 
+## 1.1.0
+
+### Minor Changes
+
+- Adicionado keyframes na estilização
+
 ## 1.0.6
 
 ### Patch Changes

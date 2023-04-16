@@ -1,11 +1,15 @@
 import { FC } from 'react';
-import { Col, Empty } from '@it-adi/react-components';
-import { Icon } from '@/pages/indicadores/components/DemandsEmpty/styles';
+import { Empty } from '@it-adi/react-components';
+import { Container, EmptyIcon, LoadingIcon } from '@/pages/indicadores/components/DemandsEmpty/styles';
 
-export const DemandsEmpty: FC = (): JSX.Element => {
+interface DemandsEmptyProps {
+    loading: boolean;
+}
+
+export const DemandsEmpty: FC<DemandsEmptyProps> = ({ loading }): JSX.Element => {
     return (
-        <Col span={24}>
-            <Empty image={<Icon />} description="Nenhuma demanda encontrada!" />
-        </Col>
+        <Container span={24}>
+            {loading ? <LoadingIcon /> : <Empty image={<EmptyIcon />} description="Nenhuma demanda encontrada!" />}
+        </Container>
     );
 };

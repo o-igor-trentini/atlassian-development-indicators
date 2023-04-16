@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { forwardRef, ForwardRefRenderFunction, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@it-adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
 import { Search } from 'lucide-react';
@@ -9,12 +9,19 @@ export interface FormSearch {
     until: Dayjs;
 }
 
+export interface SearchFormRef {
+    search: () => void;
+}
+
 interface SearchFormProps {
     loading: boolean;
     onSubmit: (values: FormSearch) => void;
 }
 
-export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Element => {
+const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
+    { loading, onSubmit },
+    ref,
+): JSX.Element => {
     const [form] = useForm<FormSearch>();
     const [allProjectsIsSelected, setAllProjectsIsSelected] = useState<boolean>(true);
 
@@ -79,6 +86,8 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
 
     const handleDeselectAllProjects = (): void => form.setFieldValue('projects' as keyof FormSearch, []);
 
+    useImperativeHandle(ref, () => ({ search: () => handleSubmit(form.getFieldsValue()) }), [form]);
+
     useEffect(() => form.setFieldsValue(initialValues), [form, initialValues]);
 
     return (
@@ -136,3 +145,5 @@ export const SearchForm: FC<SearchFormProps> = ({ loading, onSubmit }): JSX.Elem
         </Form>
     );
 };
+
+export const SearchForm = forwardRef(Component);

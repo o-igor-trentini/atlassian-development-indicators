@@ -2,6 +2,7 @@ import scStyled, {
     createGlobalStyle,
     ThemeProvider as scThemeProvider,
     ServerStyleSheet as scServerStyleSheet,
+    keyframes as scKeyframes,
 } from 'styled-components';
 import { chooseColorByContrast } from '../utils';
 import { ThemeType } from '../theme';
@@ -18,7 +19,7 @@ export const GlobalStyle = createGlobalStyle<ThemeType>`
         chooseColorByContrast(colorPrimary, ADIcolorBlack, ADIcolorWhite)};
     background-color: ${({ colorPrimary }) => colorPrimary};
   }
-  
+
   a {
     color: ${({ colorPrimary, ADIcolorSecondary }) =>
         chooseColorByContrast(colorPrimary, colorPrimary, ADIcolorSecondary)} !important;
@@ -31,7 +32,7 @@ export const GlobalStyle = createGlobalStyle<ThemeType>`
       margin-top: 30px; 
     }
   }
-  
+
   // Margem entre os itens do Select
   .ant-select-dropdown {
     > div {
@@ -45,3 +46,4 @@ export const GlobalStyle = createGlobalStyle<ThemeType>`
 export const ThemeProvider = scThemeProvider;
 export const ServerStyleSheet = scServerStyleSheet;
 export const styled = scStyled;
+export const keyframes = scKeyframes;
