@@ -36,8 +36,8 @@ func initEnv(path string) {
 			Name:          envconst.GinMode,
 			ExpetedValues: []string{"debug", "test", "release"},
 		},
-		{Name: envconst.GinHost},
-		{Name: envconst.GinPort},
+		{Name: envconst.GinHost, IgnoreEmptyValue: true},
+		{Name: envconst.GinPort, IgnoreEmptyValue: true},
 
 		{Name: envconst.DatabaseHost},
 		{

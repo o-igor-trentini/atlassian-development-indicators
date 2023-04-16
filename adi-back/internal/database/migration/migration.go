@@ -4,7 +4,7 @@ import (
 	"adi-back/internal/consts/envconst"
 	"adi-back/internal/pkg/adiutils"
 	"adi-back/internal/services/log/adilog"
-	"adi-gomodels/pkg/models"
+	"github.com/o-igor-trentini/adi-gomodels/pkg/models"
 	"gorm.io/gorm"
 	"os"
 	"reflect"

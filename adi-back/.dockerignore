@@ -1,0 +1,8 @@
+# IDEs
+.idea
+.vscode
+
+.gitignore
+
+README.md
+.env.example

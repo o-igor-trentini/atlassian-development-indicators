@@ -4,7 +4,7 @@ import (
 	"adi-back/internal/consts/envconst"
 	"adi-back/internal/pkg/adiutils/uchan"
 	"adi-back/internal/pkg/adiutils/umap"
-	"adi-gojira/pkg/gjservice"
+	"github.com/o-igor-trentini/adi-gojira/pkg/gjservice"
 	"net/http"
 	"os"
 	"strconv"

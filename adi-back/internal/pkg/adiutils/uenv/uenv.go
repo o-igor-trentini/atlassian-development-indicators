@@ -11,7 +11,7 @@ import (
 func GetStr(name string) (string, error) {
 	v := os.Getenv(name)
 	if v == "" {
-		fmt.Errorf("valor não encontrado para a env: %s", name)
+		return "", fmt.Errorf("valor não encontrado para a env: %s", name)
 	}
 
 	return v, nil
@@ -25,7 +25,7 @@ func CheckEnvs(table []CheckEnvTable) error {
 	)
 	for _, item := range table {
 		v, err := GetStr(item.Name)
-		if err != nil {
+		if err != nil && (v == "" && !item.IgnoreEmptyValue) {
 			missingEnvs = append(missingEnvs, item.Name)
 		}
 

@@ -1,7 +1,7 @@
 package gojira
 
 import (
-	"adi-gojira/pkg/gjservice"
+	"github.com/o-igor-trentini/adi-gojira/pkg/gjservice"
 	"time"
 )
 

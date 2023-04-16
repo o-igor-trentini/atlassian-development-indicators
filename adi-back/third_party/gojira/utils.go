@@ -1,7 +1,7 @@
 package gojira
 
 import (
-	"adi-gojira/pkg/gjconsts"
+	"github.com/o-igor-trentini/adi-gojira/pkg/gjconsts"
 	"strings"
 )
 
