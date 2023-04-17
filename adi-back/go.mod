@@ -7,7 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-playground/validator/v10 v10.11.2
 	github.com/joho/godotenv v1.5.1
-	github.com/o-igor-trentini/adi-gojira v1.0.1
+	github.com/o-igor-trentini/adi-gojira v1.1.0
 	github.com/o-igor-trentini/adi-gomodels v1.0.1
 	github.com/stretchr/testify v1.8.2
 	go.uber.org/zap v1.24.0

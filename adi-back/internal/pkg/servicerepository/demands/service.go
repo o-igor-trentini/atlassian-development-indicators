@@ -64,9 +64,9 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 		resolvedJQL = v.Data.JQL
 	}
 
-	monthKeys := utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
-	// TODO: Pegar de uma configuração  (banco)
+	// TODO: Pegar de uma configuração de campos para ignorar quando pendente (banco)
 	skippedFieldsInPendants := []string{"00 - backlog", "backlog"}
+	monthKeys := utime.GetYearMonthBetweenDates(params.Period.Range.From, params.Period.Range.Until)
 
 	response, err := s.handleGetIssues(
 		createdIssues,

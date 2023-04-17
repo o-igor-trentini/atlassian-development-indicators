@@ -32,13 +32,20 @@ type serviceImpl struct {
 func NewService() Service {
 	httpClient := &http.Client{Timeout: time.Duration(10) * time.Second}
 
-	gjService := *gjservice.NewClient(
-		os.Getenv(envconst.JiraApiBaseUrl),
-		os.Getenv(envconst.JiraApiUsername),
-		os.Getenv(envconst.JiraApiToken),
-		*httpClient,
-	)
+	// TODO: Validar passar valor por variável
+	developerCustomField := "Desenvolvedor"
 
+	config := gjservice.Config{
+		BaseURL:      os.Getenv(envconst.JiraApiBaseUrl),
+		JiraUsername: os.Getenv(envconst.JiraApiUsername),
+		JiraToken:    os.Getenv(envconst.JiraApiToken),
+		HTTPClient:   *httpClient,
+		CustomFields: gjservice.ConfigCustomFields{
+			Developer: &developerCustomField,
+		},
+	}
+
+	gjService := *gjservice.NewClient(config)
 	return &serviceImpl{gjService}
 }
 

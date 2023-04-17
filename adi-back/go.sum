@@ -65,6 +65,8 @@ github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9G
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/o-igor-trentini/adi-gojira v1.0.1 h1:RRrT0cp/989I36z9PncH7S3wEoOR98VfL5/IzeNdWqc=
 github.com/o-igor-trentini/adi-gojira v1.0.1/go.mod h1:+o2j3bDToBjk0dQ9veLnHuEzpEXtMuQXKEYBCE0k9Hc=
+github.com/o-igor-trentini/adi-gojira v1.1.0 h1:Xz0qxTYYm+VpTjKNtBLPuzzoRfI1BNFA65wsyVwFejw=
+github.com/o-igor-trentini/adi-gojira v1.1.0/go.mod h1:+o2j3bDToBjk0dQ9veLnHuEzpEXtMuQXKEYBCE0k9Hc=
 github.com/o-igor-trentini/adi-gomodels v1.0.1 h1:NZ5dEkyhIRNigmmb8EvWbtrCd8+uj1qfncFSga1m8vk=
 github.com/o-igor-trentini/adi-gomodels v1.0.1/go.mod h1:NyZKo5xXSi/g75hqsh/mUPLIuAMhvRQZAekh2ySiQiU=
 github.com/pelletier/go-toml/v2 v2.0.6 h1:nrzqCb7j9cDFj2coyLNLaZuJTLjWjlaz6nvTvIwycIU=
