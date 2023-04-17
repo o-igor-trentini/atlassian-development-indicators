@@ -13,6 +13,7 @@ import (
 // OpenServer inicializar o servidor.
 func OpenServer(db *gorm.DB) {
 	gin.SetMode(os.Getenv(envconst.GinMode))
+	gin.DefaultWriter = os.Stdout
 
 	r := gin.New()
 	r.Use(gin.Recovery())

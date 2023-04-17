@@ -4,6 +4,7 @@ import (
 	"adi-back/internal/pkg/adiutils/uchan"
 	"adi-back/internal/pkg/adiutils/uslice"
 	"adi-back/internal/pkg/adiutils/utime"
+	"adi-back/internal/services/log/adilog"
 	"adi-back/third_party/gojira"
 	"fmt"
 	"github.com/o-igor-trentini/adi-gojira/pkg/gjconsts"
@@ -75,8 +76,8 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 		skippedFieldsInPendants,
 	)
 	if err != nil {
-		fmt.Println(err)
-		return GetIssuesByPeriodResponse{}, nil
+		adilog.Logger.Error(err.Error())
+		return GetIssuesByPeriodResponse{}, err
 	}
 
 	response.Periods = monthKeys

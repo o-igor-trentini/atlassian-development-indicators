@@ -16,5 +16,5 @@ docker build -t igortrentini/it-adi-adi-back:latest .
 #### Subir e rodar o container ####
 
 ```bash
-docker run --rm -p 8080:8080 it-adi-adi-back:latest
+docker run --rm -p 8080:8080 igortrentini/it-adi-adi-back:latest
 ```
