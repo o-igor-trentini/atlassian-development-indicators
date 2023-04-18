@@ -116,7 +116,7 @@ func (s *GetIssuesByPeriodResponse) FixEmpty() {
 	}
 }
 
-// DoAnalysis gera os dados gerais para evitar ficar manipulando os dados.
+// DoAnalysis gera os dados gerais para evitar ficar manipulando os dados toda vez que precisar de um total.
 func (s *GetIssuesByPeriodResponse) DoAnalysis() {
 	s.Analytics.ProgressPerPeriod = make([]float64, len(s.Periods))
 
