@@ -2,9 +2,9 @@ package gojira
 
 import (
 	"adi-back/internal/consts/envconst"
-	"adi-back/internal/pkg/adiutils/uchan"
-	"adi-back/internal/pkg/adiutils/umap"
 	"github.com/o-igor-trentini/adi-gojira/pkg/gjservice"
+	"github.com/o-igor-trentini/adi-goutils/pkg/uchan"
+	"github.com/o-igor-trentini/adi-goutils/pkg/umap"
 	"net/http"
 	"os"
 	"strconv"
@@ -20,6 +20,7 @@ type Service interface {
 		ch chan uchan.ChannelResponse[GetIssuesChannelResponse],
 		parameters BuildJQLParams,
 		fields []string,
+		config gjservice.CustomFields,
 		t PeriodType,
 	)
 }
@@ -32,17 +33,11 @@ type serviceImpl struct {
 func NewService() Service {
 	httpClient := &http.Client{Timeout: time.Duration(10) * time.Second}
 
-	// TODO: Validar passar valor por variável
-	developerCustomField := "Desenvolvedor"
-
 	config := gjservice.Config{
 		BaseURL:      os.Getenv(envconst.JiraApiBaseUrl),
 		JiraUsername: os.Getenv(envconst.JiraApiUsername),
 		JiraToken:    os.Getenv(envconst.JiraApiToken),
 		HTTPClient:   *httpClient,
-		CustomFields: gjservice.ConfigCustomFields{
-			Developer: &developerCustomField,
-		},
 	}
 
 	gjService := *gjservice.NewClient(config)
@@ -54,6 +49,7 @@ func (s serviceImpl) GetIssues(
 	ch chan uchan.ChannelResponse[GetIssuesChannelResponse],
 	parameters BuildJQLParams,
 	fields []string,
+	customFields gjservice.CustomFields,
 	t PeriodType,
 ) {
 	defer wg.Done()
@@ -78,7 +74,7 @@ func (s serviceImpl) GetIssues(
 		"fields":     strings.Join(fields, ","),
 	}
 
-	response, err := s.gjService.SearchByJQL(params)
+	response, err := s.gjService.SearchByJQL(params, customFields)
 	if err != nil {
 		r(response, JQL, err)
 		return
@@ -104,7 +100,7 @@ func (s serviceImpl) GetIssues(
 		}()
 
 		for i := 1; i <= loops; i++ {
-			go s.getIssuesAsync(&wg, c, params, startAt*i)
+			go s.getIssuesAsync(&wg, c, params, customFields, startAt*i)
 		}
 
 		wg.Wait()
@@ -127,6 +123,7 @@ func (s serviceImpl) getIssuesAsync(
 	wg *sync.WaitGroup,
 	c chan uchan.ChannelResponse[gjservice.SearchByJQLPayload],
 	params map[string]string,
+	customFields gjservice.CustomFields,
 	startAt int,
 ) {
 	defer wg.Done()
@@ -134,7 +131,7 @@ func (s serviceImpl) getIssuesAsync(
 	p := umap.Copy(params)
 	p["startAt"] = strconv.Itoa(startAt)
 
-	respose, err := s.gjService.SearchByJQL(p)
+	respose, err := s.gjService.SearchByJQL(p, customFields)
 	c <- uchan.ChannelResponse[gjservice.SearchByJQLPayload]{
 		Data:  respose,
 		Error: err,

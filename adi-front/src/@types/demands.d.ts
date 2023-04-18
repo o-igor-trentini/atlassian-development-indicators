@@ -14,7 +14,7 @@ export interface DemandsAnalytics {
     pendingTotal: number;
 }
 
-export interface IssuesDetailsByProject {
+export interface IssuesByProject {
     total: number;
     totalByType: number[];
     totalByPeriod: number[];
@@ -23,16 +23,17 @@ export interface IssuesDetailsByProject {
 
 export interface Demands {
     periods: string[];
+    issuesTypes: string[];
+    analytics: DemandsAnalytics;
     created: IssuesDetails;
     resolved: IssuesDetails;
     pending: IssuesDetails;
-    analytics: DemandsAnalytics;
-    project: {
-        projects: string[];
-        projectsAvatars: string[];
-        issuesTypes: string[];
-        issuesDetailsByProject: IssuesDetailsByProject[];
+    projects: {
+        names: string[];
+        avatars: string[];
+        issuesByProject: IssuesByProject[];
     };
+    developers: [];
 }
 
 export interface APIGetCreatedVersusResolvedProps {

@@ -23,7 +23,11 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
     ref,
 ): JSX.Element => {
     const [form] = useForm<FormSearch>();
+
+    // TODO: Mover para dentro do componente
     const [allProjectsIsSelected, setAllProjectsIsSelected] = useState<boolean>(true);
+
+    // TODO: Validar range dos datepickers
 
     const projectOptions: SelectOptions = useMemo(
         () => [
@@ -75,9 +79,10 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
     }, [projectOptions]);
 
     const handleSubmit = (values: FormSearch): void => onSubmit(values);
-
+    // TODO: Mover para dentro do componente
     const handleClickSelectAllProjects = (): void => setAllProjectsIsSelected((state) => !state);
 
+    // TODO: Mover para dentro do componente
     const handleSelectAllProjects = (): void =>
         form.setFieldValue(
             'projects' as keyof FormSearch,

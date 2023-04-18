@@ -41,12 +41,10 @@ const Indicators: NextPage = (): JSX.Element => {
         }).then();
     };
 
-    useEffect(() => {
-        searchFormRef.current?.search();
-    }, []);
+    useEffect(() => searchFormRef.current?.search(), [searchFormRef.current]);
 
     const content: JSX.Element =
-        !demands || !demands.project || !demands.analytics.overallProgress ? (
+        !demands || !demands.projects || !demands.analytics.overallProgress ? (
             <DemandsEmpty loading={loading} />
         ) : (
             <>

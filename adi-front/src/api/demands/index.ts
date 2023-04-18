@@ -1,9 +1,11 @@
 import { AxiosResponse } from 'axios';
 import { Demands, APIGetCreatedVersusResolvedProps } from '@/@types/demands';
-import { backApi } from '@/lib/axios';
+import { backendApi } from '@/lib/axios';
 
 export const getCreatedVersusResolved = async (parameters: APIGetCreatedVersusResolvedProps): Promise<Demands> => {
-    const { data }: AxiosResponse<Demands> = await backApi.get('/demands', {
+    // TODO: Corrigir para pegar UTC automaticamente
+
+    const { data }: AxiosResponse<Demands> = await backendApi.get('/demands', {
         params: {
             ...parameters,
             from: parameters.period.range.from.subtract(3, 'hours').toISOString(),

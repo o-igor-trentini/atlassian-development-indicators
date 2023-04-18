@@ -2,10 +2,10 @@ package setup
 
 import (
 	"adi-back/internal/consts/envconst"
-	"adi-back/internal/pkg/adiutils/uenv"
 	"adi-back/internal/services/log/adilog"
 	"adi-back/internal/services/log/adisentry"
 	"github.com/joho/godotenv"
+	"github.com/o-igor-trentini/adi-goutils/pkg/uenv"
 	"log"
 )
 
@@ -28,21 +28,21 @@ func initEnv(path string) {
 
 	list := []uenv.CheckEnvTable{
 		{
-			Name:          envconst.AppMode,
-			ExpetedValues: []string{"development", "production"},
+			Name:     envconst.AppMode,
+			Expected: []string{"development", "production"},
 		},
 
 		{
-			Name:          envconst.GinMode,
-			ExpetedValues: []string{"debug", "test", "release"},
+			Name:     envconst.GinMode,
+			Expected: []string{"debug", "test", "release"},
 		},
-		{Name: envconst.GinHost, IgnoreEmptyValue: true},
-		{Name: envconst.GinPort, IgnoreEmptyValue: true},
+		{Name: envconst.GinHost, IgnoreEmpty: true},
+		{Name: envconst.GinPort, IgnoreEmpty: true},
 
 		{Name: envconst.DatabaseHost},
 		{
-			Name:          envconst.DatabasePort,
-			ExpetedValues: []string{"5432"},
+			Name:     envconst.DatabasePort,
+			Expected: []string{"5432"},
 		},
 		{Name: envconst.DatabaseUser},
 		{Name: envconst.DatabasePassword},
@@ -50,14 +50,14 @@ func initEnv(path string) {
 		{Name: envconst.DatabaseSchema},
 
 		{
-			Name:          envconst.LogLevel,
-			ExpetedValues: []string{"debug", "info", "warn", "error", "panic", "dpanic", "fatal"},
+			Name:     envconst.LogLevel,
+			Expected: []string{"debug", "info", "warn", "error", "panic", "dpanic", "fatal"},
 		},
 
 		{Name: envconst.SentryDSN},
 		{
-			Name:          envconst.SentryEnvironment,
-			ExpetedValues: []string{"development", "staging", "production"},
+			Name:     envconst.SentryEnvironment,
+			Expected: []string{"development", "staging", "production"},
 		},
 
 		{Name: envconst.JiraApiBaseUrl},

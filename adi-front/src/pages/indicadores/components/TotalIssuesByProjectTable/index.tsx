@@ -23,13 +23,13 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
 
         const projectRows: Record<string, number>[] = [];
 
-        for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
+        for (let projectIndex = 0; projectIndex < demands.projects.names.length; projectIndex++) {
             const row: Record<string, number> = {};
 
             for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
                 const key = periodCol.current[periodIndex].dataIndex;
 
-                row[key] = demands.project.issuesDetailsByProject[projectIndex].totalByPeriod[periodIndex];
+                row[key] = demands.projects.issuesByProject[projectIndex].totalByPeriod[periodIndex];
             }
 
             projectRows.push(row);
@@ -40,7 +40,7 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
                 key: 'Período',
                 ...periodRows,
             },
-            ...demands.project.projects.map((item, index) => ({ key: item, ...projectRows[index] })),
+            ...demands.projects.names.map((item, index) => ({ key: item, ...projectRows[index] })),
         ];
 
         return dataSource;
