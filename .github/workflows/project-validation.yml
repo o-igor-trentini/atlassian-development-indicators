@@ -25,10 +25,10 @@ jobs:
       run: cd adi-back
 
     - name: Build
-      run: go build -v ./adi-back/...
+      run: go build -v cmd/adiback.go
 
     - name: Test
-      run: go test -v ./adi-back/...
+      run: go test -v ./...
 
   adi-front:
     runs-on: ubuntu-latest
