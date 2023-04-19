@@ -42,12 +42,14 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
+        cache: 'npm'
+        cache-dependecy-path: '**/package-lock.json'
 
     - name: Switch to working directory
       run: cd adi-front
 
     - name: Installing dependencies
-      run: npm i
+      run: npm ci
 
     - name: Build
       run: npm run build
@@ -61,12 +63,14 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
+        cache: 'npm'
+        cache-dependecy-path: '**/package-lock.json'
 
     - name: Switch to working directory
       run: cd adi-front-design-system
 
     - name: Installing dependencies
-      run: npm i
+      run: npm ci
 
     - name: Build
       run: npm run build
