@@ -22,11 +22,11 @@ jobs:
         go-version: 1.20
 
     - name: Build
-      working-directory: .adi-back/
+      working-directory: adi-back/
       run: go build -v ./...
 
     - name: Test
-      working-directory: .adi-back/
+      working-directory: adi-back/
       run: go test -v ./...
 
   adi-front:
