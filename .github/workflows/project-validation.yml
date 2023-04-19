@@ -1,0 +1,66 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Project validation ✅
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  adi-back:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.20
+
+    - name: Build
+      working-directory: .adi-back/
+      run: go build -v ./...
+
+    - name: Test
+      working-directory: .adi-back/
+      run: go test -v ./...
+
+  adi-front:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependecy-path: '**/package-lock.json'
+
+    - name: Installing dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+
+  adi-front-design-system:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependecy-path: '**/package-lock.json'
+
+    - name: Installing dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
