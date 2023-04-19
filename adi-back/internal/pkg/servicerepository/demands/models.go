@@ -173,7 +173,6 @@ func (s *GetIssuesByPeriodResponse) AddTotalByPeriod(slice []int, strDate string
 	}
 
 	return nil
-
 }
 
 // AddTotalByPeriodAndIssueType aumenta o contador do total de tarefas do tipo feitas no período.
@@ -200,6 +199,23 @@ func (s *GetIssuesByPeriodResponse) AddTotalByPeriodAndIssueType(
 	return nil
 }
 
+// TIPO DE ISSUE
+
+// AddIssueType adiciona o tipo da issue na listagem de tipos de issues.
+func (s *GetIssuesByPeriodResponse) AddIssueType(issueType gjmodels.IssueType) int {
+	issueTypeIndex := uslice.Index(s.IssuesTypes, issueType.Name)
+
+	if issueTypeIndex == -1 {
+		s.IssuesTypes = append(s.IssuesTypes, issueType.Name)
+
+		issueTypeIndex = len(s.IssuesTypes) - 1
+	}
+
+	return issueTypeIndex
+}
+
+// PROJETO
+
 // AddProject adiciona o projeto na listagem de projetos.
 func (s *GetIssuesByPeriodResponse) AddProject(project gjmodels.Project) int {
 	projectIndex := uslice.Index(s.Projects.Names, project.Name)
@@ -215,56 +231,17 @@ func (s *GetIssuesByPeriodResponse) AddProject(project gjmodels.Project) int {
 	return projectIndex
 }
 
-// AddIssueType adiciona o tipo da issue na listagem de tipos de issues.
-func (s *GetIssuesByPeriodResponse) AddIssueType(issueType gjmodels.IssueType) int {
-	issueTypeIndex := uslice.Index(s.IssuesTypes, issueType.Name)
-
-	if issueTypeIndex == -1 {
-		s.IssuesTypes = append(s.IssuesTypes, issueType.Name)
-
-		issueTypeIndex = len(s.IssuesTypes) - 1
-	}
-
-	return issueTypeIndex
-}
-
 // AddTotalByProject aumenta o contador do total de tarefas do projeto.
 func (s *GetIssuesByPeriodResponse) AddTotalByProject(projectIndex int) {
 	s.Projects.IssuesByProject[projectIndex].Total++
-}
-
-// ValidateTotalByTypeLengthByProject verifica se o tamanho da lista de quantidade total por tipo
-// e se o tamanho da lista de quantidade por tipo e período (ambos por projeto) é compatível com o
-// tamanho da lista de tipos de issues.
-func (s *GetIssuesByPeriodResponse) ValidateTotalByTypeLengthByProject(projectIndex int) {
-	if len(s.Projects.IssuesByProject[projectIndex].TotalByType) < len(s.IssuesTypes) {
-		for len(s.Projects.IssuesByProject[projectIndex].TotalByType) < len(s.IssuesTypes) {
-			// total por tipo
-			s.Projects.IssuesByProject[projectIndex].TotalByType = append(
-				s.Projects.IssuesByProject[projectIndex].TotalByType,
-				0,
-			)
-
-			// total por tipo e período
-			s.Projects.IssuesByProject[projectIndex].TotalByTypeAndPeriod = append(
-				s.Projects.IssuesByProject[projectIndex].TotalByTypeAndPeriod,
-				make(map[string]int),
-			)
-		}
-	}
-}
-
-// ValidateTotalByProjectByPeriodLengthByProject verifica se o slice é vazio para preencher com valores zerados.
-func (s *GetIssuesByPeriodResponse) ValidateTotalByProjectByPeriodLengthByProject(projectIndex int) {
-	if len(s.Projects.IssuesByProject[projectIndex].TotalByPeriod) == 0 {
-		s.Projects.IssuesByProject[projectIndex].TotalByPeriod = make([]int, len(s.Periods))
-	}
 }
 
 // AddTotalByTypeByProject aumenta o contador do total de tarefas feitas por tipo por projeto.
 func (s *GetIssuesByPeriodResponse) AddTotalByTypeByProject(projectIndex, issueTypeIndex int) {
 	s.Projects.IssuesByProject[projectIndex].TotalByType[issueTypeIndex]++
 }
+
+// DESENVOLVEDOR
 
 // AddDeveloper adiciona o desenvolvedor na listagem de tipos de desenvolvedores.
 func (s *GetIssuesByPeriodResponse) AddDeveloper(developer gjmodels.User) int {
@@ -281,20 +258,6 @@ func (s *GetIssuesByPeriodResponse) AddDeveloper(developer gjmodels.User) int {
 	return developerIndex
 }
 
-// ValidateTotalByTypeLengthByDeveloper verifica se o tamanho da lista de quantidade total por tipo por desenvolvedor
-// é compatível com o tamanho da lista de tipos de issues.
-func (s *GetIssuesByPeriodResponse) ValidateTotalByTypeLengthByDeveloper(developerIndex int) {
-	if len(s.Developers.IssuesByDeveloper[developerIndex].TotalByType) < len(s.IssuesTypes) {
-		for len(s.Developers.IssuesByDeveloper[developerIndex].TotalByType) < len(s.IssuesTypes) {
-			// total por tipo
-			s.Developers.IssuesByDeveloper[developerIndex].TotalByType = append(
-				s.Developers.IssuesByDeveloper[developerIndex].TotalByType,
-				0,
-			)
-		}
-	}
-}
-
 // AddTotalByDeveloper aumenta o contador do total de tarefas do desenvolvedor.
 func (s *GetIssuesByPeriodResponse) AddTotalByDeveloper(developerIndex int) {
 	s.Developers.IssuesByDeveloper[developerIndex].Total++
@@ -303,4 +266,29 @@ func (s *GetIssuesByPeriodResponse) AddTotalByDeveloper(developerIndex int) {
 // AddTotalByTypeByDeveloper aumenta o contador do total de tarefas feitas por tipo por desenvolvedor.
 func (s *GetIssuesByPeriodResponse) AddTotalByTypeByDeveloper(developerIndex, issueTypeIndex int) {
 	s.Developers.IssuesByDeveloper[developerIndex].TotalByType[issueTypeIndex]++
+}
+
+// GERAL
+
+// ValidateTotalByPeriodLength verifica se o slice é vazio para preencher com valores zerados.
+func (s *GetIssuesByPeriodResponse) ValidateTotalByPeriodLength(totalByPeriod *[]int) {
+	if len(*totalByPeriod) == 0 {
+		*totalByPeriod = make([]int, len(s.Periods))
+	}
+}
+
+// ValidateTotalByTypeAndPeriodLength verifica se o tamanho da lista de quantidade total por tipo
+// e se o tamanho da lista de quantidade por tipo e período é compatível com o tamanho da lista de tipos de issues.
+func (s *GetIssuesByPeriodResponse) ValidateTotalByTypeAndPeriodLength(totalByType *[]int, totalByTypeAndPeriod *[]map[string]int) {
+	if len(*totalByType) < len(s.IssuesTypes) {
+		for len(*totalByType) < len(s.IssuesTypes) {
+			// total por tipo
+			*totalByType = append(*totalByType, 0)
+
+			// total por tipo e período
+			if totalByTypeAndPeriod != nil {
+				*totalByTypeAndPeriod = append(*totalByTypeAndPeriod, make(map[string]int))
+			}
+		}
+	}
 }

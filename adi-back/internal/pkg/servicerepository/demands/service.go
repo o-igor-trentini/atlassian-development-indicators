@@ -145,14 +145,21 @@ func (s serviceImpl) handleGetIssues(
 		fields := issue.Fields
 		resolutionDate := *fields.ResolutionDate
 
-		projectIndex := response.AddProject(fields.Project)
+		if err := response.AddTotalByPeriod(response.Resolved.PeriodValues, resolutionDate); err != nil {
+			return response, err
+		}
+
 		issueTypeIndex := response.AddIssueType(fields.IssueType)
 
 		// estatísticas por projeto
+		projectIndex := response.AddProject(fields.Project)
 		response.AddTotalByProject(projectIndex)
-		response.ValidateTotalByTypeLengthByProject(projectIndex)
+		response.ValidateTotalByTypeAndPeriodLength(
+			&response.Projects.IssuesByProject[projectIndex].TotalByType,
+			&response.Projects.IssuesByProject[projectIndex].TotalByTypeAndPeriod,
+		)
 		response.AddTotalByTypeByProject(projectIndex, issueTypeIndex)
-		response.ValidateTotalByProjectByPeriodLengthByProject(projectIndex)
+		response.ValidateTotalByPeriodLength(&response.Projects.IssuesByProject[projectIndex].TotalByPeriod)
 
 		if err := response.AddTotalByPeriod(
 			response.Projects.IssuesByProject[projectIndex].TotalByPeriod,
@@ -169,15 +176,14 @@ func (s serviceImpl) handleGetIssues(
 			return response, err
 		}
 
-		if err := response.AddTotalByPeriod(response.Resolved.PeriodValues, resolutionDate); err != nil {
-			return response, err
-		}
-
 		// estatísticas por desenvolvedor
 		for _, developer := range fields.Developer {
 			developerIndex := response.AddDeveloper(developer)
 
-			response.ValidateTotalByTypeLengthByDeveloper(developerIndex)
+			response.ValidateTotalByTypeAndPeriodLength(
+				&response.Developers.IssuesByDeveloper[developerIndex].TotalByType,
+				nil,
+			)
 			response.AddTotalByTypeByDeveloper(developerIndex, issueTypeIndex)
 		}
 	}
