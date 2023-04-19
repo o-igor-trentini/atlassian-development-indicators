@@ -13,7 +13,7 @@ export default {
         size: 'middle',
         disabled: false,
         block: false,
-        onClick: () => console.log('you clicked me :D'),
+        onClick: () => console.log('you clicked on me :D'),
     },
     argTypes: {
         id: {

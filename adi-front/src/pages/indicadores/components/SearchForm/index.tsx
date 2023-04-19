@@ -1,4 +1,4 @@
-import { forwardRef, ForwardRefRenderFunction, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { forwardRef, ForwardRefRenderFunction, useCallback, useEffect, useImperativeHandle, useMemo } from 'react';
 import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@it-adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
 import { Search } from 'lucide-react';
@@ -23,9 +23,6 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
     ref,
 ): JSX.Element => {
     const [form] = useForm<FormSearch>();
-
-    // TODO: Mover para dentro do componente
-    const [allProjectsIsSelected, setAllProjectsIsSelected] = useState<boolean>(true);
 
     // TODO: Validar range dos datepickers
 
@@ -78,25 +75,12 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
         };
     }, [projectOptions]);
 
-    const handleSubmit = (values: FormSearch): void => onSubmit(values);
-    // TODO: Mover para dentro do componente
-    const handleClickSelectAllProjects = (): void => setAllProjectsIsSelected((state) => !state);
+    const handleSubmit = useCallback((values: FormSearch): void => onSubmit(values), [onSubmit]);
 
-    // TODO: Mover para dentro do componente
-    const handleSelectAllProjects = (): void =>
-        form.setFieldValue(
-            'projects' as keyof FormSearch,
-            projectOptions.map(({ value }) => value as string),
-        );
-
-    const handleDeselectAllProjects = (): void => form.setFieldValue('projects' as keyof FormSearch, []);
-
-    useImperativeHandle(ref, () => ({ search: () => handleSubmit(form.getFieldsValue()) }), [form]);
-
-    useEffect(() => form.setFieldsValue(initialValues), [form, initialValues]);
+    useImperativeHandle(ref, () => ({ search: () => handleSubmit(form.getFieldsValue()) }), [form, handleSubmit]);
 
     return (
-        <Form id="search-demands" form={form} onSubmit={handleSubmit}>
+        <Form id="search-demands" form={form} initialValues={initialValues} onSubmit={handleSubmit}>
             <Row gutter={12} justify="center" align="middle">
                 <Col xs={24} md={8}>
                     <FormItem name="projects" label="Projetos" rules={[{ required: true }]}>
@@ -104,12 +88,7 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
                             id="projects"
                             mode="multiple"
                             options={projectOptions}
-                            selectAll={{
-                                checked: allProjectsIsSelected,
-                                onClick: handleClickSelectAllProjects,
-                                onSelect: handleSelectAllProjects,
-                                onDeselect: handleDeselectAllProjects,
-                            }}
+                            selectAll={{ defaultValue: true }}
                             placeholder="Selecione pelo menos um projeto..."
                         />
                     </FormItem>
@@ -118,7 +97,6 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
                 <Col xs={24} md={6}>
                     <FormItem
                         name="from"
-                        valuePropName="date"
                         label="De"
                         tooltip="A busca será feita pelo valor maior ou igual ao deste campo"
                         rules={[{ required: true }]}
@@ -130,7 +108,6 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
                 <Col xs={24} md={6}>
                     <FormItem
                         name="until"
-                        valuePropName="date"
                         label="Até"
                         tooltip="A busca será feita pelo valor menor ou igual ao deste campo"
                         rules={[{ required: true }]}

@@ -1,5 +1,41 @@
 # @adi/react-components
 
+## 1.9.0
+
+### Minor Changes
+
+- Removido uso desnecessário de estados do componente DatePicker
+
+## 1.8.0
+
+### Minor Changes
+
+- Corrigido situação onde não atualiza input e datepicker via Form
+
+## 1.7.2
+
+### Patch Changes
+
+- Atribuir value como defaultValue do componente Select
+
+## 1.7.1
+
+### Patch Changes
+
+- Corrigido situação onde não marca opção 'Selecionar tudo' do componente Select
+
+## 1.7.0
+
+### Minor Changes
+
+- Simplificado propriedade de selecionar todos os itens do componente Select
+
+## 1.6.0
+
+### Minor Changes
+
+- Adicionado prop de Icone no componente de Card
+
 ## 1.5.0
 
 ### Minor Changes

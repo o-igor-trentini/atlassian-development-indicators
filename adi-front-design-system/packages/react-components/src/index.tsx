@@ -27,7 +27,8 @@ export { Space } from './Space';
 export type { SpaceProps } from './Space';
 
 export { Card } from './Card';
-export type { CardProps } from './Card';
+export type { CardProps, CardIconProps } from './Card';
+export type { IconContainerProps } from './Card/styles';
 
 export { Text } from './Text';
 export type { TextProps } from './Text';

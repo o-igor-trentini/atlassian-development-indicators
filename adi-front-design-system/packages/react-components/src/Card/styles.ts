@@ -1,8 +1,10 @@
-import { styled, Card, defaultBoxShadow } from '@it-adi/react-components';
+import { Card as AntdCard } from 'antd';
+import { styled } from '../styles/global';
+import { defaultBoxShadow } from '../styles/utils';
 
 const iconSize = 4;
 
-export const Container = styled(Card)`
+export const MyCard = styled(AntdCard)`
     position: relative;
 
     > .ant-card-head > .ant-card-head-wrapper > .ant-card-head-title {
@@ -15,7 +17,6 @@ export interface IconContainerProps {
     copyable?: boolean;
 }
 
-/*eslint-disable*/
 export const IconContainer = styled.div<IconContainerProps>`
     height: ${iconSize}rem;
     width: ${iconSize}rem;

@@ -42,7 +42,7 @@ const Indicators: NextPage = (): JSX.Element => {
         }).then();
     };
 
-    useEffect(() => searchFormRef.current?.search(), [searchFormRef.current]);
+    useEffect(() => searchFormRef.current?.search(), []);
 
     const content: JSX.Element =
         !demands || !demands.projects || !demands.analytics.overallProgress ? (

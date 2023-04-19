@@ -50,8 +50,6 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
                 render: (value: string) => {
                     const source = demands.projects.details.find((item) => item.name === value)?.avatarUrls['32x32'];
 
-                    if (value.toLowerCase() === 'PeC') console.log('### ', source);
-
                     return <RenderIdentificationTableColumn avatarSrc={source} value={value} />;
                 },
             },
@@ -59,7 +57,7 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
         ];
 
         return columns;
-    }, [dataSource]);
+    }, [dataSource, demands.projects.details]);
 
     return (
         <Table dataSource={dataSource} columns={columns} pagination={false} loading={loading} scroll={{ x: true }} />

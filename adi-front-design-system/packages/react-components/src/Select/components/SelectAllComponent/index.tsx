@@ -1,35 +1,50 @@
-import { JSXElementConstructor, ReactElement } from 'react';
+import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
 import { Checkbox, CheckboxChangeEvent } from '../../../Checkbox';
 import { SelectAllContainer } from './styles';
 
 export interface SelectAllProps {
-    checked: boolean;
-    onClick?: () => void;
+    defaultValue?: boolean;
+    onChange?: (value: boolean) => void;
     onSelect?: () => void;
     onDeselect?: () => void;
 }
 
 export const SelectAllComponent = (
     props: SelectAllProps,
+    selectOptions: () => void,
+    deselectOptions: () => void,
+    isAllItemsSelected: Readonly<boolean>,
 ): ((menu: ReactElement<unknown, string | JSXElementConstructor<unknown>> | undefined) => JSX.Element) => {
+    const { defaultValue, onChange, onSelect, onDeselect } = props;
+    const [isAllSelected, setIsAllSelected] = useState<boolean>(isAllItemsSelected || (defaultValue ?? false));
+
+    useEffect(() => setIsAllSelected(isAllItemsSelected), [isAllItemsSelected]);
+
     const element = (menu: ReactElement<unknown, string | JSXElementConstructor<unknown>> | undefined): JSX.Element => {
-        const { checked, onClick, onSelect, onDeselect } = props;
+        const handleClick = () => setIsAllSelected((state) => !state);
 
         const handleChange = (e: CheckboxChangeEvent): void => {
             const { checked } = e.target;
 
-            if (checked && onSelect) {
-                onSelect();
+            if (onChange) onChange(checked);
+
+            setIsAllSelected(checked);
+
+            if (checked) {
+                selectOptions();
+                if (onSelect) onSelect();
+
                 return;
             }
 
+            deselectOptions();
             if (onDeselect) onDeselect();
         };
 
         return (
             <>
                 <SelectAllContainer>
-                    <Checkbox id="select-all" checked={checked} onClick={onClick} onChange={handleChange}>
+                    <Checkbox id="select-all" checked={isAllSelected} onClick={handleClick} onChange={handleChange}>
                         Selecionar tudo
                     </Checkbox>
                 </SelectAllContainer>

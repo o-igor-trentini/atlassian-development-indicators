@@ -69,7 +69,7 @@ export const TotalIssuesByDeveloperTable: FC<TotalIssuesByDeveloperTableProps> =
         ];
 
         return columns;
-    }, [dataSource]);
+    }, [dataSource, demands.developers.details]);
 
     return <Table dataSource={dataSource} columns={columns} loading={loading} scroll={{ x: true }} />;
 };

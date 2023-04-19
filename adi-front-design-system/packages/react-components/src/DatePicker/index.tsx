@@ -1,6 +1,6 @@
 import { CSSProperties, FC } from 'react';
-import { DatePicker as AntdDatePicker } from 'antd';
 import type { DatePickerProps as AntdDatePickerProps } from 'antd';
+import { DatePicker as AntdDatePicker } from 'antd';
 
 export interface DatePickerProps {
     id: string;
