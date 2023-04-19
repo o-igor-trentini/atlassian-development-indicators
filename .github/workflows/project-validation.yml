@@ -38,15 +38,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Switch to working directory
+      run: cd adi-front
+
     - name: Set up node.js
       uses: actions/setup-node@v3
       with:
         node-version: 18
-        cache: 'npm'
-        cache-dependecy-path: '**/package-lock.json'
-
-    - name: Switch to working directory
-      run: cd adi-front
 
     - name: Installing dependencies
       run: npm ci
@@ -59,15 +57,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Switch to working directory
+      run: cd adi-front-design-system
+
     - name: Set up node.js
       uses: actions/setup-node@v3
       with:
         node-version: 18
-        cache: 'npm'
-        cache-dependecy-path: '**/package-lock.json'
-
-    - name: Switch to working directory
-      run: cd adi-front-design-system
 
     - name: Installing dependencies
       run: npm ci
