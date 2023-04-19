@@ -2,6 +2,7 @@ import { FC, useMemo, useRef } from 'react';
 import { Table, TableColumnType, TableDataSourceType } from '@it-adi/react-components';
 import { Demands } from '@/@types/demands';
 import { PartialTableColumnProps } from '@/@types/components/table';
+import { RenderIdentificationTableColumn } from '@/pages/indicadores/components/RenderIdentificationTableColumn';
 
 interface TotalIssuesByProjectProps {
     demands: Demands;
@@ -12,13 +13,10 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
-        const periodRows: Record<string, string> = {};
-
-        for (const period of demands.periods) periodRows[period] = period;
-
-        periodCol.current = Object.keys(periodRows).map((period, index) => ({
+        periodCol.current = demands.periods.map((period, index) => ({
             key: String(index),
             dataIndex: period,
+            title: period,
         }));
 
         const projectRows: Record<string, number>[] = [];
@@ -36,10 +34,6 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
         }
 
         const dataSource: TableDataSourceType<unknown> = [
-            {
-                key: 'Período',
-                ...periodRows,
-            },
             ...demands.projects.names.map((item, index) => ({ key: item, ...projectRows[index] })),
         ];
 
@@ -51,8 +45,15 @@ export const TotalIssuesByProjectTable: FC<TotalIssuesByProjectProps> = ({ deman
             {
                 dataIndex: 'key',
                 rowScope: 'row',
-                width: 120,
+                width: 160,
                 fixed: 'left',
+                render: (value: string) => {
+                    const source = demands.projects.details.find((item) => item.name === value)?.avatarUrls['32x32'];
+
+                    if (value.toLowerCase() === 'PeC') console.log('### ', source);
+
+                    return <RenderIdentificationTableColumn avatarSrc={source} value={value} />;
+                },
             },
             ...periodCol.current,
         ];

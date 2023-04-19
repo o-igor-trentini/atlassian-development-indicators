@@ -13,6 +13,7 @@ interface CardWithIconProps extends CardProps {
     icon: IconProps;
 }
 
+// TODO: Mover para pro dentro da lib de componente
 export const CardWithIcon: FC<CardWithIconProps> = ({ children, icon, ...props }): JSX.Element => {
     const { color, element, onClick } = icon;
 

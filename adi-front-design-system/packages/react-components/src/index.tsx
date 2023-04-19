@@ -56,6 +56,9 @@ export type { MenuProps, MenuItemsType } from './Menu';
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps, CheckboxChangeEvent } from './Checkbox';
 
+export { Avatar } from './Avatar';
+export type { AvatarProps } from './Avatar';
+
 export * from './Layout';
 
 // Styles

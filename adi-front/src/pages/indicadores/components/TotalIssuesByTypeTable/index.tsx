@@ -14,13 +14,10 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
         if (!demands.issuesTypes) return [];
 
-        const periodRows: Record<string, string> = {};
-
-        for (const period of demands.periods) periodRows[period] = period;
-
-        periodCol.current = Object.keys(periodRows).map((period, index) => ({
+        periodCol.current = demands.periods.map((period, index) => ({
             key: String(index),
             dataIndex: period,
+            title: period,
         }));
 
         const issueTypeRows: Record<string, number>[] = [];
@@ -43,10 +40,6 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
         }
 
         const dataSource: TableDataSourceType<unknown> = [
-            {
-                key: 'Período',
-                ...periodRows,
-            },
             ...demands.issuesTypes.map((item, index) => ({ key: item, ...issueTypeRows[index] })),
         ];
 

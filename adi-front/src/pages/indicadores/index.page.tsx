@@ -11,6 +11,7 @@ import { TotalCreatedVersusResolvedTable } from '@/pages/indicadores/components/
 import { TotalIssuesByProjectTable } from '@/pages/indicadores/components/TotalIssuesByProjectTable';
 import { TotalIssuesByTypeTable } from '@/pages/indicadores/components/TotalIssuesByTypeTable';
 import { Container } from '@/pages/indicadores/styles';
+import { TotalIssuesByDeveloperTable } from '@/pages/indicadores/components/TotalIssuesByDeveloperTable';
 
 const Indicators: NextPage = (): JSX.Element => {
     const [demands, setDemands] = useState<Demands | null>(null);
@@ -67,14 +68,20 @@ const Indicators: NextPage = (): JSX.Element => {
                 </Col>
 
                 <Col span={24}>
+                    <Card title="Total de tarefas resolvidas por tipo">
+                        <TotalIssuesByTypeTable demands={demands} loading={loading} />
+                    </Card>
+                </Col>
+
+                <Col span={24}>
                     <Card title="Total de tarefas resolvidas por projeto">
                         <TotalIssuesByProjectTable demands={demands} loading={loading} />
                     </Card>
                 </Col>
 
                 <Col span={24}>
-                    <Card title="Total de tarefas resolvidas por tipo">
-                        <TotalIssuesByTypeTable demands={demands} loading={loading} />
+                    <Card title="Total de tarefas resolvidas por desenvolvedor">
+                        <TotalIssuesByDeveloperTable demands={demands} loading={loading} />
                     </Card>
                 </Col>
             </>

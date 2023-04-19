@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
+import { Project, User } from '@/@types/gojira';
 
-export interface IssuesDetails {
+export interface IssuesGeneral {
     total: number;
     values: number[];
     jql?: string;
@@ -21,19 +22,32 @@ export interface IssuesByProject {
     totalByTypeAndPeriod: Record<string, number>[];
 }
 
+export interface DemandsProjects {
+    names: string[];
+    details: Project[];
+    issuesByProject: IssuesByProject[];
+}
+
+export interface IssuesByDeveloper {
+    total: number;
+    totalByType: number[];
+}
+
+export interface DemandsDevelopers {
+    names: string[];
+    details: User[];
+    issuesByDeveloper: IssuesByDeveloper[];
+}
+
 export interface Demands {
     periods: string[];
     issuesTypes: string[];
     analytics: DemandsAnalytics;
-    created: IssuesDetails;
-    resolved: IssuesDetails;
-    pending: IssuesDetails;
-    projects: {
-        names: string[];
-        avatars: string[];
-        issuesByProject: IssuesByProject[];
-    };
-    developers: [];
+    created: IssuesGeneral;
+    resolved: IssuesGeneral;
+    pending: IssuesGeneral;
+    projects: DemandsProjects;
+    developers: DemandsDevelopers;
 }
 
 export interface APIGetCreatedVersusResolvedProps {

@@ -1,5 +1,29 @@
 # @adi/react-components
 
+## 1.5.0
+
+### Minor Changes
+
+- Removido prop desnecessária da tabela
+
+## 1.4.0
+
+### Minor Changes
+
+- Adicionado prop para ocultar primeira linha da tabela
+
+## 1.3.0
+
+### Minor Changes
+
+- Adicionado prop rowClassName no componente Table
+
+## 1.2.0
+
+### Minor Changes
+
+- Adicionado componente Avatar e adicionado prop de estilização no componente Space
+
 ## 1.1.0
 
 ### Minor Changes

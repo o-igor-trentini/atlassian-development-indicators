@@ -40,8 +40,11 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 	// TODO: Alterar para pegar do cadastro de projetos
 	customFields := gjservice.CustomFields{
 		Developer: []string{
-			"customfield_10118",
 			"customfield_10128",
+			"customfield_10126",
+			"customfield_10124",
+			"customfield_10192",
+			"customfield_10118",
 		},
 	}
 
@@ -62,6 +65,8 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 
 	var createdIssues, resolvedIssues gjservice.SearchByJQLPayload
 	var createdJQL, resolvedJQL string
+
+	// TODO: Adicionar na lib (gotutils) função para montar erro padrão
 	var errs []string
 	for v := range c {
 		if v.Error != nil {
@@ -84,7 +89,10 @@ func (s serviceImpl) GetIssuesByPeriod(params gojira.BuildJQLParams) (GetIssuesB
 	}
 
 	if len(errs) > 0 {
-		return GetIssuesByPeriodResponse{}, errors.New(strings.Join(errs, "; "))
+		err := errors.New(strings.Join(errs, "; "))
+
+		adilog.Logger.Error(err.Error())
+		return GetIssuesByPeriodResponse{}, err
 	}
 
 	// TODO: Pegar de uma configuração de campos para ignorar quando pendente (banco)
@@ -133,17 +141,18 @@ func (s serviceImpl) handleGetIssues(
 	}
 
 	// resolvidas
-	for _, v := range resolvedPayload.Issues {
-		fields := v.Fields
+	for _, issue := range resolvedPayload.Issues {
+		fields := issue.Fields
 		resolutionDate := *fields.ResolutionDate
 
 		projectIndex := response.AddProject(fields.Project)
 		issueTypeIndex := response.AddIssueType(fields.IssueType)
 
+		// estatísticas por projeto
 		response.AddTotalByProject(projectIndex)
-		response.ValidateTotalByTypeLength(projectIndex)
-		response.AddTotalByType(projectIndex, issueTypeIndex)
-		response.ValidateTotalByProjectByPeriodLength(projectIndex)
+		response.ValidateTotalByTypeLengthByProject(projectIndex)
+		response.AddTotalByTypeByProject(projectIndex, issueTypeIndex)
+		response.ValidateTotalByProjectByPeriodLengthByProject(projectIndex)
 
 		if err := response.AddTotalByPeriod(
 			response.Projects.IssuesByProject[projectIndex].TotalByPeriod,
@@ -162,6 +171,14 @@ func (s serviceImpl) handleGetIssues(
 
 		if err := response.AddTotalByPeriod(response.Resolved.PeriodValues, resolutionDate); err != nil {
 			return response, err
+		}
+
+		// estatísticas por desenvolvedor
+		for _, developer := range fields.Developer {
+			developerIndex := response.AddDeveloper(developer)
+
+			response.ValidateTotalByTypeLengthByDeveloper(developerIndex)
+			response.AddTotalByTypeByDeveloper(developerIndex, issueTypeIndex)
 		}
 	}
 

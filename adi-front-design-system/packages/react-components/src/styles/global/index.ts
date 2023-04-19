@@ -7,6 +7,9 @@ import scStyled, {
 import { chooseColorByContrast } from '../utils';
 import { ThemeType } from '../theme';
 
+// TODO: criar tokens
+// TODO: Adicionar breakpoints na lib de componentes
+
 export const GlobalStyle = createGlobalStyle<ThemeType>`
   html, body {
     margin: 0;
