@@ -180,6 +180,7 @@ func (s serviceImpl) handleGetIssues(
 		for _, developer := range fields.Developer {
 			developerIndex := response.AddDeveloper(developer)
 
+			response.AddTotalByDeveloper(developerIndex)
 			response.ValidateTotalByTypeAndPeriodLength(
 				&response.Developers.IssuesByDeveloper[developerIndex].TotalByType,
 				nil,

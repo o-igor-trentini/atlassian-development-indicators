@@ -7,7 +7,7 @@ import (
 
 // IsDevMode retorna se o modo é de desenvolvimento.
 func IsDevMode() bool {
-	return os.Getenv(envconst.AppMode) == envconst.AppModeTypeDevevelopment
+	return os.Getenv(envconst.AppMode) == envconst.AppModeTypeDevelopment
 }
 
 // IsProductionMode retorna se o modo é de produção.

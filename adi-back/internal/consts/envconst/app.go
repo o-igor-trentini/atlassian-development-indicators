@@ -5,6 +5,6 @@ const (
 )
 
 const (
-	AppModeTypeDevevelopment string = "development"
-	AppModeTypeProduction    string = "production"
+	AppModeTypeDevelopment string = "development"
+	AppModeTypeProduction  string = "production"
 )

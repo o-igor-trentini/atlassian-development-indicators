@@ -43,6 +43,7 @@ export const TotalIssuesByDeveloperTable: FC<TotalIssuesByDeveloperTableProps> =
         const dataSource: TableDataSourceType<unknown> = [
             ...demands.developers.names.map((item, index) => ({
                 key: item,
+                total: demands.developers.issuesByDeveloper[index].total,
                 ...developerRows[index],
             })),
         ];
@@ -66,6 +67,10 @@ export const TotalIssuesByDeveloperTable: FC<TotalIssuesByDeveloperTableProps> =
                 },
             },
             ...issueTypesCol.current,
+            {
+                title: 'Total',
+                dataIndex: 'total',
+            },
         ];
 
         return columns;
