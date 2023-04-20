@@ -8,17 +8,17 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.ts* --fix",
-    "dev": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
     "deploy-storybook": "storybook-to-ghpages"
   },
   "dependencies": {
     "@it-adi/react-charts": "*",
     "@it-adi/react-components": "*",
     "@it-adi/ts-config": "*",
-    "@storybook/addon-a11y": "^6.5.16",
-    "@storybook/addon-docs": "^6.5.16",
-    "@storybook/theming": "^6.5.16",
+    "@storybook/addon-a11y": "^7.0.6",
+    "@storybook/addon-docs": "^7.0.6",
+    "@storybook/theming": "^7.0.6",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
@@ -35,16 +35,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-essentials": "^6.5.16",
-    "@storybook/addon-interactions": "^6.5.16",
-    "@storybook/addon-links": "^6.5.16",
-    "@storybook/builder-vite": "^0.3.0",
-    "@storybook/react": "^6.5.16",
+    "@storybook/addon-actions": "^7.0.6",
+    "@storybook/addon-essentials": "^7.0.6",
+    "@storybook/addon-interactions": "^7.0.6",
+    "@storybook/addon-links": "^7.0.6",
+    "@storybook/addon-mdx-gfm": "^7.0.6",
+    "@storybook/react": "^7.0.6",
+    "@storybook/react-vite": "^7.0.6",
     "@storybook/storybook-deployer": "^2.8.16",
-    "@storybook/testing-library": "^0.0.13",
+    "@storybook/testing-library": "^0.1.0",
     "@vitejs/plugin-react": "^3.0.1",
     "babel-loader": "^8.3.0",
+    "storybook": "^7.0.6",
     "vite": "^4.0.4"
   }
 }
