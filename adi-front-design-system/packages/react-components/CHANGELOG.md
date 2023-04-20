@@ -1,5 +1,17 @@
 # @it-adi/react-components
 
+## 1.10.2
+
+### Patch Changes
+
+- Corrigido prop privada para não ocasionar mais erro em desenvolvimento
+
+## 1.10.1
+
+### Patch Changes
+
+- Small code
+
 ## 1.10.0
 
 ### Minor Changes

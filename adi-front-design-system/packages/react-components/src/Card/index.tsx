@@ -40,7 +40,7 @@ export const Card: FC<CardProps> = ({
 
     return (
         <MyCard
-            hasIconProp={!!icon}
+            $hasiconprop={!!icon}
             title={title}
             hoverable={hoverable}
             bordered={bordered}
