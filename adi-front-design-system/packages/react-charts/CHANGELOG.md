@@ -1,4 +1,16 @@
-# @adi/react-charts
+# @it-adi/react-charts
+
+## 1.0.3
+
+### Patch Changes
+
+- Small code
+
+## 1.0.2
+
+### Patch Changes
+
+- Alterado nome de dependências
 
 ## 1.0.1
 

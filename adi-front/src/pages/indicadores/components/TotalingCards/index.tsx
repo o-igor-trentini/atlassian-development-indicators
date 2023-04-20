@@ -1,6 +1,5 @@
 import { FC, useMemo } from 'react';
-import { Col, Row, Text, Tooltip } from '@it-adi/react-components';
-import { CardWithIcon } from '@/components/ui/CardWithIcon';
+import { Card, Col, Row, Text, Tooltip } from '@it-adi/react-components';
 import { CardSkeleton } from './components/CardSkeleton';
 import { Demands } from '@/@types/demands';
 import { baseTheme } from '@/styles/themes';
@@ -65,7 +64,7 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ demands, loading }): JSX
             <Row gutter={[12, 24]} justify="start" align="middle">
                 {items.map(({ content, tooltip, title, color, icon }) => (
                     <Col key={title} xs={24} md={12} lg={6}>
-                        <CardWithIcon
+                        <Card
                             title={title}
                             icon={{
                                 color: color,
@@ -77,7 +76,7 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ demands, loading }): JSX
                                     <CardContent content={content} />
                                 </Col>
                             </Row>
-                        </CardWithIcon>
+                        </Card>
                     </Col>
                 ))}
             </Row>

@@ -1,4 +1,16 @@
-# @adi/ts-config
+# @it-adi/ts-config
+
+## 1.0.3
+
+### Patch Changes
+
+- Small code
+
+## 1.0.2
+
+### Patch Changes
+
+- Alterado nome de dependências
 
 ## 1.0.1
 

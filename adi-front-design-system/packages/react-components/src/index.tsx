@@ -1,6 +1,6 @@
 // Components
 export { ConfigProvider, AppTheme } from './ConfigProvider';
-export type { LocaleVariant, ConfigProviderProps, ThemeAlgorithm } from './ConfigProvider';
+export type { LocaleVariant, ConfigProviderProps } from './ConfigProvider';
 
 export { Button } from './Button';
 export type { ButtonProps } from './Button';
@@ -27,7 +27,8 @@ export { Space } from './Space';
 export type { SpaceProps } from './Space';
 
 export { Card } from './Card';
-export type { CardProps } from './Card';
+export type { CardProps, CardIconProps } from './Card';
+export type { IconContainerProps } from './Card/styles';
 
 export { Text } from './Text';
 export type { TextProps } from './Text';
@@ -55,6 +56,9 @@ export type { MenuProps, MenuItemsType } from './Menu';
 
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps, CheckboxChangeEvent } from './Checkbox';
+
+export { Avatar } from './Avatar';
+export type { AvatarProps } from './Avatar';
 
 export * from './Layout';
 

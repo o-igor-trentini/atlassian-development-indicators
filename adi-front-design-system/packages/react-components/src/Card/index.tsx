@@ -1,12 +1,19 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { Card as AntdCard } from 'antd';
 import type { CardProps as AntdCardProps } from 'antd';
 import { AppTheme } from '../ConfigProvider';
+import { IconContainer, MyCard } from './styles';
 
 const { useToken } = AppTheme;
 
+export interface CardIconProps {
+    color: string;
+    element: ReactNode;
+    onClick?: () => void;
+}
+
 export interface CardProps {
     children?: ReactNode | ReactNode[];
+    icon?: CardIconProps;
     title?: ReactNode;
     hoverable?: boolean;
     bordered?: boolean;
@@ -19,6 +26,7 @@ export interface CardProps {
 
 export const Card: FC<CardProps> = ({
     children,
+    icon,
     title,
     hoverable = false,
     bordered = false,
@@ -31,7 +39,8 @@ export const Card: FC<CardProps> = ({
     const { token } = useToken();
 
     return (
-        <AntdCard
+        <MyCard
+            $hasiconprop={!!icon}
             title={title}
             hoverable={hoverable}
             bordered={bordered}
@@ -41,7 +50,13 @@ export const Card: FC<CardProps> = ({
             style={style}
             className={className}
         >
+            {icon && (
+                <IconContainer color={icon.color} copyable={!!icon.onClick}>
+                    {icon.element}
+                </IconContainer>
+            )}
+
             {children}
-        </AntdCard>
+        </MyCard>
     );
 };

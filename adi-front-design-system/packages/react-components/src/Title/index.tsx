@@ -1,5 +1,5 @@
 import { CSSProperties, FC, ReactNode } from 'react';
-import { Typography, TypographyProps } from 'antd';
+import { Typography } from 'antd';
 
 export type TitleSize =
     | 'xxs'

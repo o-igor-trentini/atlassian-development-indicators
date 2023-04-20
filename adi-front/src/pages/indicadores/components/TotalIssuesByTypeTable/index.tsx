@@ -12,30 +12,27 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
-        if (!demands.project.issuesTypes) return [];
+        if (!demands.issuesTypes) return [];
 
-        const periodRows: Record<string, string> = {};
-
-        for (const period of demands.periods) periodRows[period] = period;
-
-        periodCol.current = Object.keys(periodRows).map((period, index) => ({
+        periodCol.current = demands.periods.map((period, index) => ({
             key: String(index),
             dataIndex: period,
+            title: period,
         }));
 
         const issueTypeRows: Record<string, number>[] = [];
 
-        for (let issueTypeIndex = 0; issueTypeIndex < demands.project.issuesTypes.length; issueTypeIndex++) {
+        for (let issueTypeIndex = 0; issueTypeIndex < demands.issuesTypes.length; issueTypeIndex++) {
             const row: Record<string, number> = {};
 
-            for (let projectIndex = 0; projectIndex < demands.project.projects.length; projectIndex++) {
+            for (let projectIndex = 0; projectIndex < demands.projects.names.length; projectIndex++) {
                 for (let periodIndex = 0; periodIndex < demands.periods.length; periodIndex++) {
                     const key = periodCol.current[periodIndex].dataIndex;
 
                     if (!row[key]) row[key] = 0;
 
                     row[key] +=
-                        demands.project.issuesDetailsByProject[projectIndex].totalByTypeAndPeriod[issueTypeIndex][key];
+                        demands.projects.issuesByProject[projectIndex].totalByTypeAndPeriod[issueTypeIndex][key];
                 }
             }
 
@@ -43,11 +40,7 @@ export const TotalIssuesByTypeTable: FC<TotalIssuesByTypeTableProps> = ({ demand
         }
 
         const dataSource: TableDataSourceType<unknown> = [
-            {
-                key: 'Período',
-                ...periodRows,
-            },
-            ...demands.project.issuesTypes.map((item, index) => ({ key: item, ...issueTypeRows[index] })),
+            ...demands.issuesTypes.map((item, index) => ({ key: item, ...issueTypeRows[index] })),
         ];
 
         return dataSource;

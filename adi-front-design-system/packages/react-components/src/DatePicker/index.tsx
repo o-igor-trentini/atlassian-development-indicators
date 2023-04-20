@@ -1,6 +1,6 @@
 import { CSSProperties, FC } from 'react';
-import { DatePicker as AntdDatePicker } from 'antd';
 import type { DatePickerProps as AntdDatePickerProps } from 'antd';
+import { DatePicker as AntdDatePicker } from 'antd';
 
 export interface DatePickerProps {
     id: string;
@@ -11,6 +11,7 @@ export interface DatePickerProps {
     allowClear?: boolean;
     disabled?: boolean;
     block?: boolean;
+    showToday?: boolean;
     disabledDate?: AntdDatePickerProps['disabledDate'];
     format?: AntdDatePickerProps['format'];
     mode?: AntdDatePickerProps['mode'];
@@ -39,6 +40,7 @@ export const DatePicker: FC<DatePickerProps> = ({
     disabled,
     disabledDate,
     block = false,
+    showToday = false,
     format,
     mode,
     locale,
@@ -65,6 +67,7 @@ export const DatePicker: FC<DatePickerProps> = ({
             allowClear={allowClear}
             disabled={disabled}
             disabledDate={disabledDate}
+            showToday={showToday}
             format={format}
             mode={mode}
             locale={locale}

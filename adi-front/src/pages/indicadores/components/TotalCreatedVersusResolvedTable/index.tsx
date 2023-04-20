@@ -16,13 +16,10 @@ export const TotalCreatedVersusResolvedTable: FC<TotalCreatedVersusResolvedTable
     const periodCol = useRef<PartialTableColumnProps[]>([]);
 
     const dataSource: TableDataSourceType<unknown> = useMemo(() => {
-        const periodRows: Record<string, string> = {};
-
-        for (const period of demands.periods) periodRows[period] = period;
-
-        periodCol.current = Object.keys(periodRows).map((period, index) => ({
+        periodCol.current = demands.periods.map((period, index) => ({
             key: String(index),
             dataIndex: period,
+            title: period,
         }));
 
         const createdRows: Record<string, number> = {},
@@ -42,10 +39,6 @@ export const TotalCreatedVersusResolvedTable: FC<TotalCreatedVersusResolvedTable
         }
 
         const dataSource: TableDataSourceType<unknown> = [
-            {
-                key: 'Período',
-                ...periodRows,
-            },
             {
                 key: 'Criadas',
                 ...createdRows,

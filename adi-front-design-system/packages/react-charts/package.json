@@ -1,6 +1,6 @@
 {
   "name": "@it-adi/react-charts",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Biblioteca de gráficos para ReactJS",
   "keywords": [],
   "author": "Igor Luís Casanova Trentini",
@@ -17,7 +17,7 @@
     "echarts": "^5.4.1"
   },
   "devDependencies": {
-    "@adi/ts-config": "*",
+    "@it-adi/ts-config": "*",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.55.0",

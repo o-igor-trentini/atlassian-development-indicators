@@ -2,6 +2,7 @@ package gojira
 
 import (
 	"github.com/o-igor-trentini/adi-gojira/pkg/gjconsts"
+	"github.com/o-igor-trentini/adi-goutils/pkg/utime"
 	"strings"
 )
 
@@ -26,8 +27,23 @@ func buildJQL(params BuildJQLParams, t *PeriodType) string {
 	// período
 	if t != nil {
 		var makeDate = func(field string) string {
-			item := field + " >= " + params.Period.Range.From.Format("2006-01-02")
-			item += " AND " + field + " <= " + params.Period.Range.Until.Format("2006-01-02")
+			from := utime.RemoveTime(params.Period.Range.From)
+			until := utime.RemoveTime(params.Period.Range.Until)
+			isEqual := from.Equal(until)
+
+			// O JQL não suporta fazer operação por "=" com data e nem ">= AND <=" com datas iguais.
+			// Por isso é preciso que a data de "Até" seja incrementada em 1 dia.
+			if isEqual {
+				until = until.AddDate(0, 0, 1)
+			}
+
+			item := field + " >= " + from.Format("2006-01-02")
+			item += " AND " + field + " <= " + until.Format("2006-01-02")
+
+			// Para garantir que não retorne nada do dia incrementado o operador é alterado.
+			if isEqual {
+				item = strings.ReplaceAll(item, "<=", "<")
+			}
 
 			return item
 		}

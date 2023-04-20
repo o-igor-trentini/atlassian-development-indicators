@@ -16,6 +16,7 @@ export interface TableProps<T> {
     scroll?: AntdTableProps<T>['scroll'];
     onChange?: AntdTableProps<T>['onChange'];
     style?: CSSProperties;
+    rowClassName?: string;
     className?: string;
 }
 
@@ -30,6 +31,7 @@ export const Table: FC<TableProps<any>> = ({
     scroll,
     onChange,
     style,
+    rowClassName,
     className,
 }) => {
     return (
@@ -43,6 +45,7 @@ export const Table: FC<TableProps<any>> = ({
             scroll={scroll}
             onChange={onChange}
             style={style}
+            rowClassName={rowClassName}
             className={className}
         />
     );

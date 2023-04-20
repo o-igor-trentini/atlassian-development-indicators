@@ -29,7 +29,6 @@ func respond(c *gin.Context, response interface{}) {
 func withError(c *gin.Context, response interface{}) {
 	var code statuscode.Code
 	var message string
-	var cause error
 	var statusCode int
 	res := make(map[string]interface{})
 
@@ -62,8 +61,8 @@ func withError(c *gin.Context, response interface{}) {
 	res["code"] = code
 	res["message"] = message
 
-	if adiutils.IsDevMode() && cause != nil {
-		res["cause"] = cause.Error()
+	if adiutils.IsDevMode() && response != nil {
+		res["cause"] = fmt.Sprintf("%v", response)
 	}
 
 	c.AbortWithStatusJSON(statusCode, res)
