@@ -18,7 +18,7 @@ const (
 )
 
 type PeriodRange struct {
-	From  time.Time `json:"from" form:"from" bingind:"required"`
+	From  time.Time `json:"from" form:"from" bingind:"required,ltefield=Until"`
 	Until time.Time `json:"until" form:"until" bingind:"required"`
 }
 

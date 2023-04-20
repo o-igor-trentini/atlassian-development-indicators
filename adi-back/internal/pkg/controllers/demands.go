@@ -24,7 +24,7 @@ func NewDemands(demandsService demands.Service) DemandsController {
 func (co demandsImpl) GetCreatedVersusResolved(c *gin.Context) {
 	type bindQueryDTO struct {
 		gojira.BuildJQLParams
-		From  time.Time `json:"from" form:"from" binding:"required"`
+		From  time.Time `json:"from" form:"from" binding:"required,ltefield=Until"`
 		Until time.Time `json:"until" form:"until" binding:"required"`
 	}
 
