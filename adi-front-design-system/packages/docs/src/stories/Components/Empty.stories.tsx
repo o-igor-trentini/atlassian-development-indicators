@@ -1,5 +1,5 @@
-import type { EmptyProps } from '@adi/react-components';
-import { Empty } from '@adi/react-components';
+import type { EmptyProps } from '@it-adi/react-components';
+import { Empty } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

@@ -1,18 +1,19 @@
 import type { FC, ReactNode } from 'react';
-import { ConfigProvider as AntdConfigProvider, theme as AntdTheme } from 'antd';
 import type { ThemeConfig } from 'antd';
+import { ConfigProvider as AntdConfigProvider, theme as AntdTheme } from 'antd';
 import ptBRLocale from 'antd/lib/locale/pt_BR';
 import enLocale from 'antd/lib/locale/en_GB';
 import { Locale } from 'antd/lib/locale';
+import { ThemeType, ThemeVariant } from '../styles/theme';
 
 export const AppTheme = AntdTheme;
-export type ThemeAlgorithm = typeof AntdTheme.defaultAlgorithm;
+const { defaultAlgorithm, darkAlgorithm } = AppTheme;
 
 export type LocaleVariant = 'ptBR' | 'en';
 
 export interface ConfigProviderProps {
     children: ReactNode;
-    theme: ThemeConfig;
+    theme: ThemeType;
     locale: LocaleVariant;
 }
 
@@ -22,8 +23,18 @@ export const ConfigProvider: FC<ConfigProviderProps> = ({ children, theme, local
         en: enLocale,
     };
 
+    const algorithm: Record<ThemeVariant, typeof defaultAlgorithm> = {
+        light: defaultAlgorithm,
+        dark: darkAlgorithm,
+    };
+
+    const themeConfig: ThemeConfig = {
+        algorithm: algorithm[theme.variant],
+        token: { ...theme },
+    };
+
     return (
-        <AntdConfigProvider theme={theme} locale={languages[locale]}>
+        <AntdConfigProvider theme={themeConfig} locale={languages[locale]}>
             {children}
         </AntdConfigProvider>
     );

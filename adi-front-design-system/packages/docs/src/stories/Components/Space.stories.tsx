@@ -1,5 +1,5 @@
-import type { SpaceProps } from '@adi/react-components';
-import { Space } from '@adi/react-components';
+import type { SpaceProps } from '@it-adi/react-components';
+import { Space } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

@@ -1,4 +1,10 @@
-# @adi/react-components
+# @it-adi/react-components
+
+## 1.10.0
+
+### Minor Changes
+
+- Corrigido espaçamento desnecessário do componente Card e Alterado prop 'theme' do componente ConfigProvider
 
 ## 1.9.0
 

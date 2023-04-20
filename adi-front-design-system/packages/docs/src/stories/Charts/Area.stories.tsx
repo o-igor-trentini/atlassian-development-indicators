@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ChartProps, ChartTheme, ChartOption } from '@adi/react-charts';
-import { Chart } from '@adi/react-charts';
+import type { ChartProps, ChartTheme, ChartOption } from '@it-adi/react-charts';
+import { Chart } from '@it-adi/react-charts';
 import { useState } from 'react';
-import { Button, Row, Col } from '@adi/react-components';
+import { Button, Row, Col } from '@it-adi/react-components';
 
 const defaultOption: ChartOption = {
     xAxis: {

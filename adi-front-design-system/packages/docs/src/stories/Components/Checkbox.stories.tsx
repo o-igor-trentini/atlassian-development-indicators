@@ -1,5 +1,5 @@
-import type { CheckboxProps } from '@adi/react-components';
-import { Checkbox } from '@adi/react-components';
+import type { CheckboxProps } from '@it-adi/react-components';
+import { Checkbox } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

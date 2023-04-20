@@ -1,5 +1,5 @@
-import type { MenuProps } from '@adi/react-components';
-import { Menu } from '@adi/react-components';
+import type { MenuProps } from '@it-adi/react-components';
+import { Menu } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

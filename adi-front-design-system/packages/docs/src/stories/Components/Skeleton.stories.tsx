@@ -1,5 +1,5 @@
-import type { SkeletonProps } from '@adi/react-components';
-import { Skeleton } from '@adi/react-components';
+import type { SkeletonProps } from '@it-adi/react-components';
+import { Skeleton } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

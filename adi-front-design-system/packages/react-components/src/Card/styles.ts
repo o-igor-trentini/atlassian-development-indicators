@@ -4,11 +4,15 @@ import { defaultBoxShadow } from '../styles/utils';
 
 const iconSize = 4;
 
-export const MyCard = styled(AntdCard)`
+interface MyCardProps {
+    hasIconProp: boolean;
+}
+
+export const MyCard = styled(AntdCard)<MyCardProps>`
     position: relative;
 
     > .ant-card-head > .ant-card-head-wrapper > .ant-card-head-title {
-        margin-left: calc(${iconSize}rem + ${({ theme }) => theme.padding}px);
+        margin-left: ${({ theme, hasIconProp }) => (hasIconProp ? `calc(${iconSize}rem + ${theme.padding}px)` : '')};
     }
 `;
 

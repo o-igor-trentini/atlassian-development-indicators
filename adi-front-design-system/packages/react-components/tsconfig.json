@@ -1,4 +1,4 @@
 {
-  "extends": "@adi/ts-config/react.json",
+  "extends": "@it-adi/ts-config/react.json",
   "include": ["src"]
 }

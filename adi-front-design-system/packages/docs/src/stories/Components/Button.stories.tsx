@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@adi/react-components';
-import type { ButtonProps } from '@adi/react-components';
+import { Button } from '@it-adi/react-components';
+import type { ButtonProps } from '@it-adi/react-components';
 
 export default {
     title: 'Components/Button',

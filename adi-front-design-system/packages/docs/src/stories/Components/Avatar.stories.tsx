@@ -1,5 +1,5 @@
-import type { AvatarProps } from '@adi/react-components';
-import { Avatar } from '@adi/react-components';
+import type { AvatarProps } from '@it-adi/react-components';
+import { Avatar } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

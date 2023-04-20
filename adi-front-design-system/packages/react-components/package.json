@@ -1,6 +1,6 @@
 {
   "name": "@it-adi/react-components",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Biblioteca de componentes para ReactJS",
   "keywords": [],
   "author": "Igor Luís Casanova Trentini",
@@ -18,7 +18,7 @@
     "styled-components": "^5.3.9"
   },
   "devDependencies": {
-    "@adi/ts-config": "*",
+    "@it-adi/ts-config": "*",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/styled-components": "^5.1.26",

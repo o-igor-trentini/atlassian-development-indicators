@@ -1,5 +1,5 @@
-import type { DrawerProps } from '@adi/react-components';
-import { Drawer } from '@adi/react-components';
+import type { DrawerProps } from '@it-adi/react-components';
+import { Drawer } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

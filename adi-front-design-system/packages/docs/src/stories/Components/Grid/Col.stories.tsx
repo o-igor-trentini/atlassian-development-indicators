@@ -1,5 +1,5 @@
-import type { ColProps } from '@adi/react-components';
-import { Col } from '@adi/react-components';
+import type { ColProps } from '@it-adi/react-components';
+import { Col } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

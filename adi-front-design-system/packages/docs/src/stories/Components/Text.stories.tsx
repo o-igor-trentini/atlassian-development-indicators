@@ -1,5 +1,5 @@
-import type { TextProps } from '@adi/react-components';
-import { Text } from '@adi/react-components';
+import type { TextProps } from '@it-adi/react-components';
+import { Text } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

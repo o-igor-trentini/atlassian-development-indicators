@@ -1,5 +1,5 @@
-import type { DatePickerProps } from '@adi/react-components';
-import { DatePicker } from '@adi/react-components';
+import type { DatePickerProps } from '@it-adi/react-components';
+import { DatePicker } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {

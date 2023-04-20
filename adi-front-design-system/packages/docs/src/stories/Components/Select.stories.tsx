@@ -1,5 +1,5 @@
-import type { SelectProps } from '@adi/react-components';
-import { Select } from '@adi/react-components';
+import type { SelectProps } from '@it-adi/react-components';
+import { Select } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 import { SelectOptions } from '@it-adi/react-components/src';
 

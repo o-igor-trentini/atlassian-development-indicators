@@ -1,6 +1,6 @@
 // Components
 export { ConfigProvider, AppTheme } from './ConfigProvider';
-export type { LocaleVariant, ConfigProviderProps, ThemeAlgorithm } from './ConfigProvider';
+export type { LocaleVariant, ConfigProviderProps } from './ConfigProvider';
 
 export { Button } from './Button';
 export type { ButtonProps } from './Button';

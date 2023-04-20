@@ -1,5 +1,5 @@
-import type { RowProps } from '@adi/react-components';
-import { Row } from '@adi/react-components';
+import type { RowProps } from '@it-adi/react-components';
+import { Row } from '@it-adi/react-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 export default {
