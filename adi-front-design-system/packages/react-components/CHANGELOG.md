@@ -1,5 +1,11 @@
 # @it-adi/react-components
 
+## 1.11.0
+
+### Minor Changes
+
+- Adicionado prop para controlar se deve exibir opção de selecionar a data atual no componente DatePicker
+
 ## 1.10.2
 
 ### Patch Changes

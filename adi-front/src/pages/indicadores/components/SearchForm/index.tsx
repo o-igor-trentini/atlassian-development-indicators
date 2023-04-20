@@ -24,8 +24,6 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
 ): JSX.Element => {
     const [form] = useForm<FormSearch>();
 
-    // TODO: Validar range dos datepickers
-
     const projectOptions: SelectOptions = useMemo(
         () => [
             {
@@ -77,6 +75,23 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
 
     const handleSubmit = useCallback((values: FormSearch): void => onSubmit(values), [onSubmit]);
 
+    const disableUntilDate = (date: dayjs.Dayjs): boolean => date && date >= dayjs();
+
+    const validateFromDate = (fromDate?: Dayjs): boolean => {
+        const values = form.getFieldsValue();
+        const from = fromDate ?? values.from;
+
+        return from && from > values.until;
+    };
+
+    const disableFromDate = (date: Dayjs): boolean => validateFromDate(date);
+
+    const handleChangeUntilDate = (date: Dayjs | null): void => {
+        if (!date || !validateFromDate()) return;
+
+        form.setFieldValue('from' as keyof FormSearch, date);
+    };
+
     useImperativeHandle(ref, () => ({ search: () => handleSubmit(form.getFieldsValue()) }), [form, handleSubmit]);
 
     return (
@@ -101,7 +116,13 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
                         tooltip="A busca será feita pelo valor maior ou igual ao deste campo"
                         rules={[{ required: true }]}
                     >
-                        <DatePicker id="from" block format="DD/MM/YYYY" placeholder="Selecione a data de início..." />
+                        <DatePicker
+                            id="from"
+                            block
+                            format="DD/MM/YYYY"
+                            placeholder="Selecione a data de início..."
+                            disabledDate={disableFromDate}
+                        />
                     </FormItem>
                 </Col>
 
@@ -112,7 +133,14 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
                         tooltip="A busca será feita pelo valor menor ou igual ao deste campo"
                         rules={[{ required: true }]}
                     >
-                        <DatePicker id="from" block format="DD/MM/YYYY" placeholder="Selecione a data de fim..." />
+                        <DatePicker
+                            id="from"
+                            block
+                            format="DD/MM/YYYY"
+                            placeholder="Selecione a data de fim..."
+                            disabledDate={disableUntilDate}
+                            onChange={handleChangeUntilDate}
+                        />
                     </FormItem>
                 </Col>
 
