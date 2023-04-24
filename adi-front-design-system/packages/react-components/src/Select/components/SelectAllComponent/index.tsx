@@ -3,20 +3,28 @@ import { Checkbox, CheckboxChangeEvent } from '../../../Checkbox';
 import { SelectAllContainer } from './styles';
 
 export interface SelectAllProps {
-    defaultValue?: boolean;
     onChange?: (value: boolean) => void;
-    onSelect?: () => void;
-    onDeselect?: () => void;
+    onSelect: () => void;
+    onDeselect: () => void;
 }
 
 export const SelectAllComponent = (
     props: SelectAllProps,
-    selectOptions: () => void,
-    deselectOptions: () => void,
     isAllItemsSelected: Readonly<boolean>,
 ): ((menu: ReactElement<unknown, string | JSXElementConstructor<unknown>> | undefined) => JSX.Element) => {
-    const { defaultValue, onChange, onSelect, onDeselect } = props;
-    const [isAllSelected, setIsAllSelected] = useState<boolean>(isAllItemsSelected || (defaultValue ?? false));
+    const { onChange, onSelect, onDeselect } = props;
+    const [isAllSelected, setIsAllSelected] = useState<boolean>(isAllItemsSelected);
+
+    const handle = (checked: boolean): void => {
+        setIsAllSelected(checked);
+
+        if (checked) {
+            onSelect();
+            return;
+        }
+
+        onDeselect();
+    };
 
     useEffect(() => setIsAllSelected(isAllItemsSelected), [isAllItemsSelected]);
 
@@ -26,19 +34,9 @@ export const SelectAllComponent = (
         const handleChange = (e: CheckboxChangeEvent): void => {
             const { checked } = e.target;
 
+            handle(checked);
+
             if (onChange) onChange(checked);
-
-            setIsAllSelected(checked);
-
-            if (checked) {
-                selectOptions();
-                if (onSelect) onSelect();
-
-                return;
-            }
-
-            deselectOptions();
-            if (onDeselect) onDeselect();
         };
 
         return (
