@@ -1,5 +1,17 @@
 # @it-adi/react-components
 
+## 1.13.0
+
+### Minor Changes
+
+- Corrigido situação onde componente Select não identifica valores corretos
+
+## 1.12.0
+
+### Minor Changes
+
+- Simplificado componente Select removendo prop desnecessária
+
 ## 1.11.0
 
 ### Minor Changes

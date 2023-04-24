@@ -1,4 +1,4 @@
-import { forwardRef, ForwardRefRenderFunction, useCallback, useEffect, useImperativeHandle, useMemo } from 'react';
+import { forwardRef, ForwardRefRenderFunction, useCallback, useImperativeHandle, useMemo } from 'react';
 import { Button, Col, DatePicker, Form, FormItem, Row, Select, SelectOptions, useForm } from '@it-adi/react-components';
 import dayjs, { Dayjs } from 'dayjs';
 import { Search } from 'lucide-react';
@@ -92,18 +92,25 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
         form.setFieldValue('from' as keyof FormSearch, date);
     };
 
+    const handleSelectAll = (): void => form.setFieldsValue({ projects: initialValues.projects });
+
+    const handleDeselectAll = (): void => form.setFieldsValue({ projects: [] });
+
     useImperativeHandle(ref, () => ({ search: () => handleSubmit(form.getFieldsValue()) }), [form, handleSubmit]);
 
     return (
         <Form id="search-demands" form={form} initialValues={initialValues} onSubmit={handleSubmit}>
             <Row gutter={12} justify="center" align="middle">
                 <Col xs={24} md={8}>
-                    <FormItem name="projects" label="Projetos" rules={[{ required: true }]}>
+                    <FormItem name="projects" label="Projetos" rules={[{ required: true }]} valuePropName="value">
                         <Select
                             id="projects"
                             mode="multiple"
                             options={projectOptions}
-                            selectAll={{ defaultValue: true }}
+                            selectAll={{
+                                onSelect: handleSelectAll,
+                                onDeselect: handleDeselectAll,
+                            }}
                             placeholder="Selecione pelo menos um projeto..."
                         />
                     </FormItem>

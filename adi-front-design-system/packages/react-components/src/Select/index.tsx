@@ -5,16 +5,12 @@ import { Select as AntdSelect } from 'antd';
 import { SelectAllComponent, SelectAllProps } from './components/SelectAllComponent';
 
 export type SelectOptions = AntdSelectProps['options'];
-//eslint-disable-next-line
-export type SelectOnChange = { value: any; option: any | any[] };
 
 export interface SelectProps {
     id: string;
-    selectAll?: SelectAllProps | true;
-    //eslint-disable-next-line
-    value?: any[];
-    //eslint-disable-next-line
-    defaultValue?: any[];
+    selectAll?: SelectAllProps;
+    value?: AntdSelectProps['value'];
+    defaultValue?: AntdSelectProps['defaultValue'];
     options?: SelectOptions;
     mode?: AntdSelectProps['mode'];
     placeholder?: string;
@@ -23,7 +19,8 @@ export interface SelectProps {
     disabled?: boolean;
     allowClear?: boolean;
     block?: boolean;
-    onChange?: (e: SelectOnChange) => void;
+    //eslint-disable-next-line
+    onChange?: (e: any) => void;
     dropdownStyle?: CSSProperties;
     style?: CSSProperties;
     className?: string;
@@ -47,48 +44,35 @@ export const Select: FC<SelectProps> = ({
     style,
     className,
 }): JSX.Element => {
-    //eslint-disable-next-line
-    const [values, setValues] = useState<any[] | undefined>(defaultValue);
-    const [isAllItemsSelected, setIsAllItemsSelected] = useState<boolean>(defaultValue?.length === options?.length);
+    const [isAllItemsSelected, setIsAllItemsSelected] = useState<boolean>(
+        defaultValue?.length === options?.length ?? false,
+    );
 
-    const handleSelectAll = useCallback(() => setValues(options?.map((item) => item.value)), [options]);
-
-    const handleDeselectAll = useCallback(() => setValues([]), []);
+    const dropdownRender = selectAll ? SelectAllComponent(selectAll, isAllItemsSelected) : undefined;
 
     const handleChange = useCallback(
         //eslint-disable-next-line
-        (item: any, option: any | any[]): void => {
-            setValues(item);
-
-            if (onChange) onChange({ value: item, option });
+        (item: any): void => {
+            if (onChange) onChange(item);
         },
         [onChange],
     );
 
     useEffect(() => {
-        const items = values || defaultValue;
+        if (!options || !selectAll || (!value?.length && !defaultValue?.length)) return;
 
-        setIsAllItemsSelected(items?.length === options?.length);
-    }, [values, defaultValue, options?.length]);
+        const item: number = value.length || defaultValue.length;
 
-    useEffect(() => setValues(value ?? defaultValue), [value, defaultValue]);
+        setIsAllItemsSelected(item === options.length);
+    }, [value, defaultValue, options, selectAll]);
 
     return (
         <AntdSelect
             id={'slct-' + id}
             /*eslint-disable*/
-            dropdownRender={
-                selectAll
-                    ? SelectAllComponent(
-                          typeof selectAll === 'boolean' ? {} : selectAll,
-                          handleSelectAll,
-                          handleDeselectAll,
-                          isAllItemsSelected,
-                      )
-                    : undefined
-            }
-            value={values as any}
+            dropdownRender={dropdownRender}
             /*eslint-enable*/
+            value={value}
             defaultValue={defaultValue}
             options={options}
             mode={mode}

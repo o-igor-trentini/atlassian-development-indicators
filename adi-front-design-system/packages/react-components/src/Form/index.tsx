@@ -13,6 +13,10 @@ export interface FormProps {
     scrollToFirstError?: boolean;
     layout?: AntdFormProps['layout'];
     initialValues?: AntdFormProps['initialValues'];
+    defaultValue?: AntdFormProps['defaultValue'];
+    defaultChecked?: AntdFormProps['defaultChecked'];
+    onChange?: AntdFormProps['onChange'];
+    onValuesChange?: AntdFormProps['onValuesChange'];
     onSubmit?: AntdFormProps['onFinish'];
     style?: CSSProperties;
     className?: string;
@@ -25,6 +29,8 @@ export const Form: FC<FormProps> = ({
     scrollToFirstError,
     layout = 'vertical',
     initialValues,
+    defaultValue,
+    defaultChecked,
     onSubmit,
     style,
     className,
@@ -36,6 +42,8 @@ export const Form: FC<FormProps> = ({
             scrollToFirstError={scrollToFirstError}
             layout={layout}
             initialValues={initialValues}
+            defaultValue={defaultValue}
+            defaultChecked={defaultChecked}
             onFinish={onSubmit}
             style={style}
             className={className}
