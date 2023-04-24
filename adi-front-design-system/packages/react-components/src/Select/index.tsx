@@ -64,7 +64,7 @@ export const Select: FC<SelectProps> = ({
         const item: number = value.length || defaultValue.length;
 
         setIsAllItemsSelected(item === options.length);
-    }, [value?.length, defaultValue?.length, options?.length]);
+    }, [value, defaultValue, options, selectAll]);
 
     return (
         <AntdSelect
