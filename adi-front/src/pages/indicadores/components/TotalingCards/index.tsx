@@ -5,6 +5,7 @@ import { Demands } from '@/@types/demands';
 import { baseTheme } from '@/styles/themes';
 import { CheckCircle2, History, Percent, PlusCircle } from 'lucide-react';
 import { formatFloatPrecision } from '@/utils/string';
+import { Container } from '@/pages/indicadores/components/TotalingCards/styles';
 
 interface TotalingCardsItem {
     content: string | number;
@@ -60,7 +61,7 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ demands, loading }): JSX
     );
 
     return (
-        <Col span={24}>
+        <Container span={24}>
             <Row gutter={[12, 24]} justify="start" align="middle">
                 {items.map(({ content, tooltip, title, color, icon }) => (
                     <Col key={title} xs={24} md={12} lg={6}>
@@ -80,6 +81,6 @@ export const TotalingCards: FC<TotalingCardsProps> = ({ demands, loading }): JSX
                     </Col>
                 ))}
             </Row>
-        </Col>
+        </Container>
     );
 };

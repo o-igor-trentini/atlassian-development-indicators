@@ -2,7 +2,7 @@ import { FC, useMemo, useRef } from 'react';
 import { Table, TableColumnType, TableDataSourceType } from '@it-adi/react-components';
 import { Demands } from '@/@types/demands';
 import { PartialTableColumnProps } from '@/@types/components/table';
-import { RenderIdentificationTableColumn } from '@/pages/indicadores/components/RenderIdentificationTableColumn';
+import { RenderIdentificationTableColumn } from '@/pages/indicadores/components/Sessions/components/RenderIdentificationTableColumn';
 
 interface TotalIssuesByDeveloperTableProps {
     demands: Demands;

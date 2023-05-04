@@ -1,6 +1,6 @@
 import { CSSProperties, FC } from 'react';
-import { Table as AntdTable } from 'antd';
 import type { TableProps as AntdTableProps } from 'antd';
+import { Table as AntdTable } from 'antd';
 
 export type TableDataSourceType<T> = AntdTableProps<T>['dataSource'];
 export type TableColumnType<T> = AntdTableProps<T>['columns'];

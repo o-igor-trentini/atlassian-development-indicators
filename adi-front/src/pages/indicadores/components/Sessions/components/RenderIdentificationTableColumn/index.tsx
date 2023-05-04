@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Avatar, Space, Tooltip } from '@it-adi/react-components';
-import { DisplayText } from '@/pages/indicadores/components/RenderIdentificationTableColumn/styles';
+import { Avatar, Space, Text, Tooltip } from '@it-adi/react-components';
 import { cutWithEllipsis } from '@/utils/string';
 
 interface RenderIdentificationTableColumnProps {
@@ -22,7 +21,7 @@ export const RenderIdentificationTableColumn: FC<RenderIdentificationTableColumn
                 </>
             </Tooltip>
 
-            <DisplayText size="sm">{cutWithEllipsis(value, 10)}</DisplayText>
+            <Text size="sm">{cutWithEllipsis(value, 10)}</Text>
         </Space>
     );
 };

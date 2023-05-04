@@ -18,6 +18,7 @@ export type { SelectAllProps } from './Select/components/SelectAllComponent';
 export { Form, FormItem, useForm } from './Form';
 export type { FormProps } from './Form';
 
+export { useBreakpoint } from './Grid';
 export { Row } from './Grid/Row';
 export type { RowProps } from './Grid/Row';
 export { Col } from './Grid/Col';

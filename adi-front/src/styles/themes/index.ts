@@ -22,6 +22,7 @@ export const defaultTheme: ThemeType = {
     ...baseTheme,
 
     variant: 'light',
+    colorBgLayout: '#F7F8FA',
 };
 
 export const darkTheme: ThemeType = {
