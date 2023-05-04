@@ -1,5 +1,29 @@
 # @it-adi/react-components
 
+## 1.14.3
+
+### Patch Changes
+
+- Removido overflow componente Card
+
+## 1.14.2
+
+### Patch Changes
+
+- Removido overflow do componente Card, para não esconder o ícone
+
+## 1.14.1
+
+### Patch Changes
+
+- Adicionado overflow hidden componente Card
+
+## 1.14.0
+
+### Minor Changes
+
+- Adicionado hook de breakpoint; Adicionado documentação default do componente Table; Previnido ovorflow do componente Card; Removido responsividade desnecessária do componente Table.
+
 ## 1.13.0
 
 ### Minor Changes

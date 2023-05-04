@@ -1,7 +1,7 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Project validation ✅
+name: Project validation 📋
 
 on:
   push:
@@ -13,19 +13,33 @@ jobs:
 
   adi-back:
     runs-on: ubuntu-latest
+    env:
+      wd: ./adi-back
+    defaults:
+      run:
+        working-directory: ${{ env.wd }}
+
     steps:
     - uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '>=1.17.0'
+        go-version: '>=1.20.0'
+        check-latest: true
+
+    - name: Set up cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
 
     - name: Golang version
       run: go version
-
-    - name: Switch to working directory
-      run: cd adi-back
 
     - name: Build
       run: go build -v ./...
@@ -34,39 +48,51 @@ jobs:
       run: go test -v ./...
 
   adi-front:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
+     runs-on: ubuntu-latest
+     env:
+       wd: ./adi-front
+     defaults:
+       run:
+         working-directory: ${{ env.wd }}
 
-    - name: Switch to working directory
-      run: cd adi-front
+     steps:
+     - uses: actions/checkout@v3
 
-    - name: Set up node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+     - name: Set up node.js
+       uses: actions/setup-node@v3
+       with:
+         node-version: 18
 
-    - name: Installing dependencies
-      run: npm ci
+     - name: Installing dependencies
+       run: npm ci
 
-    - name: Build
-      run: npm run build
+     - name: Linting
+       run: npm run lint
+
+     - name: Build
+       run: npm run build
 
   adi-front-design-system:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
+     runs-on: ubuntu-latest
+     env:
+       wd: ./adi-front-design-system
+     defaults:
+       run:
+         working-directory: ${{ env.wd }}
 
-    - name: Switch to working directory
-      run: cd adi-front-design-system
+     steps:
+     - uses: actions/checkout@v3
 
-    - name: Set up node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+     - name: Set up node.js
+       uses: actions/setup-node@v3
+       with:
+         node-version: 18
 
-    - name: Installing dependencies
-      run: npm ci
+     - name: Installing dependencies
+       run: npm ci
 
-    - name: Build
-      run: npm run build
+     - name: Linting
+       run: npm run lint
+
+     - name: Build
+       run: npm run build
