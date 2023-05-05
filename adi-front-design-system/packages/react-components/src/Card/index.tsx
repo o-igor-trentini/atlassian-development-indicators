@@ -13,6 +13,7 @@ export interface CardIconProps {
 
 export interface CardProps {
     children?: ReactNode | ReactNode[];
+    id?: string;
     icon?: CardIconProps;
     title?: ReactNode;
     hoverable?: boolean;
@@ -26,6 +27,7 @@ export interface CardProps {
 
 export const Card: FC<CardProps> = ({
     children,
+    id,
     icon,
     title,
     hoverable = false,
@@ -41,6 +43,7 @@ export const Card: FC<CardProps> = ({
     return (
         <MyCard
             $hasiconprop={!!icon}
+            id={id}
             title={title}
             hoverable={hoverable}
             bordered={bordered}

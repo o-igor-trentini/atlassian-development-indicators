@@ -32,7 +32,7 @@ export const DrawerContentContainer = styled(Row)`
 `;
 
 export const DrawerContentFooter = styled(Col)`
-    margin-top: 100%;
+    margin-top: auto;
 `;
 
 export const SwitchThemeButton = styled(Button)`

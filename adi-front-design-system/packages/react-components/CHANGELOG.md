@@ -1,5 +1,29 @@
 # @it-adi/react-components
 
+## 1.15.0
+
+### Minor Changes
+
+- Adicionado tipagem de OnClick do Menu
+
+## 1.14.6
+
+### Patch Changes
+
+- Exportado tipagem do evento OnClick para o componente Menu
+
+## 1.14.5
+
+### Patch Changes
+
+- Adicionado prop de id no componente Card
+
+## 1.14.4
+
+### Patch Changes
+
+- Adicionado prop id no componente Card
+
 ## 1.14.3
 
 ### Patch Changes
