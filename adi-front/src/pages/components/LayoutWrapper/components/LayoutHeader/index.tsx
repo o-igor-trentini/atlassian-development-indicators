@@ -9,7 +9,45 @@ import {
     SwitchThemeButton,
 } from './styles';
 import { Col, Drawer, Menu, MenuItemsType } from '@it-adi/react-components';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+export const indicatorsSessions = {
+    general: {
+        label: 'Geral',
+        items: {
+            createdResolvedTemporal: {
+                label: 'Criadas x Resolvidas (temporal)',
+                value: 'geral-criadas-resolvidas-temporal',
+            },
+            createdResolvedTimeless: {
+                label: 'Criadas x Resolvidas (atemporal)',
+                value: 'geral-criadas-resolvidas-atemporal',
+            },
+            totalTasksResolvedByType: {
+                label: 'Total de tarefas resolvidas por tipo',
+                value: 'geral-total-tarefas-resolvidas-tipo',
+            },
+        },
+    },
+    project: {
+        label: 'Projeto',
+        items: {
+            totalTasksResolved: {
+                label: 'Total de tarefas resolvidas',
+                value: 'projeto-total-tarefas-resolvidas',
+            },
+        },
+    },
+    developer: {
+        label: 'Desenvolvedor',
+        items: {
+            totalTasksResolved: {
+                label: 'Total de tarefas resolvidas',
+                value: 'desenvolvedor-total-tarefas-resolvidas',
+            },
+        },
+    },
+};
 
 export interface LayoutHeaderProps {
     onSwitchTheme: () => void;
@@ -17,26 +55,52 @@ export interface LayoutHeaderProps {
 
 export const LayoutHeader: FC<LayoutHeaderProps> = ({ onSwitchTheme }): JSX.Element => {
     const [showMenu, setShowMenu] = useState<boolean>(false);
-    const route = useRouter();
+
+    const getIndicatorsChildren = (): MenuItemsType[] => {
+        const items: MenuItemsType[] = [];
+        const sessions = Object.values(indicatorsSessions);
+
+        for (const session of sessions) {
+            const subItems: MenuItemsType[] = [];
+            const sessionItems = Object.values(session.items);
+
+            for (const item of sessionItems) {
+                subItems.push({
+                    key: item.value,
+                    label: (
+                        <Link href={'indicadores#' + item.value} prefetch={false}>
+                            {item.label}
+                        </Link>
+                    ),
+                });
+            }
+
+            items.push({
+                key: session.label,
+                label: session.label,
+                children: subItems,
+            });
+        }
+
+        return items;
+    };
 
     const menuItems: MenuItemsType[] = [
         {
             key: 'home',
-            label: 'Início',
+            label: <Link href="/">Início</Link>,
             icon: <Home />,
-            onClick: () => route.push('/'),
         },
         {
             key: 'indicators',
-            label: 'Indicadores',
+            label: <Link href="/indicadores">Indicadores</Link>,
             icon: <BarChart2 />,
-            onClick: () => route.push('/indicadores'),
+            children: getIndicatorsChildren(),
         },
         {
             key: 'configurations',
-            label: 'Configurações',
+            label: <Link href="/configuracoes">Configurações</Link>,
             icon: <Settings />,
-            onClick: () => route.push('/configuracoes'),
         },
     ];
 

@@ -7,7 +7,7 @@ export const ItemContainer = styled(Col)<{ size?: ItemContainerSize }>`
         /*eslint-disable*/
         switch (size) {
             case 'full':
-                return `calc(100vh - ${theme.ADIHeaderHeight} - ${theme.padding * 4}px)`;
+                return `calc(100vh - ${theme.ADIHeaderHeight} - ${theme.padding * 3}px)`;
 
             case 'md':
                 return `calc(50vh - ${theme.ADIHeaderHeight})`;

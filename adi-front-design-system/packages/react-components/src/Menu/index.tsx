@@ -1,9 +1,17 @@
-import { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, ReactInstance, MouseEvent, KeyboardEvent } from 'react';
 import { Menu as AntdMenu } from 'antd';
 import { MenuProps as AntdMenuProps } from 'antd';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
 
 export type MenuItemsType = ItemType;
+
+export interface MenuInfo {
+    key: string;
+    keyPath: string[];
+    /** @deprecated This will not support in future. You should avoid to use this */
+    item: ReactInstance;
+    domEvent: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>;
+}
 
 export interface MenuProps {
     id: string;

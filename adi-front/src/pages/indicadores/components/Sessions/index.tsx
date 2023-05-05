@@ -7,6 +7,7 @@ import { TotalIssuesByProjectTable } from '@/pages/indicadores/components/Sessio
 import { TotalIssuesByDeveloperTable } from '@/pages/indicadores/components/Sessions/components/TotalIssuesByDeveloperTable';
 import { Demands } from '@/@types/demands';
 import { ItemCard, ItemContainer, ItemContainerSize } from '@/pages/indicadores/components/Sessions/styles';
+import { indicatorsSessions } from '@/pages/components/LayoutWrapper/components/LayoutHeader';
 
 interface SessionItem {
     id: string;
@@ -29,42 +30,42 @@ export const Sessions: FC<SessionsProps> = ({ demands, loading }) => {
     const sessions: Session[] = useMemo(() => {
         return [
             {
-                id: 'Geral',
+                id: indicatorsSessions.general.label,
                 items: [
                     {
-                        id: '1',
-                        title: 'Criadas x Resolvidas (temporal)',
+                        id: indicatorsSessions.general.items.createdResolvedTemporal.value,
+                        title: indicatorsSessions.general.items.createdResolvedTemporal.label,
                         size: 'full',
                         children: <DemandsChart data={demands} loading={loading} />,
                     },
                     {
-                        id: '2',
-                        title: 'Criadas x Resolvidas',
+                        id: indicatorsSessions.general.items.createdResolvedTimeless.value,
+                        title: indicatorsSessions.general.items.createdResolvedTimeless.label,
                         children: <TotalCreatedVersusResolvedTable demands={demands} loading={loading} />,
                     },
                     {
-                        id: '3',
-                        title: 'Total de tarefas resolvidas por tipo',
+                        id: indicatorsSessions.general.items.totalTasksResolvedByType.value,
+                        title: indicatorsSessions.general.items.totalTasksResolvedByType.label,
                         children: <TotalIssuesByTypeTable demands={demands} loading={loading} />,
                     },
                 ],
             },
             {
-                id: 'Projeto',
+                id: indicatorsSessions.project.label,
                 items: [
                     {
-                        id: '1',
-                        title: 'Total de tarefas resolvidas',
+                        id: indicatorsSessions.project.items.totalTasksResolved.value,
+                        title: indicatorsSessions.project.items.totalTasksResolved.label,
                         children: <TotalIssuesByProjectTable demands={demands} loading={loading} />,
                     },
                 ],
             },
             {
-                id: 'Desenvolvedor',
+                id: indicatorsSessions.developer.label,
                 items: [
                     {
-                        id: '1',
-                        title: 'Total de tarefas resolvidas',
+                        id: indicatorsSessions.developer.items.totalTasksResolved.value,
+                        title: indicatorsSessions.developer.items.totalTasksResolved.label,
                         children: <TotalIssuesByDeveloperTable demands={demands} loading={loading} />,
                         size: 'full',
                     },
@@ -79,7 +80,9 @@ export const Sessions: FC<SessionsProps> = ({ demands, loading }) => {
                 const itemsContent: JSX.Element[] = items.map((item) => {
                     return (
                         <ItemContainer key={item.id} span={24} size={item.size}>
-                            <ItemCard title={item.title}>{item.children}</ItemCard>
+                            <ItemCard id={item.id} title={item.title}>
+                                {item.children}
+                            </ItemCard>
                         </ItemContainer>
                     );
                 });
