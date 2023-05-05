@@ -33,7 +33,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }): JSX.Element => {
             <GlobalStyle {...theme} />
 
             <Head>
-                <title>ADI - Indicadores de Dev </title>
+                <title>ADI - Indicadores de Dev</title>
             </Head>
 
             <ConfigProvider theme={theme} locale="ptBR">
