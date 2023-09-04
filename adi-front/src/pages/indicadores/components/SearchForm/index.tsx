@@ -35,10 +35,6 @@ const Component: ForwardRefRenderFunction<SearchFormRef, SearchFormProps> = (
                 value: 'RISK1',
             },
             {
-                label: 'Randon',
-                value: 'RAN',
-            },
-            {
                 label: 'Checklist 4.0',
                 value: 'CHL',
             },

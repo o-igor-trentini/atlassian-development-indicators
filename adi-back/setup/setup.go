@@ -3,19 +3,19 @@ package setup
 import (
 	"adi-back/internal/consts/envconst"
 	"adi-back/internal/services/log/adilog"
-	"adi-back/internal/services/log/adisentry"
+	"log"
+
 	"github.com/joho/godotenv"
 	"github.com/o-igor-trentini/adi-goutils/pkg/uenv"
-	"log"
 )
 
 // Setup executa funções de configurações essenciais para a aplicação.
 func Setup() {
 	initEnv("./config/.env")
 
-	if err := adisentry.Init(); err != nil {
-		log.Printf("erro ao inicializar o Sentry [erro: %s]", err)
-	}
+	// if err := adisentry.Init(); err != nil {
+	// 	log.Printf("erro ao inicializar o Sentry [erro: %s]", err)
+	// }
 
 	adilog.Init()
 }
@@ -54,11 +54,11 @@ func initEnv(path string) {
 			Expected: []string{"debug", "info", "warn", "error", "panic", "dpanic", "fatal"},
 		},
 
-		{Name: envconst.SentryDSN},
-		{
-			Name:     envconst.SentryEnvironment,
-			Expected: []string{"development", "staging", "production"},
-		},
+		// {Name: envconst.SentryDSN},
+		// {
+		// 	Name:     envconst.SentryEnvironment,
+		// 	Expected: []string{"development", "staging", "production"},
+		// },
 
 		{Name: envconst.JiraApiBaseUrl},
 		{Name: envconst.JiraApiUsername},
